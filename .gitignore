@@ -1,4 +1,5 @@
 _reference/
+AGENTS.md
 .DS_Store
 *.log
 .env
