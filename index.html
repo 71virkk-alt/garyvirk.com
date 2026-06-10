@@ -3,37 +3,643 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>garyvirk.com — Live</title>
+  <meta name="description" content="Gary Virk - IT support and network infrastructure portfolio. Endpoint support, troubleshooting, networking fundamentals, and incident documentation.">
+  <title>Gary Virk | IT Support & Network Infrastructure</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --ink: #121417;
+      --muted: #626a73;
+      --line: #d9dddf;
+      --paper: #f5f3ee;
+      --panel: #ffffff;
+      --deep: #0f1718;
+      --green: #1f7a5a;
+      --gold: #c18b2f;
+      --blue: #2f638f;
+      --shadow: 0 22px 60px rgba(18, 20, 23, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      min-height: 100vh;
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 4;
       display: flex;
       align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #e2e8f0;
+      justify-content: space-between;
+      gap: 24px;
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 24px 0;
+      color: #f5f3ee;
     }
-    .card {
-      text-align: center;
-      padding: 3rem 4rem;
-      border: 1px solid #334155;
-      border-radius: 16px;
-      background: rgba(30, 41, 59, 0.6);
+
+    .brand {
+      font-size: 0.95rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
-    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    .status { color: #4ade80; font-weight: 600; letter-spacing: 0.05em; }
-    p { color: #94a3b8; margin-top: 1rem; }
-    .ts { font-size: 0.8rem; color: #64748b; margin-top: 2rem; }
+
+    nav {
+      display: flex;
+      gap: 18px;
+      color: rgba(245, 243, 238, 0.82);
+      font-size: 0.92rem;
+      font-weight: 650;
+    }
+
+    nav a {
+      border-bottom: 1px solid transparent;
+      padding-bottom: 3px;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      border-color: rgba(245, 243, 238, 0.78);
+      outline: none;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 78vh;
+      display: grid;
+      align-items: end;
+      isolation: isolate;
+      background:
+        linear-gradient(90deg, rgba(15, 23, 24, 0.96) 0%, rgba(15, 23, 24, 0.82) 42%, rgba(15, 23, 24, 0.34) 100%),
+        url("assets/network-bench.jpg") center / cover no-repeat;
+      color: #f5f3ee;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 32%;
+      background: linear-gradient(180deg, rgba(15, 23, 24, 0), rgba(15, 23, 24, 0.68));
+      z-index: -1;
+    }
+
+    .hero-inner {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 132px 0 76px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: rgba(245, 243, 238, 0.76);
+      font-size: 0.82rem;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    h1 {
+      max-width: 740px;
+      margin: 0;
+      font-size: clamp(3rem, 8vw, 6.4rem);
+      line-height: 0.92;
+      letter-spacing: 0;
+    }
+
+    .hero-subtitle {
+      max-width: 760px;
+      margin: 24px 0 0;
+      color: rgba(245, 243, 238, 0.86);
+      font-size: clamp(1.08rem, 2vw, 1.45rem);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 34px;
+    }
+
+    .pill {
+      display: inline-flex;
+      min-height: 36px;
+      align-items: center;
+      border: 1px solid rgba(245, 243, 238, 0.22);
+      border-radius: 999px;
+      padding: 8px 13px;
+      background: rgba(245, 243, 238, 0.08);
+      color: rgba(245, 243, 238, 0.88);
+      font-size: 0.9rem;
+      font-weight: 650;
+      backdrop-filter: blur(10px);
+    }
+
+    main {
+      display: grid;
+      gap: 0;
+    }
+
+    section {
+      padding: 76px 0;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .section-kicker {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .focus-card,
+    .project-card,
+    .cert-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 12px 34px rgba(18, 20, 23, 0.06);
+    }
+
+    .focus-card {
+      min-height: 210px;
+      padding: 24px;
+    }
+
+    .card-number {
+      display: inline-grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 50%;
+      background: #e8efe9;
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 1.16rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .focus-card p,
+    .project-card p,
+    .cert-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .skills-band {
+      background: #ebe8df;
+    }
+
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.4fr;
+      gap: 42px;
+      align-items: start;
+    }
+
+    .skill-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .skill-list li {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      border-left: 3px solid var(--green);
+      border-radius: 6px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.74);
+      color: #2e3438;
+      font-weight: 680;
+    }
+
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .cert-card {
+      min-height: 132px;
+      padding: 18px;
+    }
+
+    .cert-card span {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 850;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .cert-card h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .projects {
+      background: var(--deep);
+      color: #f5f3ee;
+    }
+
+    .projects .section-kicker {
+      color: #d0a05a;
+    }
+
+    .projects .section-lead {
+      color: rgba(245, 243, 238, 0.68);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .project-card {
+      min-height: 236px;
+      padding: 22px;
+      border-color: rgba(245, 243, 238, 0.13);
+      background: rgba(245, 243, 238, 0.06);
+      box-shadow: none;
+    }
+
+    .project-card h3 {
+      margin-top: 22px;
+      color: #ffffff;
+    }
+
+    .project-card p {
+      color: rgba(245, 243, 238, 0.7);
+    }
+
+    .status {
+      display: inline-flex;
+      min-height: 30px;
+      align-items: center;
+      border: 1px solid rgba(245, 243, 238, 0.2);
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: rgba(245, 243, 238, 0.84);
+      font-size: 0.78rem;
+      font-weight: 780;
+    }
+
+    .next-build {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+      gap: 42px;
+      align-items: start;
+    }
+
+    .build-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: build;
+    }
+
+    .build-list li {
+      counter-increment: build;
+      position: relative;
+      border-top: 1px solid var(--line);
+      padding: 18px 0 18px 54px;
+      color: #2e3438;
+      font-weight: 720;
+    }
+
+    .build-list li:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .build-list li::before {
+      content: counter(build, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: 18px;
+      color: var(--blue);
+      font-size: 0.86rem;
+      font-weight: 850;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .site-header {
+        position: absolute;
+        width: min(100% - 32px, 1120px);
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        min-height: 74vh;
+        background:
+          linear-gradient(180deg, rgba(15, 23, 24, 0.94) 0%, rgba(15, 23, 24, 0.78) 48%, rgba(15, 23, 24, 0.56) 100%),
+          url("assets/network-bench.jpg") center / cover no-repeat;
+      }
+
+      .hero-inner,
+      .wrap {
+        width: min(100% - 32px, 1120px);
+      }
+
+      .hero-inner {
+        padding-bottom: 52px;
+      }
+
+      .focus-grid,
+      .project-grid,
+      .cert-grid,
+      .skills-layout,
+      .next-build {
+        grid-template-columns: 1fr;
+      }
+
+      .cert-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      section {
+        padding: 56px 0;
+      }
+
+      .hero {
+        min-height: 78vh;
+      }
+
+      .hero-inner {
+        padding-top: 110px;
+      }
+
+      h1 {
+        font-size: clamp(2.8rem, 17vw, 4.4rem);
+      }
+
+      .hero-subtitle,
+      .section-lead {
+        font-size: 1rem;
+      }
+
+      .skill-list,
+      .cert-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .focus-card,
+      .project-card,
+      .cert-card {
+        min-height: auto;
+      }
+
+      footer .wrap {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>garyvirk.com</h1>
-    <div class="status">● DEPLOYMENT PIPELINE LIVE</div>
-    <p>End-to-end test page — local repo → GitHub Pages → custom domain.</p>
-    <div class="ts">Deployed June 10, 2026</div>
-  </div>
+  <header class="site-header" aria-label="Site header">
+    <a class="brand" href="#top" aria-label="Gary Virk homepage">Gary Virk</a>
+    <nav aria-label="Primary navigation">
+      <a href="#focus">Focus</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#next">Next Build</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <p class="eyebrow">IT Support & Network Infrastructure</p>
+        <h1 id="hero-title">Gary Virk</h1>
+        <p class="hero-subtitle">
+          Practical endpoint support, Windows/macOS/Linux troubleshooting, networking fundamentals, and clear incident documentation for business users and infrastructure teams.
+        </p>
+        <div class="hero-meta" aria-label="Core positioning">
+          <span class="pill">Endpoint support</span>
+          <span class="pill">Network troubleshooting</span>
+          <span class="pill">Ticket documentation</span>
+          <span class="pill">Hardware diagnostics</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="focus" aria-labelledby="focus-title">
+      <div class="wrap">
+        <p class="section-kicker">Focus</p>
+        <h2 id="focus-title">Support work that connects endpoints, users, and networks.</h2>
+        <p class="section-lead">
+          The portfolio is built around infrastructure support proof: triage, repair, document, and explain technical problems without exposing private workplace details.
+        </p>
+        <div class="focus-grid">
+          <article class="focus-card">
+            <span class="card-number">01</span>
+            <h3>Endpoint Recovery</h3>
+            <p>Windows, macOS, and Linux troubleshooting with attention to hardware symptoms, OS issues, profile problems, and secure handoffs.</p>
+          </article>
+          <article class="focus-card">
+            <span class="card-number">02</span>
+            <h3>Network Fundamentals</h3>
+            <p>Routing, switching, VLANs, subnetting, DHCP, DNS, VPN, Wi-Fi, ACLs, and packet-level reasoning for real support cases.</p>
+          </article>
+          <article class="focus-card">
+            <span class="card-number">03</span>
+            <h3>Operational Documentation</h3>
+            <p>Ticket notes, incident summaries, asset checks, escalation details, and repeatable support steps written for fast team handoff.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="skills-band" aria-labelledby="skills-title">
+      <div class="wrap skills-layout">
+        <div>
+          <p class="section-kicker">Core Skills</p>
+          <h2 id="skills-title">Hands-on IT support foundation.</h2>
+          <p class="section-lead">
+            The public site stays intentionally narrow: support workflows, infrastructure fundamentals, and proof projects.
+          </p>
+        </div>
+        <ul class="skill-list">
+          <li>Windows endpoint troubleshooting</li>
+          <li>macOS and Linux support basics</li>
+          <li>Active Directory account support</li>
+          <li>Service desk ticket lifecycle</li>
+          <li>Hardware diagnostics and repair flow</li>
+          <li>Imaging and deployment concepts</li>
+          <li>TCP/IP, VLANs, DNS, DHCP, VPN</li>
+          <li>Wi-Fi and cabling troubleshooting</li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="cert-title">
+      <div class="wrap">
+        <p class="section-kicker">Certifications</p>
+        <h2 id="cert-title">Verified fundamentals, shown without private IDs.</h2>
+        <div class="cert-grid">
+          <article class="cert-card">
+            <span>Cisco</span>
+            <h3>CCNA</h3>
+          </article>
+          <article class="cert-card">
+            <span>CompTIA</span>
+            <h3>A+</h3>
+          </article>
+          <article class="cert-card">
+            <span>CompTIA</span>
+            <h3>Network+</h3>
+          </article>
+          <article class="cert-card">
+            <span>CompTIA</span>
+            <h3>IT Operations Specialist (CIOS)</h3>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects" aria-labelledby="projects-title">
+      <div class="wrap">
+        <p class="section-kicker">Proof Projects</p>
+        <h2 id="projects-title">Labs being documented, not inflated.</h2>
+        <p class="section-lead">
+          These are practical infrastructure labs and sanitized writeups designed to show troubleshooting judgment without publishing private workplace information.
+        </p>
+        <div class="project-grid">
+          <article class="project-card">
+            <span class="status">In documentation</span>
+            <h3>Windows Server Support Lab</h3>
+            <p>AD DS, DNS, DHCP, Group Policy, user/device scenarios, and support notes built around common endpoint administration tasks.</p>
+          </article>
+          <article class="project-card">
+            <span class="status">In documentation</span>
+            <h3>Small Office Network Lab</h3>
+            <p>Packet Tracer topology covering VLANs, DHCP, routing, ACL behavior, failure isolation, and a written troubleshooting path.</p>
+          </article>
+          <article class="project-card">
+            <span class="status">In documentation</span>
+            <h3>Incident Writeup Set</h3>
+            <p>Sanitized examples for endpoint recovery, network outage triage, hardware diagnostics, user updates, and escalation notes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="next" aria-labelledby="next-title">
+      <div class="wrap next-build">
+        <div>
+          <p class="section-kicker">Next Build</p>
+          <h2 id="next-title">Current roadmap.</h2>
+          <p class="section-lead">
+            The next version should add public project pages only after the labs are documented with clean screenshots, diagrams, and repeatable notes.
+          </p>
+        </div>
+        <ol class="build-list">
+          <li>Publish AD/DNS/DHCP/GPO Windows Server lab notes.</li>
+          <li>Publish Packet Tracer topology and troubleshooting report.</li>
+          <li>Add Wireshark packet-capture walkthroughs.</li>
+          <li>Add PowerShell endpoint inventory script notes.</li>
+          <li>Document Intune and Autopilot learning project after lab setup.</li>
+          <li>Add sanitized support-ticket case studies.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>garyvirk.com</span>
+      <span>IT Support & Network Infrastructure</span>
+    </div>
+  </footer>
 </body>
 </html>
