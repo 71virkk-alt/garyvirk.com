@@ -1,7 +1,7 @@
 #!/bin/bash
 # deploy.sh — one-command deploy to garyvirk.com
 # Usage: ./deploy.sh ["commit message"]
-# Any AI tool or human can run this after adding/editing files.
+# Run this after adding or editing public site files.
 set -e
 cd "$(dirname "$0")"
 MSG="${1:-Deploy: $(date '+%Y-%m-%d %H:%M:%S')}"
