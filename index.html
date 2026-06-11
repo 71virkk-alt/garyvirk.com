@@ -1105,6 +1105,80 @@
       color: var(--green); white-space: pre-wrap;
     }
 
+    /* v4: responsive cascade fix — must follow the base .hero-stage rule */
+    @media (max-width: 960px) {
+      .hero-stage { grid-template-columns: 1fr; gap: 22px; }
+      .console-deck { width: 100%; }
+    }
+    @media (max-width: 640px) {
+      .hero-copy .lead:not(:first-of-type) { display: none; }
+      .hero-actions .btn:not(.btn-primary) { display: none; }
+      .deck-actions { display: grid; grid-template-columns: 1fr 1fr; }
+      .deck-btn { width: 100%; }
+    }
+
+    /* v4: hero hierarchy */
+    .hero h1 {
+      font-size: clamp(2.9rem, 4.9vw, 4.6rem);
+      text-shadow: 0 0 46px rgba(61, 126, 255, 0.28);
+      overflow-wrap: normal;
+    }
+    .role-line {
+      margin: 16px 0 0;
+      font-family: var(--mono); font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--green);
+    }
+
+    /* v4: evidence rail */
+    .evidence-rail {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+      margin-top: 26px;
+    }
+    .evidence-rail .er-label {
+      color: var(--muted);
+      font-family: var(--mono); font-size: 0.64rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      margin-right: 4px;
+    }
+    .er-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 11px;
+      border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(13, 19, 24, 0.7);
+      color: var(--soft);
+      font-family: var(--mono); font-size: 0.68rem; font-weight: 600;
+      text-decoration: none;
+      transition: border-color var(--speed) ease;
+    }
+    .er-chip:hover, .er-chip:focus-visible { border-color: var(--blue); }
+    .er-chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; }
+    .er-chip[data-state="available"]::before { background: var(--green); }
+    .er-chip[data-state="progress"]::before { background: var(--amber); }
+    .er-chip[data-state="planned"]::before { background: var(--muted); }
+
+    /* v4: deck contextual proof link */
+    .deck-link {
+      align-self: flex-start;
+      color: var(--blue);
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(61, 126, 255, 0.4);
+      padding-bottom: 1px;
+    }
+    .deck-link:hover, .deck-link:focus-visible { border-color: var(--blue); }
+
+    /* v4: section ghost numerals */
+    main section { position: relative; }
+    main section[data-num]::before {
+      content: attr(data-num);
+      position: absolute; top: 34px; right: 0;
+      font-family: var(--mono); font-weight: 800;
+      font-size: clamp(4.5rem, 11vw, 8.5rem); line-height: 1;
+      color: rgba(245, 242, 234, 0.05);
+      pointer-events: none;
+    }
+
     /* Boot visual */
     .boot-inner { display: grid; justify-items: center; gap: 16px; }
     .boot-bar { width: min(280px, 60vw); height: 2px; background: var(--line); overflow: hidden; }
@@ -1191,7 +1265,7 @@
 
       <p class="op-foot">
         garyvirk.com<br>
-        operator console v3.4<br>
+        operator console v4.0<br>
         statuses are honest — nothing<br>here is claimed before it ships
       </p>
     </aside>
@@ -1206,9 +1280,7 @@
         <div class="hero-stage">
           <div class="hero-copy">
             <h1 id="hero-title">Gary Virk</h1>
-            <p class="lead" style="font-size:1.18rem; color:var(--text); max-width:680px;">
-              IT Support &amp; Network Infrastructure
-            </p>
+            <p class="role-line">IT Support &amp; Network Infrastructure</p>
             <p class="lead">
               Practical labs, tools, and field notes for endpoint support, network troubleshooting,
               cybersecurity fundamentals, automation, and AI-assisted troubleshooting — documented
@@ -1237,7 +1309,17 @@
               <button class="deck-btn" type="button" data-act="case">open case file</button>
             </div>
             <pre class="deck-out" id="deck-out" aria-live="polite">&gt; console ready — simulated lab telemetry</pre>
+            <a class="deck-link" id="deck-link" href="#proof" hidden>view proof dashboard ↓</a>
           </aside>
+        </div>
+
+        <div class="evidence-rail" aria-label="Evidence status">
+          <span class="er-label">evidence rail</span>
+          <a class="er-chip" data-state="available" href="#card-server">lab topology · available</a>
+          <a class="er-chip" data-state="available" href="#card-server">role checklist · available</a>
+          <a class="er-chip" data-state="progress" href="#card-server">incident notes · in progress</a>
+          <a class="er-chip" data-state="planned" href="#card-wireshark">packet timelines · planned</a>
+          <a class="er-chip" data-state="planned" href="#card-baseline">security baseline · planned</a>
         </div>
 
         <p class="cert-label">Certifications</p>
@@ -1250,7 +1332,7 @@
       </section>
 
       <!-- ============ 02 Lab map ============ -->
-      <section id="lab-map" class="reveal" aria-labelledby="map-title">
+      <section id="lab-map" class="reveal" data-num="02" aria-labelledby="map-title">
         <p class="kicker"><span class="idx">02</span> System scan — diagnostic map</p>
         <h2 id="map-title">Lab Map</h2>
         <p class="lead">
@@ -1340,7 +1422,7 @@
       </section>
 
       <!-- ============ 03 Proof dashboard ============ -->
-      <section id="proof" class="reveal" aria-labelledby="proof-title">
+      <section id="proof" class="reveal" data-num="03" aria-labelledby="proof-title">
         <p class="kicker"><span class="idx">03</span> Case files — proof dashboard</p>
         <h2 id="proof-title">Labs being documented, not inflated.</h2>
         <p class="lead">
@@ -1574,7 +1656,7 @@
       </section>
 
       <!-- ============ 04 Field notes ============ -->
-      <section id="notes" class="reveal" aria-labelledby="notes-title">
+      <section id="notes" class="reveal" data-num="04" aria-labelledby="notes-title">
         <p class="kicker"><span class="idx">04</span> Field notes — written evidence</p>
         <h2 id="notes-title">Writing as proof of understanding.</h2>
         <p class="lead">
@@ -1612,7 +1694,7 @@
       </section>
 
       <!-- ============ 05 Tools ============ -->
-      <section id="tools" class="reveal" aria-labelledby="tools-title">
+      <section id="tools" class="reveal" data-num="05" aria-labelledby="tools-title">
         <p class="kicker"><span class="idx">05</span> Toolkit — client-side utilities</p>
         <h2 id="tools-title">Small utilities, not toy demos.</h2>
         <p class="lead">
@@ -1650,7 +1732,7 @@
       </section>
 
       <!-- ============ 06 Roadmap ============ -->
-      <section id="roadmap" class="reveal" aria-labelledby="roadmap-title">
+      <section id="roadmap" class="reveal" data-num="06" aria-labelledby="roadmap-title">
         <p class="kicker"><span class="idx">06</span> Build queue — live roadmap</p>
         <h2 id="roadmap-title">What's actually being built.</h2>
         <p class="lead">Trust comes from honest sequencing. This is the real order of work.</p>
@@ -1680,7 +1762,7 @@
       </section>
 
       <!-- ============ 07 Contact: ticket console ============ -->
-      <section id="contact" class="reveal" aria-labelledby="contact-title">
+      <section id="contact" class="reveal" data-num="07" aria-labelledby="contact-title">
         <p class="kicker"><span class="idx">07</span> Open a ticket — direct line</p>
         <h2 id="contact-title">Open a ticket.</h2>
         <p class="lead">
@@ -1763,7 +1845,7 @@
 
       <footer>
         <div class="foot-meta">
-          <div><span class="k">console</span><span class="v">v3.4</span></div>
+          <div><span class="k">console</span><span class="v">v4.0</span></div>
           <div><span class="k">updated</span><span class="v">June 2026</span></div>
           <div><span class="k">your local time</span><span class="v" id="meta-time">--:--:--</span></div>
           <div><span class="k">viewport</span><span class="v" id="meta-dim">—</span></div>
@@ -1874,7 +1956,7 @@
         boot.appendChild(inner);
         document.body.appendChild(boot);
         var lines = [
-          '> gv.console v3.4',
+          '> gv.console v4.0',
           '> mounting lab map ............ ok',
           '> loading case files [6] ...... ok',
           '> operator status .. OPEN TO WORK'
@@ -2022,7 +2104,7 @@
         camera.position.z = 7.5;
 
         var group = new THREE.Group();
-        group.position.x = 2.3;
+        group.position.x = 1.9;
         scene.add(group);
 
         // Fibonacci sphere of nodes
@@ -2202,11 +2284,48 @@
           }
         }
 
+        // Labeled domain anchors: the topology maps to Gary's six domains
+        var DOMAIN_NODES = { endpoint: 0, network: 40, security: 80, automation: 120, ai: 160, writing: 200 };
+        var DOMAIN_COLORS = { endpoint: 0x3d7eff, network: 0x36d399, security: 0xd8a84a,
+                              automation: 0x3d7eff, ai: 0x36d399, writing: 0xd8a84a };
+        var labelSprites = {};
+        function makeLabel(text, colorCss) {
+          var cv = document.createElement('canvas');
+          cv.width = 256; cv.height = 64;
+          var c2 = cv.getContext('2d');
+          c2.font = '700 30px "IBM Plex Mono", Menlo, monospace';
+          c2.fillStyle = colorCss;
+          c2.textAlign = 'center'; c2.textBaseline = 'middle';
+          c2.fillText(text.toUpperCase(), 128, 34);
+          var tex = new THREE.CanvasTexture(cv);
+          var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0.9 }));
+          sp.scale.set(1.35, 0.34, 1);
+          return sp;
+        }
+        Object.keys(DOMAIN_NODES).forEach(function (key) {
+          var idx = DOMAIN_NODES[key];
+          var v = pts[idx];
+          var colorHex = DOMAIN_COLORS[key];
+          var cssColor = '#' + colorHex.toString(16);
+          // marker sphere
+          var marker = new THREE.Mesh(
+            new THREE.SphereGeometry(0.075, 10, 10),
+            new THREE.MeshBasicMaterial({ color: colorHex }));
+          marker.position.copy(v);
+          group.add(marker);
+          // billboarded label, pushed outward
+          var sp = makeLabel(key, cssColor);
+          sp.position.copy(v).multiplyScalar(1.22);
+          group.add(sp);
+          labelSprites[key] = sp;
+        });
+
         // Scene state + public API for the diagnostic deck
         var boostUntil = 0, amberUntil = 0, currentAccent = 0x3d7eff;
         var traces = [];
-        function walkPath(hops) {
-          var start = Math.floor(Math.random() * COUNT), path = [start], cur = start;
+        function walkPath(hops, startAt) {
+          var start = typeof startAt === 'number' ? startAt : Math.floor(Math.random() * COUNT);
+          var path = [start], cur = start;
           for (var h = 0; h < hops; h++) {
             var opts = (adj[cur] || []).filter(function (n2) { return path.indexOf(n2) === -1; });
             if (!opts.length) break;
@@ -2215,21 +2334,31 @@
           }
           return path;
         }
+        function pulseLabel(key) {
+          var sp = labelSprites[key];
+          if (!sp) return;
+          if (window.gsap) {
+            window.gsap.fromTo(sp.scale, { x: 1.35, y: 0.34 }, { x: 1.75, y: 0.44, duration: 0.35, yoyo: true, repeat: 1, ease: 'power2.out' });
+          }
+          rings.push({ deferred: true, at: pts[DOMAIN_NODES[key]], color: DOMAIN_COLORS[key], born: performance.now() });
+        }
         window.__scene = {
           setAccent: function (hex) {
             currentAccent = hex;
             packetPts.material.color.setHex(hex);
             if (performance.now() >= amberUntil) scanRing.material.color.setHex(hex);
           },
+          highlightDomain: pulseLabel,
           diagnose: function () {
             boostUntil = performance.now() + 2600;
-            for (var d = 0; d < 4; d++) {
-              rings.push({ deferred: true, at: pts[Math.floor(Math.random() * COUNT)], color: 0x36d399,
-                           born: performance.now() + 200 + d * 320 });
+            var keys = Object.keys(DOMAIN_NODES);
+            for (var d = 0; d < keys.length; d++) {
+              rings.push({ deferred: true, at: pts[DOMAIN_NODES[keys[d]]], color: DOMAIN_COLORS[keys[d]],
+                           born: performance.now() + 200 + d * 260 });
             }
           },
           trace: function () {
-            var path = walkPath(6);
+            var path = walkPath(6, DOMAIN_NODES.network);
             var tpts = path.map(function (idx) { return pts[idx]; });
             var line = new THREE.Line(
               new THREE.BufferGeometry().setFromPoints(tpts),
@@ -2242,16 +2371,17 @@
             return path.length;
           },
           inspect: function () {
-            var idx = Math.floor(Math.random() * COUNT);
-            rings.push({ deferred: true, at: pts[idx], color: 0x36d399, born: performance.now() });
+            pulseLabel('endpoint');
             if (window.gsap) {
               window.gsap.to(group.scale, { x: 1.18, y: 1.18, z: 1.18, duration: 0.55, yoyo: true, repeat: 1, ease: 'power2.inOut' });
             }
-            return 'node-' + (100 + idx);
+            return 'endpoint.gv';
           },
           scan: function () {
             amberUntil = performance.now() + 2600;
             boostUntil = performance.now() + 2600;
+            pulseLabel('security');
+            incident.idx = DOMAIN_NODES.security;
             incident.nextAt = performance.now() + 400;
           }
         };
@@ -2644,6 +2774,22 @@
           dlog('node-' + (100 + idx) + ' resolved · evidence logged');
         }
       };
+      var deckLink = document.getElementById('deck-link');
+      function setDeckLink(text, caseKey, href) {
+        if (!deckLink) return;
+        deckLink.textContent = text;
+        deckLink.removeAttribute('hidden');
+        deckLink.setAttribute('href', href || '#proof');
+        deckLink.dataset.caseKey = caseKey || '';
+      }
+      if (deckLink) {
+        deckLink.addEventListener('click', function (e) {
+          if (deckLink.dataset.caseKey) {
+            e.preventDefault();
+            openCase(deckLink.dataset.caseKey, deckLink);
+          }
+        });
+      }
       var deckBusy = false;
       document.querySelectorAll('.deck-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -2662,21 +2808,29 @@
             dlog('running diagnostic sweep…');
             api && api.diagnose && api.diagnose();
             setTimeout(function () {
-              dlog('sweep complete · all segments responding');
+              dlog('sweep complete · 6 domains responding');
               dset('ds-signal', 'stable', true);
+              setDeckLink('view proof dashboard ↓', '', '#proof');
             }, 1300);
           } else if (act === 'trace') {
             var hops = (api && api.trace) ? api.trace() : 5;
-            dlog('tracing route…');
-            setTimeout(function () { dlog('trace complete · ' + hops + ' hops · simulated'); }, 1200);
+            dlog('tracing route from network.gv…');
+            setTimeout(function () {
+              dlog('trace complete · ' + hops + ' hops · documented in case #02');
+              setDeckLink('open case #02 — packet tracer →', 'network', '#card-network');
+            }, 1200);
           } else if (act === 'inspect') {
-            var label = (api && api.inspect) ? api.inspect() : 'node-' + (100 + Math.floor(Math.random() * 140));
+            var label = (api && api.inspect) ? api.inspect() : 'endpoint.gv';
             dset('ds-node', label);
-            dlog('inspecting ' + label + ' … responsive ✓');
+            dlog('inspecting ' + label + ' … responsive ✓ · case #01 building');
+            setDeckLink('open case #01 — windows server →', 'server', '#card-server');
           } else if (act === 'scan') {
             dlog('security scan started…');
             api && api.scan && api.scan();
-            setTimeout(function () { dlog('scan complete · 0 critical · baseline checklist planned'); }, 1500);
+            setTimeout(function () {
+              dlog('scan complete · 0 critical · baseline = case #05');
+              setDeckLink('open case #05 — security baseline →', 'baseline', '#card-baseline');
+            }, 1500);
           }
         });
       });
@@ -2993,12 +3147,16 @@
             opacity: 0.18, ease: 'none',
             scrollTrigger: { trigger: '#lab-map', start: 'top 90%', end: 'top 25%', scrub: true }
           });
-          [['#lab-map', 0x3d7eff], ['#proof', 0x36d399], ['#notes', 0xd8a84a],
-           ['#tools', 0x3d7eff], ['#roadmap', 0xd8a84a], ['#contact', 0x36d399]].forEach(function (pair) {
+          [['#lab-map', 0x36d399, 'network'], ['#proof', 0x3d7eff, 'endpoint'], ['#notes', 0xd8a84a, 'writing'],
+           ['#tools', 0x3d7eff, 'automation'], ['#roadmap', 0xd8a84a, 'security'], ['#contact', 0x36d399, 'ai']].forEach(function (st) {
+            var apply = function () {
+              if (!window.__scene) return;
+              window.__scene.setAccent(st[1]);
+              window.__scene.highlightDomain && window.__scene.highlightDomain(st[2]);
+            };
             window.ScrollTrigger.create({
-              trigger: pair[0], start: 'top 60%', end: 'bottom 40%',
-              onEnter: function () { window.__scene && window.__scene.setAccent(pair[1]); },
-              onEnterBack: function () { window.__scene && window.__scene.setAccent(pair[1]); }
+              trigger: st[0], start: 'top 60%', end: 'bottom 40%',
+              onEnter: apply, onEnterBack: apply
             });
           });
         }
