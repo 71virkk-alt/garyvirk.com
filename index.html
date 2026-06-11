@@ -21,6 +21,7 @@
       --line: rgba(245, 242, 234, 0.10);
       --line-strong: rgba(245, 242, 234, 0.22);
       --text: #f5f2ea;
+      --soft: #c3cdd3;
       --muted: #9aa6ad;
       --blue: #3d7eff;
       --green: #36d399;
@@ -190,7 +191,7 @@
 
     /* ============ Main / sections ============ */
     main { min-width: 0; padding: 0 40px; }
-    section { padding: 72px 0; border-bottom: 1px solid var(--line); }
+    section { padding: 88px 0; border-bottom: 1px solid var(--line); }
     section:last-of-type { border-bottom: none; }
 
     .kicker {
@@ -207,7 +208,7 @@
     h2 { margin: 0; font-size: clamp(1.7rem, 3.4vw, 2.5rem); line-height: 1.1; letter-spacing: -0.01em; }
     h3 { margin: 0; font-size: 1.06rem; line-height: 1.3; }
 
-    .lead { max-width: 640px; margin: 18px 0 0; color: var(--muted); font-size: 1.05rem; }
+    .lead { max-width: 640px; margin: 18px 0 0; color: var(--soft); font-size: 1.05rem; }
 
     /* ============ Hero + network canvas ============ */
     .hero {
@@ -323,7 +324,7 @@
     .billboard:hover { border-color: var(--blue); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4); }
     .billboard-copy { padding: 30px; display: flex; flex-direction: column; gap: 14px; }
     .billboard-copy h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
-    .billboard-copy p { margin: 0; color: var(--muted); }
+    .billboard-copy p { margin: 0; color: var(--soft); }
     .billboard-tag {
       color: var(--amber);
       font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
@@ -396,7 +397,7 @@
     .badge-planned { color: var(--blue); border: 1px solid rgba(61, 126, 255, 0.4); background: rgba(61, 126, 255, 0.08); }
     .badge-future { color: var(--muted); border: 1px solid var(--line-strong); background: rgba(245, 242, 234, 0.04); }
 
-    .card p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+    .card p { margin: 0; color: var(--soft); font-size: 0.92rem; }
 
     .card-visual {
       border: 1px solid var(--line); border-radius: 6px;
@@ -507,7 +508,7 @@
       gap: 28px; margin-top: 36px; align-items: start;
     }
     .ticket-info { display: grid; gap: 14px; }
-    .ticket-info p { margin: 0; color: var(--muted); }
+    .ticket-info p { margin: 0; color: var(--soft); }
     .ticket-promise {
       padding: 14px 16px;
       border: 1px solid var(--line); border-radius: var(--radius);
@@ -659,6 +660,7 @@
       .billboard { grid-template-columns: 1fr; }
       .billboard-art { min-height: 200px; border-left: 0; border-top: 1px solid var(--line); }
       .ticket-layout { grid-template-columns: 1fr; }
+      .map-layout { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
@@ -845,6 +847,146 @@
     .foot-meta .v { color: var(--text); }
     @media (max-width: 640px) { .foot-meta { grid-template-columns: 1fr 1fr; } }
 
+    /* ============ Diagnostic map panel ============ */
+    .map-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.95fr);
+      gap: 16px; margin-top: 36px; align-items: stretch;
+    }
+    .map-layout .lab-map-frame { margin-top: 0; }
+    .map-panel {
+      position: relative;
+      display: flex; flex-direction: column; gap: 10px;
+      padding: 20px;
+      border: 1px solid var(--line-strong); border-radius: var(--radius);
+      background: var(--panel);
+    }
+    .map-panel::before, .map-panel::after {
+      content: ""; position: absolute; width: 16px; height: 16px;
+      pointer-events: none; border: 1px solid rgba(61, 126, 255, 0.55);
+    }
+    .map-panel::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+    .map-panel::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+    .map-panel-tag {
+      color: var(--blue);
+      font-family: var(--mono); font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .map-panel h3 { font-size: 1.15rem; }
+    .mp-project { margin: 0; color: var(--soft); font-size: 0.95rem; font-weight: 650; }
+    .map-panel .badge { align-self: flex-start; }
+    .mp-fields { margin: 4px 0 0; display: grid; gap: 10px; }
+    .mp-fields > div { border: 1px solid var(--line); border-radius: 6px; background: var(--bg); padding: 10px 12px; }
+    .mp-fields dt {
+      color: var(--muted);
+      font-family: var(--mono); font-size: 0.64rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .mp-fields dd { margin: 0; color: var(--soft); font-size: 0.86rem; line-height: 1.5; }
+    .mp-link { margin-top: auto; align-self: flex-start; min-height: 40px; padding: 9px 16px; }
+    .map-node[aria-pressed="true"] rect { stroke: var(--green); fill: #14211f; }
+    .map-line.selected { stroke: var(--green); stroke-width: 2; }
+
+    /* ============ Case file drawer ============ */
+    .case-drawer {
+      position: fixed; inset: 0 0 0 auto;
+      width: min(480px, 100vw); height: 100dvh; max-height: 100dvh;
+      margin: 0; padding: 0; border: none;
+      border-left: 1px solid var(--line-strong);
+      background: var(--panel); color: var(--text);
+    }
+    .case-drawer::backdrop { background: rgba(5, 8, 10, 0.65); backdrop-filter: blur(2px); }
+    @media (prefers-reduced-motion: no-preference) {
+      .case-drawer[open] { animation: drawer-in 280ms ease; }
+      @keyframes drawer-in { from { transform: translateX(48px); opacity: 0; } }
+    }
+    .case-head {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-2);
+      font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+    }
+    .case-close {
+      background: none; border: 1px solid var(--line-strong); border-radius: 6px;
+      color: var(--text); padding: 6px 12px;
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 700; cursor: pointer;
+      transition: border-color var(--speed) ease;
+    }
+    .case-close:hover, .case-close:focus-visible { border-color: var(--blue); }
+    .case-body {
+      padding: 20px; overflow-y: auto;
+      height: calc(100dvh - 53px);
+      display: grid; gap: 12px; align-content: start;
+    }
+    .case-body h3 { font-size: 1.3rem; }
+    .case-body .badge { justify-self: start; }
+    .case-field { border: 1px solid var(--line); border-radius: 6px; background: var(--bg); padding: 12px 14px; }
+    .cf-k {
+      display: block; margin-bottom: 5px;
+      color: var(--muted);
+      font-family: var(--mono); font-size: 0.64rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .case-field p { margin: 0; color: var(--soft); font-size: 0.9rem; line-height: 1.55; }
+    .case-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+    .case-tools span {
+      padding: 5px 10px;
+      border: 1px solid var(--line-strong); border-radius: 999px;
+      font-family: var(--mono); font-size: 0.7rem; color: var(--soft);
+    }
+    .card[data-case] { cursor: pointer; }
+    .card-open {
+      margin-top: 6px; align-self: flex-start;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--line-strong); border-radius: 6px;
+      background: transparent; color: var(--text);
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 700; cursor: pointer;
+      transition: border-color var(--speed) ease;
+    }
+    .card-open::after { content: "→"; color: var(--blue); }
+    .card-open:hover, .card-open:focus-visible { border-color: var(--blue); }
+
+    /* ============ Mobile console menu ============ */
+    .menu-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-left: auto;
+      padding: 8px 14px;
+      border: 1px solid var(--line-strong); border-radius: 6px;
+      background: transparent; color: var(--text);
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 700; cursor: pointer;
+    }
+    .command-bar-inner .palette-btn { margin-left: 0; }
+    .console-menu {
+      width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh;
+      margin: 0; padding: 0; border: none;
+      background: #0c1318; color: var(--text);
+    }
+    .console-menu-inner { display: flex; flex-direction: column; height: 100%; padding: 16px; }
+    .console-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 4px 4px 14px;
+      border-bottom: 1px solid var(--line);
+      font-family: var(--mono); font-size: 0.72rem; color: var(--green);
+    }
+    .console-menu nav { display: grid; }
+    .console-menu nav a {
+      display: flex; align-items: baseline; gap: 14px;
+      padding: 16px 6px;
+      border-bottom: 1px solid var(--line);
+      font-size: 1.15rem; font-weight: 700; text-decoration: none;
+    }
+    .console-menu nav a .idx { font-family: var(--mono); font-size: 0.68rem; color: var(--blue); }
+    .console-quick { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 16px; }
+    .console-quick .btn { width: 100%; justify-content: center; }
+
+    /* ============ Palette prompt row ============ */
+    .palette-row { display: flex; align-items: center; gap: 10px; padding-left: 16px; border-bottom: 1px solid var(--line); }
+    .palette-prompt { color: var(--green); font-family: var(--mono); font-weight: 700; }
+    .palette-row input { border-bottom: none; flex: 1; }
+
     /* ============ GSAP enhancement mode ============ */
     /* When GSAP drives entrances and tilt, neutralize the CSS fallbacks so the
        two systems never fight over the same transform. */
@@ -877,17 +1019,9 @@
         <span class="brand-name">Gary Virk</span>
         <span class="brand-role">IT Support &amp; Network Infrastructure</span>
       </div>
+      <button class="menu-btn" type="button" id="menu-open" aria-haspopup="dialog">menu</button>
       <button class="palette-btn" type="button" data-palette aria-label="Open command palette"><kbd>⌘K</kbd></button>
     </div>
-    <nav class="command-nav" aria-label="Sections">
-      <a href="#overview">Overview</a>
-      <a href="#lab-map">Lab Map</a>
-      <a href="#proof">Proof</a>
-      <a href="#notes">Field Notes</a>
-      <a href="#tools">Tools</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#contact">Contact</a>
-    </nav>
   </header>
 
   <div class="shell">
@@ -933,7 +1067,7 @@
 
       <p class="op-foot">
         garyvirk.com<br>
-        operator console v3.1<br>
+        operator console v3.2<br>
         statuses are honest — nothing<br>here is claimed before it ships
       </p>
     </aside>
@@ -987,6 +1121,7 @@
           Select a node to jump to its proof card.
         </p>
 
+        <div class="map-layout">
         <div class="lab-map-frame">
           <svg class="lab-map-svg" viewBox="0 0 760 470" aria-label="Interactive map of skill domains linking to proof projects">
             <line class="map-line" id="l-endpoint"   x1="380" y1="235" x2="185" y2="105"/>
@@ -1009,32 +1144,32 @@
               <text x="380" y="241" text-anchor="middle">GV</text>
             </g>
 
-            <a class="map-node" href="#card-server" data-line="l-endpoint" aria-label="Endpoint Support — Windows Server Support Lab, building">
+            <a class="map-node" href="#card-server" data-line="l-endpoint" data-domain="endpoint" role="button" aria-pressed="false" aria-label="Endpoint Support — Windows Server Support Lab, building">
               <rect x="105" y="78" width="160" height="54" rx="8"/>
               <text x="185" y="100" text-anchor="middle">Endpoint Support</text>
               <text x="185" y="118" text-anchor="middle" class="sub">server lab · building</text>
             </a>
-            <a class="map-node" href="#card-network" data-line="l-network" aria-label="Networking — Packet Tracer Small Office Network, planned">
+            <a class="map-node" href="#card-network" data-line="l-network" data-domain="network" role="button" aria-pressed="false" aria-label="Networking — Packet Tracer Small Office Network, planned">
               <rect x="495" y="78" width="160" height="54" rx="8"/>
               <text x="575" y="100" text-anchor="middle">Networking</text>
               <text x="575" y="118" text-anchor="middle" class="sub">office network · planned</text>
             </a>
-            <a class="map-node" href="#card-baseline" data-line="l-security" aria-label="Cybersecurity — Security Baseline Checklist, planned">
+            <a class="map-node" href="#card-baseline" data-line="l-security" data-domain="security" role="button" aria-pressed="false" aria-label="Cybersecurity — Security Baseline Checklist, planned">
               <rect x="48" y="208" width="160" height="54" rx="8"/>
               <text x="128" y="230" text-anchor="middle">Cybersecurity</text>
               <text x="128" y="248" text-anchor="middle" class="sub">baseline · planned</text>
             </a>
-            <a class="map-node" href="#card-inventory" data-line="l-automation" aria-label="Automation — PowerShell Endpoint Inventory, planned">
+            <a class="map-node" href="#card-inventory" data-line="l-automation" data-domain="automation" role="button" aria-pressed="false" aria-label="Automation — PowerShell Endpoint Inventory, planned">
               <rect x="552" y="208" width="160" height="54" rx="8"/>
               <text x="632" y="230" text-anchor="middle">Automation</text>
               <text x="632" y="248" text-anchor="middle" class="sub">inventory · planned</text>
             </a>
-            <a class="map-node" href="#card-ai" data-line="l-ai" aria-label="AI-Assisted Troubleshooting — experiment, planned">
+            <a class="map-node" href="#card-ai" data-line="l-ai" data-domain="ai" role="button" aria-pressed="false" aria-label="AI-Assisted Troubleshooting — experiment, planned">
               <rect x="168" y="348" width="160" height="54" rx="8"/>
               <text x="248" y="370" text-anchor="middle">AI Troubleshooting</text>
               <text x="248" y="388" text-anchor="middle" class="sub">experiment · planned</text>
             </a>
-            <a class="map-node" href="#card-wireshark" data-line="l-writing" aria-label="Technical Writing — Wireshark Troubleshooting Notes, planned">
+            <a class="map-node" href="#card-wireshark" data-line="l-writing" data-domain="writing" role="button" aria-pressed="false" aria-label="Technical Writing — Wireshark Troubleshooting Notes, planned">
               <rect x="432" y="348" width="160" height="54" rx="8"/>
               <text x="512" y="370" text-anchor="middle">Technical Writing</text>
               <text x="512" y="388" text-anchor="middle" class="sub">field notes · planned</text>
@@ -1042,13 +1177,26 @@
           </svg>
         </div>
 
+        <aside class="map-panel" aria-label="Diagnostic readout" aria-live="polite">
+          <span class="map-panel-tag">diagnostic readout</span>
+          <h3 id="mp-title">Endpoint Support</h3>
+          <p class="mp-project" id="mp-project">Windows Server Support Lab</p>
+          <span class="badge badge-building" id="mp-badge">Building</span>
+          <dl class="mp-fields">
+            <div><dt>evidence</dt><dd id="mp-evidence">Lab topology, role checklist, incident-style scenario notes.</dd></div>
+            <div><dt>next artifact</dt><dd id="mp-next">Account lockout troubleshooting writeup</dd></div>
+          </dl>
+          <a class="btn btn-ghost mp-link" id="mp-link" href="#card-server">Open case file</a>
+        </aside>
+        </div>
+
         <ul class="map-legend" aria-label="Skill domains">
-          <li><a href="#card-server">Endpoint Support <span>server lab · building</span></a></li>
-          <li><a href="#card-network">Networking <span>office network · planned</span></a></li>
-          <li><a href="#card-baseline">Cybersecurity <span>baseline · planned</span></a></li>
-          <li><a href="#card-inventory">Automation <span>inventory · planned</span></a></li>
-          <li><a href="#card-ai">AI Troubleshooting <span>experiment · planned</span></a></li>
-          <li><a href="#card-wireshark">Technical Writing <span>field notes · planned</span></a></li>
+          <li><a href="#card-server" data-domain="endpoint">Endpoint Support <span>server lab · building</span></a></li>
+          <li><a href="#card-network" data-domain="network">Networking <span>office network · planned</span></a></li>
+          <li><a href="#card-baseline" data-domain="security">Cybersecurity <span>baseline · planned</span></a></li>
+          <li><a href="#card-inventory" data-domain="automation">Automation <span>inventory · planned</span></a></li>
+          <li><a href="#card-ai" data-domain="ai">AI Troubleshooting <span>experiment · planned</span></a></li>
+          <li><a href="#card-wireshark" data-domain="writing">Technical Writing <span>field notes · planned</span></a></li>
         </ul>
 
         <p class="map-note">Statuses are live and honest: building means building, planned means not started.</p>
@@ -1102,7 +1250,7 @@
         </article>
 
         <div class="card-grid">
-          <article class="card" id="card-server">
+          <article class="card" id="card-server" data-case="server">
             <figure class="card-art" aria-hidden="true">
               <img src="assets/labs/windows-server.webp" alt="" 
                    onload="this.closest('.card').classList.add('has-art')" onerror="this.closest('figure').remove()">
@@ -1129,9 +1277,10 @@
               <strong>Evidence:</strong> lab topology, role checklist, incident-style notes<br>
               <strong>Next artifact:</strong> account lockout troubleshooting writeup
             </p>
+            <button class="card-open" type="button">open case file</button>
           </article>
 
-          <article class="card" id="card-network">
+          <article class="card" id="card-network" data-case="network">
             <figure class="card-art" aria-hidden="true">
               <img src="assets/labs/packet-tracer.webp" alt="" 
                    onload="this.closest('.card').classList.add('has-art')" onerror="this.closest('figure').remove()">
@@ -1159,9 +1308,10 @@
               <strong>Evidence:</strong> topology, IP plan, fault + fix explanation<br>
               <strong>Next artifact:</strong> DHCP failure scenario
             </p>
+            <button class="card-open" type="button">open case file</button>
           </article>
 
-          <article class="card" id="card-wireshark">
+          <article class="card" id="card-wireshark" data-case="wireshark">
             <figure class="card-art" aria-hidden="true">
               <img src="assets/labs/wireshark.webp" alt="" 
                    onload="this.closest('.card').classList.add('has-art')" onerror="this.closest('figure').remove()">
@@ -1189,9 +1339,10 @@
               <strong>Evidence:</strong> packet timeline, annotated capture notes<br>
               <strong>Next artifact:</strong> DHCP discover/offer/request/ack walkthrough
             </p>
+            <button class="card-open" type="button">open case file</button>
           </article>
 
-          <article class="card" id="card-inventory">
+          <article class="card" id="card-inventory" data-case="inventory">
             <figure class="card-art" aria-hidden="true">
               <img src="assets/labs/powershell.webp" alt="" 
                    onload="this.closest('.card').classList.add('has-art')" onerror="this.closest('figure').remove()">
@@ -1214,9 +1365,10 @@
               <strong>Evidence:</strong> script, output schema, sanitized sample report<br>
               <strong>Next artifact:</strong> initial script draft
             </p>
+            <button class="card-open" type="button">open case file</button>
           </article>
 
-          <article class="card" id="card-baseline">
+          <article class="card" id="card-baseline" data-case="baseline">
             <figure class="card-art" aria-hidden="true">
               <img src="assets/labs/security-baseline.webp" alt="" 
                    onload="this.closest('.card').classList.add('has-art')" onerror="this.closest('figure').remove()">
@@ -1241,9 +1393,10 @@
               <strong>Evidence:</strong> grouped control checklist with rationale<br>
               <strong>Next artifact:</strong> first checklist version
             </p>
+            <button class="card-open" type="button">open case file</button>
           </article>
 
-          <article class="card" id="card-ai">
+          <article class="card" id="card-ai" data-case="ai">
             <figure class="card-art" aria-hidden="true">
               <img src="assets/labs/ai-triage.webp" alt="" 
                    onload="this.closest('.card').classList.add('has-art')" onerror="this.closest('figure').remove()">
@@ -1271,6 +1424,7 @@
               <strong>Evidence:</strong> synthetic ticket, suggestion vs verified conclusion<br>
               <strong>Next artifact:</strong> synthetic VPN/app-access incident
             </p>
+            <button class="card-open" type="button">open case file</button>
           </article>
         </div>
 
@@ -1472,7 +1626,7 @@
 
       <footer>
         <div class="foot-meta">
-          <div><span class="k">console</span><span class="v">v3.1</span></div>
+          <div><span class="k">console</span><span class="v">v3.2</span></div>
           <div><span class="k">updated</span><span class="v">June 2026</span></div>
           <div><span class="k">your local time</span><span class="v" id="meta-time">--:--:--</span></div>
           <div><span class="k">viewport</span><span class="v" id="meta-dim">—</span></div>
@@ -1484,9 +1638,46 @@
     </main>
   </div>
 
+  <!-- Case file drawer -->
+  <dialog class="case-drawer" id="case-drawer" aria-labelledby="cd-title">
+    <div class="case-head">
+      <span><b class="pidx" id="cd-num">#01</b><span id="cd-domain">Domain</span></span>
+      <button class="case-close" type="button" id="cd-close">esc / close</button>
+    </div>
+    <div class="case-body">
+      <span class="badge badge-building" id="cd-badge">Status</span>
+      <h3 id="cd-title">Case file</h3>
+      <div class="case-field"><span class="cf-k">problem</span><p id="cd-problem"></p></div>
+      <div class="case-field"><span class="cf-k">environment</span><p id="cd-env"></p></div>
+      <div class="case-field"><span class="cf-k">tools</span><div class="case-tools" id="cd-tools"></div></div>
+      <div class="case-field"><span class="cf-k">evidence</span><p id="cd-evidence"></p></div>
+      <div class="case-field"><span class="cf-k">next step</span><p id="cd-next"></p></div>
+    </div>
+  </dialog>
+
+  <!-- Mobile console menu -->
+  <dialog class="console-menu" id="console-menu" aria-label="Navigation menu">
+    <div class="console-menu-inner">
+      <div class="console-head"><span>● operator menu</span><button class="case-close" type="button" id="menu-close">esc / close</button></div>
+      <nav aria-label="Menu sections">
+        <a href="#overview"><span class="idx">01</span>Overview</a>
+        <a href="#lab-map"><span class="idx">02</span>Lab Map</a>
+        <a href="#proof"><span class="idx">03</span>Proof Dashboard</a>
+        <a href="#notes"><span class="idx">04</span>Field Notes</a>
+        <a href="#tools"><span class="idx">05</span>Tools</a>
+        <a href="#roadmap"><span class="idx">06</span>Roadmap</a>
+        <a href="#contact"><span class="idx">07</span>Open a Ticket</a>
+      </nav>
+      <div class="console-quick">
+        <a class="btn btn-primary" href="resume.html" target="_blank" rel="noopener">View Resume</a>
+        <button class="btn btn-ghost" type="button" id="menu-copy">Copy Email</button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- Command palette -->
   <dialog class="palette" id="palette" aria-label="Command palette">
-    <input type="text" id="palette-input" placeholder="Jump to a section or run a command…" autocomplete="off">
+    <div class="palette-row"><span class="palette-prompt" aria-hidden="true">&gt;</span><input type="text" id="palette-input" placeholder="Type a command — proof, resume, roadmap…" autocomplete="off"></div>
     <ul id="palette-list" role="listbox" aria-label="Commands"></ul>
     <div class="palette-hint"><span>↑↓ navigate</span><span>↵ select</span><span>esc close</span></div>
   </dialog>
@@ -1809,24 +2000,170 @@
         sections.forEach(function (s) { so.observe(s); });
       }
 
-      /* ---- Lab map ---- */
+      /* ---- Case file data (single source of truth) ---- */
+      var LABS = {
+        server: { num: '01', title: 'Windows Server Support Lab', domain: 'Endpoint / Identity / Support',
+          status: 'Building', badgeClass: 'building',
+          problem: 'AD support skills are easy to claim and hard to prove. This lab documents common identity and endpoint scenarios the way real tickets are worked: symptom, checks, evidence, fix.',
+          environment: 'Windows Server 2022 VM running AD DS, DNS, DHCP, and Group Policy, with Windows 11 clients in a home virtualization lab.',
+          tools: ['Windows Server 2022', 'AD DS', 'DNS / DHCP', 'Group Policy', 'Event Viewer', 'Windows 11'],
+          evidence: 'Available: lab topology, role checklist. In progress: incident-style scenario notes.',
+          next: 'Account lockout troubleshooting writeup', href: '#card-server' },
+        network: { num: '02', title: 'Packet Tracer Small Office Network', domain: 'Networking',
+          status: 'Planned', badgeClass: 'planned',
+          problem: 'Small-office networks fail in predictable ways. This lab builds one, breaks it on purpose, and documents the triage path that finds the fault.',
+          environment: 'Cisco Packet Tracer topology: one router, two switches, two VLANs with inter-VLAN routing, DHCP, and ACLs.',
+          tools: ['Packet Tracer', 'Cisco IOS CLI', 'VLANs / ACLs', 'Subnetting'],
+          evidence: 'Planned: topology file, IP plan, one intentional fault with a documented fix.',
+          next: 'DHCP failure scenario', href: '#card-network' },
+        wireshark: { num: '03', title: 'Wireshark Troubleshooting Notes', domain: 'Packet Analysis / Writing',
+          status: 'Planned', badgeClass: 'planned',
+          problem: 'Most troubleshooting advice says what to do, not what the packets prove. These notes connect symptoms to capture evidence.',
+          environment: 'Sanitized captures of home-lab traffic: DHCP handshakes, DNS lookups, ping, and TCP sessions.',
+          tools: ['Wireshark', 'Display filters', 'DHCP / DNS / TCP'],
+          evidence: 'Planned: annotated packet timelines with symptom-to-evidence notes.',
+          next: 'DHCP discover/offer/request/ack walkthrough', href: '#card-wireshark' },
+        inventory: { num: '04', title: 'PowerShell Endpoint Inventory', domain: 'Automation',
+          status: 'Planned', badgeClass: 'planned',
+          problem: 'Support teams escalate blind without endpoint context. This script collects the details that matter into a handoff-ready report.',
+          environment: 'Windows endpoints queried with PowerShell 7, output to support-ready CSV.',
+          tools: ['PowerShell 7', 'CIM / WMI', 'CSV reporting'],
+          evidence: 'Planned: script, output schema, sanitized sample report.',
+          next: 'Initial script draft', href: '#card-inventory' },
+        baseline: { num: '05', title: 'Security Baseline Checklist', domain: 'Cybersecurity Fundamentals',
+          status: 'Planned', badgeClass: 'planned',
+          problem: 'Small offices skip security basics because no one hands them a practical list. This baseline organizes the essentials by protect, detect, respond.',
+          environment: 'Small-office reference setup: endpoints, router/Wi-Fi, identity, backups.',
+          tools: ['MFA', 'Patching', 'Backups', 'Access review', 'Router hygiene'],
+          evidence: 'Planned: grouped checklist with a plain-language rationale per control.',
+          next: 'First checklist version', href: '#card-baseline' },
+        ai: { num: '06', title: 'AI-Assisted Troubleshooting Experiment', domain: 'AI / Operations',
+          status: 'Planned', badgeClass: 'planned',
+          problem: 'AI suggestions sound confident whether or not they are right. This experiment measures them against command output and packet evidence.',
+          environment: 'Synthetic support tickets resolved two ways: AI-assisted suggestions vs manual verification.',
+          tools: ['Synthetic tickets', 'AI assistants', 'Command output', 'Packet evidence'],
+          evidence: 'Planned: side-by-side suggested vs verified resolution notes.',
+          next: 'Synthetic VPN/app-access incident', href: '#card-ai' }
+      };
+      var DOMAINS = {
+        endpoint:   { label: 'Endpoint Support', lab: 'server' },
+        network:    { label: 'Networking', lab: 'network' },
+        security:   { label: 'Cybersecurity', lab: 'baseline' },
+        automation: { label: 'Automation', lab: 'inventory' },
+        ai:         { label: 'AI-Assisted Troubleshooting', lab: 'ai' },
+        writing:    { label: 'Technical Writing', lab: 'wireshark' }
+      };
+      function setBadge(el, lab) { el.textContent = lab.status; el.className = 'badge badge-' + lab.badgeClass; }
+
+      /* ---- Lab map diagnostics ---- */
+      var mp = {
+        title: document.getElementById('mp-title'), project: document.getElementById('mp-project'),
+        badge: document.getElementById('mp-badge'), evidence: document.getElementById('mp-evidence'),
+        next: document.getElementById('mp-next'), link: document.getElementById('mp-link')
+      };
+      var selectedDomain = 'endpoint';
+      function updatePanel(domainKey) {
+        var d = DOMAINS[domainKey]; if (!d || !mp.title) return;
+        var lab = LABS[d.lab];
+        mp.title.textContent = d.label;
+        mp.project.textContent = lab.title;
+        setBadge(mp.badge, lab);
+        mp.evidence.textContent = lab.evidence;
+        mp.next.textContent = lab.next;
+        mp.link.setAttribute('href', lab.href);
+      }
+      function selectDomain(domainKey, animate) {
+        if (!DOMAINS[domainKey]) return;
+        selectedDomain = domainKey;
+        document.querySelectorAll('.map-node').forEach(function (n) {
+          n.setAttribute('aria-pressed', n.getAttribute('data-domain') === domainKey ? 'true' : 'false');
+        });
+        document.querySelectorAll('.map-line').forEach(function (l) { l.classList.remove('selected'); });
+        var node = document.querySelector('.map-node[data-domain="' + domainKey + '"]');
+        var line = node && document.getElementById(node.getAttribute('data-line') || '');
+        if (line) {
+          line.classList.add('selected');
+          if (animate && window.gsap && !reduceMotion.matches) {
+            var len = Math.hypot(line.x2.baseVal.value - line.x1.baseVal.value, line.y2.baseVal.value - line.y1.baseVal.value);
+            line.style.strokeDasharray = len;
+            window.gsap.fromTo(line, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.45, ease: 'power2.out' });
+          }
+        }
+        updatePanel(domainKey);
+      }
       document.querySelectorAll('.map-node').forEach(function (node) {
         var line = document.getElementById(node.getAttribute('data-line') || '');
-        function on() { line && line.classList.add('active'); }
-        function off() { line && line.classList.remove('active'); }
-        node.addEventListener('mouseenter', on);
-        node.addEventListener('mouseleave', off);
-        node.addEventListener('focus', on);
-        node.addEventListener('blur', off);
+        var dom = node.getAttribute('data-domain');
+        node.addEventListener('mouseenter', function () { line && line.classList.add('active'); updatePanel(dom); });
+        node.addEventListener('mouseleave', function () { line && line.classList.remove('active'); updatePanel(selectedDomain); });
+        node.addEventListener('focus', function () { line && line.classList.add('active'); updatePanel(dom); });
+        node.addEventListener('blur', function () { line && line.classList.remove('active'); });
+        node.addEventListener('click', function (e) { e.preventDefault(); selectDomain(dom, true); });
+        node.addEventListener('keydown', function (e) { if (e.key === ' ') { e.preventDefault(); selectDomain(dom, true); } });
       });
-      document.querySelectorAll('.map-node, .map-legend a').forEach(function (link) {
-        link.addEventListener('click', function () {
-          var target = document.querySelector(link.getAttribute('href'));
-          if (!target || reduceMotion.matches) return;
-          target.classList.add('flash');
-          setTimeout(function () { target.classList.remove('flash'); }, 1400);
+      document.querySelectorAll('.map-legend a').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          selectDomain(link.getAttribute('data-domain'), false);
+          var panel = document.querySelector('.map-panel');
+          if (panel) panel.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'nearest' });
         });
       });
+      updatePanel('endpoint');
+      selectDomain('endpoint', false);
+
+      /* ---- Case file drawer ---- */
+      var caseDrawer = document.getElementById('case-drawer');
+      var caseOpener = null;
+      function openCase(key, opener) {
+        var lab = LABS[key];
+        if (!lab || !caseDrawer || !caseDrawer.showModal) return;
+        document.getElementById('cd-num').textContent = '#' + lab.num;
+        document.getElementById('cd-domain').textContent = ' ' + lab.domain;
+        document.getElementById('cd-title').textContent = lab.title;
+        setBadge(document.getElementById('cd-badge'), lab);
+        document.getElementById('cd-problem').textContent = lab.problem;
+        document.getElementById('cd-env').textContent = lab.environment;
+        document.getElementById('cd-evidence').textContent = lab.evidence;
+        document.getElementById('cd-next').textContent = lab.next;
+        var tools = document.getElementById('cd-tools');
+        tools.innerHTML = '';
+        lab.tools.forEach(function (t) {
+          var s = document.createElement('span'); s.textContent = t; tools.appendChild(s);
+        });
+        caseOpener = opener || null;
+        caseDrawer.showModal();
+      }
+      if (caseDrawer && caseDrawer.showModal) {
+        document.getElementById('cd-close').addEventListener('click', function () { caseDrawer.close(); });
+        caseDrawer.addEventListener('close', function () { if (caseOpener && caseOpener.focus) caseOpener.focus(); });
+        document.querySelectorAll('.card[data-case]').forEach(function (card) {
+          var key = card.getAttribute('data-case');
+          card.addEventListener('click', function (e) {
+            if (e.target.closest('a')) return;
+            openCase(key, card.querySelector('.card-open'));
+          });
+        });
+      } else {
+        document.querySelectorAll('.card-open').forEach(function (b) { b.style.display = 'none'; });
+      }
+
+      /* ---- Mobile console menu ---- */
+      var menu = document.getElementById('console-menu');
+      var menuOpenBtn = document.getElementById('menu-open');
+      if (menu && menu.showModal && menuOpenBtn) {
+        menuOpenBtn.addEventListener('click', function () { menu.showModal(); });
+        document.getElementById('menu-close').addEventListener('click', function () { menu.close(); });
+        menu.querySelectorAll('nav a, .console-quick a').forEach(function (a) {
+          a.addEventListener('click', function () { menu.close(); });
+        });
+        document.getElementById('menu-copy').addEventListener('click', function () {
+          menu.close();
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(EMAIL).then(function () { showToast('address copied to clipboard'); });
+          } else { showToast(EMAIL); }
+        });
+      } else if (menuOpenBtn) { menuOpenBtn.style.display = 'none'; }
 
       /* ---- Pointer-tracked interior glow ---- */
       if (finePointer.matches) {
@@ -1887,16 +2224,19 @@
         var input = document.getElementById('palette-input');
         var list = document.getElementById('palette-list');
         var items = [
+          { label: 'Show endpoint lab', hint: 'case file', caseKey: 'server' },
+          { label: 'Show networking proof', hint: 'case file', caseKey: 'network' },
+          { label: 'Show AI troubleshooting', hint: 'case file', caseKey: 'ai' },
+          { label: 'Open resume', hint: 'page', url: 'resume.html' },
+          { label: 'Copy email address', hint: 'action', action: 'copy' },
+          { label: 'Jump to roadmap', hint: 'section', href: '#roadmap' },
           { label: 'Overview', hint: 'section', href: '#overview' },
           { label: 'Lab Map', hint: 'section', href: '#lab-map' },
           { label: 'Proof Dashboard', hint: 'section', href: '#proof' },
           { label: 'Field Notes', hint: 'section', href: '#notes' },
           { label: 'Tools', hint: 'section', href: '#tools' },
-          { label: 'Roadmap', hint: 'section', href: '#roadmap' },
           { label: 'Open a ticket', hint: 'contact', href: '#contact' },
-          { label: 'View resume', hint: 'page', url: 'resume.html' },
-          { label: 'LinkedIn profile', hint: 'link', url: 'https://www.linkedin.com/in/gary-virk/' },
-          { label: 'Copy email address', hint: 'action', action: 'copy' }
+          { label: 'LinkedIn profile', hint: 'link', url: 'https://www.linkedin.com/in/gary-virk/' }
         ];
         var filtered = items.slice();
         var active = 0;
@@ -1916,7 +2256,15 @@
         }
         function activate(item) {
           dlg.close();
-          if (item.url) {
+          if (item.caseKey) {
+            var lab = LABS[item.caseKey];
+            var card = lab && document.querySelector(lab.href);
+            if (card) {
+              card.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'center' });
+              card.classList.add('flash');
+              setTimeout(function () { card.classList.remove('flash'); openCase(item.caseKey, card.querySelector('.card-open')); }, reduceMotion.matches ? 100 : 700);
+            }
+          } else if (item.url) {
             window.open(item.url, '_blank', 'noopener');
           } else if (item.action === 'copy') {
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1998,6 +2346,16 @@
           return true;
         });
         gsap.set(batchTargets, { autoAlpha: 0, y: 24 });
+        function revealInView() {
+          batchTargets.forEach(function (el) {
+            var r = el.getBoundingClientRect();
+            if (r.top < window.innerHeight && r.bottom > 0 && getComputedStyle(el).visibility === 'hidden') {
+              gsap.to(el, { autoAlpha: 1, y: 0, duration: 0.4, clearProps: 'opacity,visibility' });
+            }
+          });
+        }
+        window.addEventListener('hashchange', function () { setTimeout(revealInView, 60); });
+
         window.ScrollTrigger.batch(batchTargets, {
           start: 'top 90%', once: true,
           onEnter: function (els) { gsap.to(els, { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.08, ease: 'power3.out', clearProps: 'opacity,visibility' }); },
