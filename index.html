@@ -772,6 +772,67 @@
     .chip-amber { color: var(--text); border-color: rgba(216, 168, 74, 0.45); }
     .chip-amber::before { background: var(--amber); }
 
+    /* Operator ID badge */
+    .op-id {
+      position: relative;
+      display: flex; align-items: center; gap: 18px;
+      padding: 18px;
+      border: 1px solid var(--line-strong); border-radius: var(--radius);
+      background: linear-gradient(120deg, var(--panel-2), var(--panel) 70%);
+    }
+    .op-id::before, .op-id::after {
+      content: ""; position: absolute; width: 16px; height: 16px;
+      pointer-events: none; border: 1px solid rgba(61, 126, 255, 0.55);
+    }
+    .op-id::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+    .op-id::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+    .op-id-photo {
+      flex: 0 0 auto;
+      width: 96px; aspect-ratio: 4 / 5;
+      border-radius: 8px; overflow: hidden;
+      position: relative;
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 0 0 2px rgba(61, 126, 255, 0.18), 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .op-id-photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      filter: saturate(0.94) contrast(1.03);
+      transition: transform 500ms ease;
+    }
+    .op-id-photo::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background:
+        repeating-linear-gradient(0deg, rgba(11, 17, 21, 0.10) 0 1px, transparent 1px 3px),
+        linear-gradient(180deg, transparent 62%, rgba(11, 17, 21, 0.28));
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .op-id:hover .op-id-photo img { transform: scale(1.05); }
+    }
+    .op-id-meta { display: grid; gap: 3px; min-width: 0; }
+    .op-id-tag {
+      color: var(--blue);
+      font-family: var(--mono); font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .op-id-meta strong { font-size: 1.12rem; line-height: 1.2; }
+    .op-id-meta > span:not(.op-id-tag):not(.op-id-status) {
+      color: var(--muted); font-family: var(--mono); font-size: 0.76rem;
+    }
+    .op-id-status {
+      display: inline-flex; align-items: center; gap: 7px;
+      color: var(--green);
+      font-family: var(--mono); font-size: 0.74rem; font-weight: 700;
+    }
+    .op-id-status::before {
+      content: ""; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(54, 211, 153, 0.8);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .op-id-status::before { animation: pulse-dot 2.4s ease-in-out infinite; }
+      @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+    }
+
     /* Footer metadata colophon */
     .foot-meta {
       display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1338,6 +1399,17 @@
 
         <div class="ticket-layout">
           <div class="ticket-info">
+            <div class="op-id" aria-label="Operator identification">
+              <span class="op-id-photo">
+                <img src="assets/avatar.webp" alt="Portrait of Gary Virk" width="600" height="750">
+              </span>
+              <span class="op-id-meta">
+                <span class="op-id-tag">operator on duty</span>
+                <strong>Gary Virk</strong>
+                <span>IT Specialist · L3 support</span>
+                <span class="op-id-status">open to work</span>
+              </span>
+            </div>
             <p>
               Recruiting, collaboration on a lab, a question about a writeup, or a correction —
               all valid ticket categories. No phone, no tracking, no forms that go nowhere.
