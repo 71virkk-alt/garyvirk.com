@@ -661,6 +661,7 @@
       .billboard-art { min-height: 200px; border-left: 0; border-top: 1px solid var(--line); }
       .ticket-layout { grid-template-columns: 1fr; }
       .map-layout { grid-template-columns: 1fr; }
+      .hero-stage { grid-template-columns: 1fr; gap: 22px; }
     }
 
     @media (max-width: 640px) {
@@ -1044,6 +1045,71 @@
     /* ============ Section depth tints ============ */
     #proof, #tools { background: linear-gradient(180deg, rgba(17, 24, 30, 0.5), rgba(17, 24, 30, 0) 30%); }
 
+    /* ============ Hero diagnostic stage ============ */
+    .hero-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+      gap: 28px;
+      align-items: start;
+      margin-top: 6px;
+    }
+    .console-deck {
+      position: relative;
+      display: flex; flex-direction: column; gap: 14px;
+      padding: 18px;
+      border: 1px solid var(--line-strong); border-radius: var(--radius);
+      background: rgba(13, 19, 24, 0.72);
+      backdrop-filter: blur(8px);
+    }
+    .console-deck::before, .console-deck::after {
+      content: ""; position: absolute; width: 16px; height: 16px;
+      pointer-events: none; border: 1px solid rgba(61, 126, 255, 0.6);
+    }
+    .console-deck::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+    .console-deck::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+    .deck-head {
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 10px;
+      min-width: 0;
+      color: var(--green);
+      font-family: var(--mono); font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+    }
+    .deck-head::before { content: "●"; margin-right: -2px; }
+    .deck-state { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .deck-state > div { border: 1px solid var(--line); border-radius: 6px; background: rgba(11,17,21,0.6); padding: 8px 10px; min-width: 0; }
+    .deck-state dt {
+      color: var(--muted);
+      font-family: var(--mono); font-size: 0.6rem;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px;
+    }
+    .deck-state dd { margin: 0; font-family: var(--mono); font-size: 0.78rem; color: var(--text); overflow-wrap: anywhere; }
+    .deck-state dd.ok { color: var(--green); }
+    .deck-state dd.warn { color: var(--amber); }
+    .deck-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .deck-btn {
+      padding: 9px 13px;
+      border: 1px solid var(--line-strong); border-radius: 6px;
+      background: transparent; color: var(--text);
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
+      cursor: pointer;
+      transition: border-color var(--speed) ease, background var(--speed) ease;
+    }
+    .deck-btn:hover, .deck-btn:focus-visible { border-color: var(--blue); background: rgba(61,126,255,0.08); }
+    .deck-btn.running { border-color: var(--green); color: var(--green); }
+    .deck-out {
+      margin: 0; min-height: 4.4em; max-height: 4.4em; overflow: hidden;
+      padding: 10px 12px;
+      border: 1px solid var(--line); border-radius: 6px;
+      background: rgba(11,17,21,0.7);
+      font-family: var(--mono); font-size: 0.72rem; line-height: 1.7;
+      color: var(--green); white-space: pre-wrap;
+    }
+
+    /* Boot visual */
+    .boot-inner { display: grid; justify-items: center; gap: 16px; }
+    .boot-bar { width: min(280px, 60vw); height: 2px; background: var(--line); overflow: hidden; }
+    .boot-bar i { display: block; height: 100%; width: 0; background: var(--green); transition: width 200ms linear; }
+
     /* ============ GSAP enhancement mode ============ */
     /* When GSAP drives entrances and tilt, neutralize the CSS fallbacks so the
        two systems never fight over the same transform. */
@@ -1125,7 +1191,7 @@
 
       <p class="op-foot">
         garyvirk.com<br>
-        operator console v3.3<br>
+        operator console v3.4<br>
         statuses are honest — nothing<br>here is claimed before it ships
       </p>
     </aside>
@@ -1136,30 +1202,42 @@
         <div class="hero-bg" aria-hidden="true"></div>
         <div class="hero-aurora" aria-hidden="true"></div>
         <canvas id="net" aria-hidden="true"></canvas>
-        <p class="hero-hint" aria-hidden="true">live telemetry · simulated lab traffic — move cursor, click to ping</p>
         <p class="kicker"><span class="idx">01</span> Boot — operator console online</p>
-        <h1 id="hero-title">Gary Virk</h1>
-        <p class="lead" style="font-size:1.18rem; color:var(--text); max-width:680px;">
-          IT Support &amp; Network Infrastructure
-        </p>
-        <p class="lead">
-          Practical labs, tools, and field notes for endpoint support, network troubleshooting,
-          cybersecurity fundamentals, automation, and AI-assisted troubleshooting — documented
-          with real evidence, not inflated claims.
-        </p>
-        <div class="hero-chips" aria-label="Core focus areas">
-          <span class="chip chip-amber">Open to work</span>
-          <span class="chip">Endpoint support</span>
-          <span class="chip">Network troubleshooting</span>
-          <span class="chip">Security fundamentals</span>
-          <span class="chip">Automation notes</span>
-          <span class="chip">AI-assisted workflows</span>
-        </div>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#lab-map">View Lab Map</a>
-          <a class="btn btn-ghost" href="#proof">Explore Proof Dashboard</a>
-          <a class="btn btn-ghost" href="#contact">Open a Ticket</a>
-          <a class="btn btn-ghost" id="resume-link" href="resume.html" target="_blank" rel="noopener">View Resume ↗</a>
+        <div class="hero-stage">
+          <div class="hero-copy">
+            <h1 id="hero-title">Gary Virk</h1>
+            <p class="lead" style="font-size:1.18rem; color:var(--text); max-width:680px;">
+              IT Support &amp; Network Infrastructure
+            </p>
+            <p class="lead">
+              Practical labs, tools, and field notes for endpoint support, network troubleshooting,
+              cybersecurity fundamentals, automation, and AI-assisted troubleshooting — documented
+              with real evidence, not inflated claims.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#lab-map">View Lab Map</a>
+              <a class="btn btn-ghost" href="#contact">Open a Ticket</a>
+              <a class="btn btn-ghost" id="resume-link" href="resume.html" target="_blank" rel="noopener">View Resume ↗</a>
+            </div>
+          </div>
+
+          <aside class="console-deck" aria-label="Live diagnostic console (simulated lab telemetry)">
+            <div class="deck-head"><span>diagnostic console</span><span>simulated</span></div>
+            <dl class="deck-state">
+              <div><dt>active node</dt><dd id="ds-node">core.gv</dd></div>
+              <div><dt>signal</dt><dd id="ds-signal" class="ok">stable</dd></div>
+              <div><dt>incident</dt><dd id="ds-incident">none</dd></div>
+              <div><dt>operator</dt><dd class="ok">open to work</dd></div>
+            </dl>
+            <div class="deck-actions" role="group" aria-label="Console actions">
+              <button class="deck-btn" type="button" data-act="diagnose">diagnose</button>
+              <button class="deck-btn" type="button" data-act="trace">trace route</button>
+              <button class="deck-btn" type="button" data-act="inspect">inspect endpoint</button>
+              <button class="deck-btn" type="button" data-act="scan">security scan</button>
+              <button class="deck-btn" type="button" data-act="case">open case file</button>
+            </div>
+            <pre class="deck-out" id="deck-out" aria-live="polite">&gt; console ready — simulated lab telemetry</pre>
+          </aside>
         </div>
 
         <p class="cert-label">Certifications</p>
@@ -1685,7 +1763,7 @@
 
       <footer>
         <div class="foot-meta">
-          <div><span class="k">console</span><span class="v">v3.3</span></div>
+          <div><span class="k">console</span><span class="v">v3.4</span></div>
           <div><span class="k">updated</span><span class="v">June 2026</span></div>
           <div><span class="k">your local time</span><span class="v" id="meta-time">--:--:--</span></div>
           <div><span class="k">viewport</span><span class="v" id="meta-dim">—</span></div>
@@ -1779,11 +1857,24 @@
         var boot = document.createElement('div');
         boot.className = 'boot';
         boot.setAttribute('aria-hidden', 'true');
+        var inner = document.createElement('div');
+        inner.className = 'boot-inner';
+        inner.innerHTML = '<svg width="56" height="56" viewBox="0 0 64 64" aria-hidden="true">' +
+          '<rect width="64" height="64" rx="12" fill="#0b1115" stroke="rgba(245,242,234,0.18)"/>' +
+          '<path d="M44 18a17 17 0 1 0 5 12h-14" fill="none" stroke="#3d7eff" stroke-width="5" stroke-linecap="round"/>' +
+          '<path d="M26 26l8 16 8-16" fill="none" stroke="#36d399" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '<circle cx="34" cy="42" r="3.5" fill="#d8a84a"/></svg>';
         var pre = document.createElement('pre');
-        boot.appendChild(pre);
+        inner.appendChild(pre);
+        var bar = document.createElement('div');
+        bar.className = 'boot-bar';
+        var fill = document.createElement('i');
+        bar.appendChild(fill);
+        inner.appendChild(bar);
+        boot.appendChild(inner);
         document.body.appendChild(boot);
         var lines = [
-          '> gv.console v3.3',
+          '> gv.console v3.4',
           '> mounting lab map ............ ok',
           '> loading case files [6] ...... ok',
           '> operator status .. OPEN TO WORK'
@@ -1798,6 +1889,7 @@
         iv = setInterval(function () {
           pre.textContent += (li ? '\n' : '') + lines[li];
           li++;
+          fill.style.width = Math.round(li / lines.length * 100) + '%';
           if (li >= lines.length) { clearInterval(iv); setTimeout(done, 380); }
         }, 210);
         boot.addEventListener('click', done);
@@ -1919,6 +2011,11 @@
         try {
           renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
         } catch (err) { init2DNet(); return; }
+        // Fixed full-page stage: the scene persists behind all sections
+        canvas.style.position = 'fixed';
+        canvas.style.inset = '0';
+        canvas.style.zIndex = '0';
+        canvas.style.pointerEvents = 'none';
 
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
@@ -2034,9 +2131,29 @@
             ppos[k * 3 + 2] = A.z + (B.z - A.z) * p.t;
           }
           pgeoPk.attributes.position.needsUpdate = true;
-          // scan ring tumble
-          scanRing.rotation.x += 0.0028;
-          scanRing.rotation.y += 0.0016;
+          // scan ring tumble (boosted during diagnostics)
+          var rot = now < boostUntil ? 0.016 : 0.0028;
+          scanRing.rotation.x += rot;
+          scanRing.rotation.y += rot * 0.6;
+          if (now < amberUntil) {
+            scanRing.material.color.setHex(0xd8a84a);
+            scanRing.material.opacity = 0.38;
+          } else {
+            scanRing.material.color.setHex(currentAccent);
+            scanRing.material.opacity = now < boostUntil ? 0.3 : 0.14;
+          }
+          // trace lines fade out
+          for (var tr = traces.length - 1; tr >= 0; tr--) {
+            var t2 = traces[tr];
+            var ta = (now - t2.born) / 2200;
+            if (ta >= 1) {
+              group.remove(t2.line);
+              t2.line.geometry.dispose(); t2.line.material.dispose();
+              traces.splice(tr, 1);
+            } else {
+              t2.line.material.opacity = 0.95 * (1 - ta);
+            }
+          }
           // incident lifecycle: appear amber -> heal green
           if (incident.phase === 0 && now >= incident.nextAt) {
             incident.idx = Math.floor(Math.random() * COUNT);
@@ -2047,16 +2164,31 @@
             incident.healAt = now + 2600;
           } else if (incident.phase === 1) {
             incMat.opacity = 0.55 + 0.45 * Math.sin(now * 0.012);
+            if (incident.reported !== incident.idx && window.__deckIncident) {
+              incident.reported = incident.idx;
+              window.__deckIncident(incident.idx, 1);
+            }
             if (now >= incident.healAt) {
               incMat.opacity = 0;
               spawnRing(pts[incident.idx], 0x36d399);
+              if (window.__deckIncident) window.__deckIncident(incident.idx, 0);
               incident.phase = 0;
               incident.nextAt = now + 5000 + Math.random() * 4000;
             }
           }
-          // rings expand + fade
+          // rings expand + fade (deferred rings materialize at their start time)
           for (var r2 = rings.length - 1; r2 >= 0; r2--) {
             var rg = rings[r2];
+            if (rg.deferred) {
+              if (now < rg.born) continue;
+              var mesh2 = new THREE.Mesh(
+                new THREE.RingGeometry(0.06, 0.085, 32),
+                new THREE.MeshBasicMaterial({ color: rg.color, transparent: true, opacity: 0.9, side: THREE.DoubleSide }));
+              mesh2.position.copy(rg.at);
+              group.add(mesh2);
+              rg.mesh = mesh2;
+              rg.deferred = false;
+            }
             var age = (now - rg.born) / 900;
             if (age >= 1) {
               group.remove(rg.mesh);
@@ -2069,6 +2201,60 @@
             }
           }
         }
+
+        // Scene state + public API for the diagnostic deck
+        var boostUntil = 0, amberUntil = 0, currentAccent = 0x3d7eff;
+        var traces = [];
+        function walkPath(hops) {
+          var start = Math.floor(Math.random() * COUNT), path = [start], cur = start;
+          for (var h = 0; h < hops; h++) {
+            var opts = (adj[cur] || []).filter(function (n2) { return path.indexOf(n2) === -1; });
+            if (!opts.length) break;
+            cur = opts[Math.floor(Math.random() * opts.length)];
+            path.push(cur);
+          }
+          return path;
+        }
+        window.__scene = {
+          setAccent: function (hex) {
+            currentAccent = hex;
+            packetPts.material.color.setHex(hex);
+            if (performance.now() >= amberUntil) scanRing.material.color.setHex(hex);
+          },
+          diagnose: function () {
+            boostUntil = performance.now() + 2600;
+            for (var d = 0; d < 4; d++) {
+              rings.push({ deferred: true, at: pts[Math.floor(Math.random() * COUNT)], color: 0x36d399,
+                           born: performance.now() + 200 + d * 320 });
+            }
+          },
+          trace: function () {
+            var path = walkPath(6);
+            var tpts = path.map(function (idx) { return pts[idx]; });
+            var line = new THREE.Line(
+              new THREE.BufferGeometry().setFromPoints(tpts),
+              new THREE.LineBasicMaterial({ color: 0x9fc1ff, transparent: true, opacity: 0.95 }));
+            group.add(line);
+            traces.push({ line: line, born: performance.now() });
+            path.forEach(function (idx, k) {
+              rings.push({ deferred: true, at: pts[idx], color: 0x3d7eff, born: performance.now() + k * 200 });
+            });
+            return path.length;
+          },
+          inspect: function () {
+            var idx = Math.floor(Math.random() * COUNT);
+            rings.push({ deferred: true, at: pts[idx], color: 0x36d399, born: performance.now() });
+            if (window.gsap) {
+              window.gsap.to(group.scale, { x: 1.18, y: 1.18, z: 1.18, duration: 0.55, yoyo: true, repeat: 1, ease: 'power2.inOut' });
+            }
+            return 'node-' + (100 + idx);
+          },
+          scan: function () {
+            amberUntil = performance.now() + 2600;
+            boostUntil = performance.now() + 2600;
+            incident.nextAt = performance.now() + 400;
+          }
+        };
 
         // Click to ping nearest node
         var projV = new THREE.Vector3();
@@ -2088,18 +2274,15 @@
         });
 
         var mx = 0, my = 0;
-        hero.addEventListener('pointermove', function (e) {
-          var r = hero.getBoundingClientRect();
-          mx = (e.clientX - r.left) / r.width - 0.5;
-          my = (e.clientY - r.top) / r.height - 0.5;
+        window.addEventListener('pointermove', function (e) {
+          mx = e.clientX / window.innerWidth - 0.5;
+          my = e.clientY / window.innerHeight - 0.5;
         }, { passive: true });
-        hero.addEventListener('pointerleave', function () { mx = 0; my = 0; });
 
         function resize3d() {
-          var r = hero.getBoundingClientRect();
           renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-          renderer.setSize(r.width, r.height, false);
-          camera.aspect = r.width / Math.max(r.height, 1);
+          renderer.setSize(window.innerWidth, window.innerHeight, false);
+          camera.aspect = window.innerWidth / Math.max(window.innerHeight, 1);
           camera.updateProjectionMatrix();
         }
         var raf3 = null;
@@ -2118,17 +2301,13 @@
 
         window.addEventListener('resize', resize3d);
         document.addEventListener('visibilitychange', function () { document.hidden ? stop3() : start3(); });
-        if ('IntersectionObserver' in window) {
-          new IntersectionObserver(function (entries) {
-            entries[0].isIntersecting ? start3() : stop3();
-          }).observe(hero);
-        }
         reduceMotion.addEventListener && reduceMotion.addEventListener('change', function () {
           reduceMotion.matches ? stop3() : start3();
         });
         resize3d();
         start3();
         root.classList.add('three-on');
+        document.dispatchEvent(new Event('gv:scene-ready'));
       }
 
       function chooseVisual() {
@@ -2440,6 +2619,68 @@
         });
       }
 
+      /* ---- Diagnostic deck (visible console controls) ---- */
+      var deckOut = document.getElementById('deck-out');
+      var outLines = ['> console ready — simulated lab telemetry'];
+      function dlog(s) {
+        outLines.push('> ' + s);
+        if (outLines.length > 3) outLines.shift();
+        if (deckOut) deckOut.textContent = outLines.join('\n');
+      }
+      function dset(id, txt, state) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = txt;
+        el.className = state === true ? 'ok' : state === false ? 'warn' : '';
+      }
+      window.__deckIncident = function (idx, phase) {
+        if (phase === 1) {
+          dset('ds-incident', 'node-' + (100 + idx) + ' · investigating', false);
+          dset('ds-signal', 'degraded', false);
+          dlog('incident detected at node-' + (100 + idx));
+        } else {
+          dset('ds-incident', 'resolved ✓', true);
+          dset('ds-signal', 'stable', true);
+          dlog('node-' + (100 + idx) + ' resolved · evidence logged');
+        }
+      };
+      var deckBusy = false;
+      document.querySelectorAll('.deck-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var act = btn.getAttribute('data-act');
+          if (act === 'case') {
+            dlog('opening case file #01…');
+            openCase('server', btn);
+            return;
+          }
+          if (deckBusy) return;
+          deckBusy = true;
+          btn.classList.add('running');
+          setTimeout(function () { btn.classList.remove('running'); deckBusy = false; }, 1500);
+          var api = window.__scene;
+          if (act === 'diagnose') {
+            dlog('running diagnostic sweep…');
+            api && api.diagnose && api.diagnose();
+            setTimeout(function () {
+              dlog('sweep complete · all segments responding');
+              dset('ds-signal', 'stable', true);
+            }, 1300);
+          } else if (act === 'trace') {
+            var hops = (api && api.trace) ? api.trace() : 5;
+            dlog('tracing route…');
+            setTimeout(function () { dlog('trace complete · ' + hops + ' hops · simulated'); }, 1200);
+          } else if (act === 'inspect') {
+            var label = (api && api.inspect) ? api.inspect() : 'node-' + (100 + Math.floor(Math.random() * 140));
+            dset('ds-node', label);
+            dlog('inspecting ' + label + ' … responsive ✓');
+          } else if (act === 'scan') {
+            dlog('security scan started…');
+            api && api.scan && api.scan();
+            setTimeout(function () { dlog('scan complete · 0 critical · baseline checklist planned'); }, 1500);
+          }
+        });
+      });
+
       /* ---- Operator macro commands ---- */
       function diagnoseNetwork() {
         var sec = document.getElementById('lab-map');
@@ -2745,6 +2986,24 @@
           });
           document.addEventListener('mouseleave', function () { root.classList.remove('ring-on'); });
         }
+
+        /* -- Persistent scene: dim after hero, accent per section -- */
+        function wireScene() {
+          gsap.to('#net', {
+            opacity: 0.18, ease: 'none',
+            scrollTrigger: { trigger: '#lab-map', start: 'top 90%', end: 'top 25%', scrub: true }
+          });
+          [['#lab-map', 0x3d7eff], ['#proof', 0x36d399], ['#notes', 0xd8a84a],
+           ['#tools', 0x3d7eff], ['#roadmap', 0xd8a84a], ['#contact', 0x36d399]].forEach(function (pair) {
+            window.ScrollTrigger.create({
+              trigger: pair[0], start: 'top 60%', end: 'bottom 40%',
+              onEnter: function () { window.__scene && window.__scene.setAccent(pair[1]); },
+              onEnterBack: function () { window.__scene && window.__scene.setAccent(pair[1]); }
+            });
+          });
+        }
+        if (root.classList.contains('three-on')) wireScene();
+        else document.addEventListener('gv:scene-ready', wireScene, { once: true });
 
         /* Recalculate trigger positions once images (card art) settle */
         window.addEventListener('load', function () { window.ScrollTrigger.refresh(); });
