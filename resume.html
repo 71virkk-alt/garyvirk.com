@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Resume of Gary Virk — IT Specialist, IT Support & Network Infrastructure. View online or download as PDF.">
+  <meta name="robots" content="index, follow">
+  <title>Resume — Gary Virk | IT Specialist</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b1115'/%3E%3Cpath d='M44 18a17 17 0 1 0 5 12h-14' fill='none' stroke='%233d7eff' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M26 26l8 16 8-16' fill='none' stroke='%2336d399' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='34' cy='42' r='3.5' fill='%23d8a84a'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #0b1115; --panel: #11181e; --line: rgba(245,242,234,0.10); --line-strong: rgba(245,242,234,0.22);
+      --text: #f5f2ea; --muted: #9aa6ad; --blue: #3d7eff; --green: #36d399; --amber: #d8a84a;
+      --paper: #ffffff; --ink: #15202b; --ink-muted: #5a6770; --ink-blue: #2d62c9; --ink-line: #d8dde2;
+      --radius: 8px;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.55; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+
+    .bar {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 12px 18px;
+      background: rgba(11,17,21,0.94); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .bar .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 0.95rem; }
+    .bar .grow { flex: 1; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      min-height: 42px; padding: 9px 16px;
+      border-radius: var(--radius); border: 0; cursor: pointer;
+      text-decoration: none; font-weight: 700; font-size: 0.88rem; font-family: var(--sans);
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover, .btn-primary:focus-visible { background: #5a90ff; }
+    .btn-ghost { border: 1px solid var(--line-strong); color: var(--text); background: transparent; }
+    .btn-ghost:hover, .btn-ghost:focus-visible { border-color: var(--blue); }
+
+    .wrap { width: min(820px, 100%); margin: 0 auto; padding: 28px 16px 60px; }
+
+    .sheet {
+      background: var(--paper); color: var(--ink);
+      border-radius: 10px;
+      padding: clamp(24px, 5vw, 52px);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.5);
+    }
+    .sheet h1 { margin: 0; font-size: clamp(1.9rem, 5vw, 2.5rem); line-height: 1.05; letter-spacing: -0.01em; }
+    .role { margin: 4px 0 0; color: var(--ink-blue); font-weight: 700; font-size: 1.02rem; }
+    .contact { margin: 8px 0 0; color: var(--ink-muted); font-size: 0.88rem; }
+    .contact a { color: var(--ink-blue); text-decoration: none; }
+    .contact a:hover { text-decoration: underline; }
+    .sheet hr { border: 0; border-top: 1px solid var(--ink-line); margin: 18px 0; }
+    .sheet h2 {
+      margin: 22px 0 8px; color: var(--ink-blue);
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .sheet p { margin: 0 0 8px; font-size: 0.94rem; }
+    .sheet ul { margin: 0 0 10px; padding-left: 20px; }
+    .sheet li { margin: 0 0 5px; font-size: 0.93rem; }
+    .job { margin: 12px 0 2px; font-weight: 700; font-size: 0.98rem; }
+    .job-meta { margin: 0 0 6px; color: var(--ink-muted); font-size: 0.84rem; }
+    .foot-note { margin-top: 26px; color: var(--muted); font-family: var(--mono); font-size: 0.72rem; text-align: center; }
+
+    @media print {
+      .bar, .foot-note { display: none; }
+      body { background: #fff; }
+      .wrap { padding: 0; width: 100%; }
+      .sheet { box-shadow: none; border-radius: 0; padding: 0.4in; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="bar" aria-label="Resume actions">
+    <a class="brand" href="index.html" aria-label="Back to garyvirk.com">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="12" fill="#0b1115" stroke="rgba(245,242,234,0.18)"/>
+        <path d="M44 18a17 17 0 1 0 5 12h-14" fill="none" stroke="#3d7eff" stroke-width="5" stroke-linecap="round"/>
+        <path d="M26 26l8 16 8-16" fill="none" stroke="#36d399" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="34" cy="42" r="3.5" fill="#d8a84a"/>
+      </svg>
+      <span>Gary Virk</span>
+    </a>
+    <span class="grow"></span>
+    <a class="btn btn-ghost" href="index.html">← Back to site</a>
+    <a class="btn btn-primary" href="assets/Gary-Virk-Resume.pdf" download="Gary-Virk-Resume.pdf">⬇ Download PDF</a>
+  </nav>
+
+  <main class="wrap">
+    <article class="sheet" aria-label="Resume of Gary Virk">
+      <header>
+        <h1>Gary Virk</h1>
+        <p class="role">IT Specialist — IT Support &amp; Network Infrastructure</p>
+        <p class="contact">
+          Mississauga, Ontario, Canada &nbsp;·&nbsp;
+          <a href="mailto:i@garyvirk.com">i@garyvirk.com</a> &nbsp;·&nbsp;
+          <a href="https://garyvirk.com">garyvirk.com</a> &nbsp;·&nbsp;
+          <a href="https://www.linkedin.com/in/gary-virk/" rel="noopener">linkedin.com/in/gary-virk</a>
+        </p>
+      </header>
+      <hr>
+
+      <section aria-labelledby="r-summary">
+        <h2 id="r-summary">Summary</h2>
+        <p>
+          IT Specialist with nearly three years of hands-on experience across L2/L3 support, Dell infrastructure
+          deployment, and network operations. Strong foundation in Windows Server, Active Directory, routing and
+          switching, and evidence-first troubleshooting. Actively integrating AI-assisted tools into diagnostics,
+          documentation, and support workflows. Certified: CCNA, CompTIA A+, Network+, CIOS.
+        </p>
+      </section>
+
+      <section aria-labelledby="r-skills">
+        <h2 id="r-skills">Core Skills</h2>
+        <ul>
+          <li>Dell infrastructure deployment: client and server hardware imaging, configuration, and enterprise rollout</li>
+          <li>L2/L3 IT support: escalation handling, root-cause analysis, incident documentation, SLA management</li>
+          <li>Windows Server and Active Directory: user authentication, Group Policy, DNS, DHCP</li>
+          <li>Networking: TCP/IP, VLANs, routing and switching, subnetting, firewalls and access control, Wi-Fi</li>
+          <li>Network monitoring and packet analysis: Wireshark, SNMP, network diagnostics</li>
+          <li>Virtualization and cloud fundamentals: VMware, Hyper-V, cloud networking basics</li>
+          <li>AI-assisted IT operations: deploying AI productivity tools, AI-assisted diagnostics and documentation workflows</li>
+          <li>Scripting and automation: PowerShell and Linux shell scripting fundamentals</li>
+          <li>Service desk tooling: ticketing systems, remote support, knowledge-base writing</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="r-exp">
+        <h2 id="r-exp">Experience</h2>
+
+        <p class="job">IT Specialist — Cummins Inc.</p>
+        <p class="job-meta">Mississauga, Ontario · May 2023 – December 2025 · 2 years 8 months</p>
+        <ul>
+          <li>Deployed and configured Dell infrastructure across enterprise sites: imaging, hardware configuration, rollout, and post-deployment support.</li>
+          <li>Provided L3-level support for endpoint, network, and identity incidents, resolving escalations beyond L1/L2 scope.</li>
+          <li>Supported network operations: VLAN and switch changes, DHCP/DNS troubleshooting, and connectivity triage backed by packet-level evidence.</li>
+          <li>Introduced AI-assisted workflows for diagnostics and incident documentation, reducing time-to-resolution on repeat issues.</li>
+          <li>Wrote repeatable runbooks and incident notes that enabled clean handoffs between support tiers.</li>
+        </ul>
+
+        <p class="job">User Support Technician — Bluum</p>
+        <p class="job-meta">Markham, Ontario · April 2023 – May 2023 · 2 months, on-site</p>
+        <ul>
+          <li>Delivered on-site L2 hardware support: diagnostics, component replacement, peripheral setup, and user assistance.</li>
+          <li>Maintained accurate ticket records and escalated unresolved issues with complete troubleshooting evidence.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="r-edu">
+        <h2 id="r-edu">Education</h2>
+        <p class="job">St. Clair College — Windsor, Ontario</p>
+        <p class="job-meta">IT Systems &amp; Network Administration</p>
+        <p>
+          Coursework: network infrastructure and configuration (routing, switching, VLANs, subnetting); Cisco networking
+          and CCNA fundamentals; network security and firewall management (access control, encryption, IDS/IPS); Linux
+          for network administration; Windows Server and Active Directory; wireless networking; cloud computing and
+          virtualization (VMware, Hyper-V); network monitoring (Wireshark, SNMP); cybersecurity and ethical hacking
+          basics; help desk and IT support for networks.
+        </p>
+        <p class="job">Cisco Networking Academy — Windsor, Ontario</p>
+        <p class="job-meta">Systems, Networking, and LAN/WAN Management</p>
+      </section>
+
+      <section aria-labelledby="r-certs">
+        <h2 id="r-certs">Certifications</h2>
+        <p>Cisco CCNA &nbsp;·&nbsp; CompTIA A+ &nbsp;·&nbsp; CompTIA Network+ &nbsp;·&nbsp; CompTIA IT Operations Specialist (CIOS)</p>
+      </section>
+
+      <section aria-labelledby="r-labs">
+        <h2 id="r-labs">Projects &amp; Labs — garyvirk.com</h2>
+        <ul>
+          <li>Windows Server Support Lab (building): AD DS, DNS, DHCP, and GPO support scenarios documented like real tickets.</li>
+          <li>Packet Tracer Small Office Network (planned): VLANs, inter-VLAN routing, ACLs, and intentional-fault triage.</li>
+          <li>PowerShell Endpoint Inventory (planned): endpoint details collected into support-ready CSV reports.</li>
+        </ul>
+      </section>
+    </article>
+
+    <p class="foot-note">view online · print · or download the PDF above — same content, ATS-friendly format</p>
+  </main>
+</body>
+</html>

@@ -793,7 +793,7 @@
           <a class="btn btn-primary" href="#lab-map">View Lab Map</a>
           <a class="btn btn-ghost" href="#proof">Explore Proof Dashboard</a>
           <a class="btn btn-ghost" href="#contact">Open a Ticket</a>
-          <a class="btn btn-ghost" id="resume-link" href="assets/Gary-Virk-Resume.pdf" hidden>Download Resume</a>
+          <a class="btn btn-ghost" id="resume-link" href="resume.html" target="_blank" rel="noopener">View Resume ↗</a>
         </div>
 
         <p class="cert-label">Certifications</p>
@@ -1236,8 +1236,11 @@
               <span><span>spam filters</span><span class="ok">category-tagged subject</span></span>
             </div>
             <div class="copy-row">
-              <code id="contact-email">contact@garyvirk.com</code>
+              <code id="contact-email">i@garyvirk.com</code>
               <button class="copy-btn" type="button" id="copy-email">copy</button>
+            </div>
+            <div class="copy-row">
+              <a href="https://www.linkedin.com/in/gary-virk/" rel="noopener" target="_blank" style="font-family:var(--mono); font-size:0.84rem;">linkedin.com/in/gary-virk ↗</a>
             </div>
           </div>
 
@@ -1285,7 +1288,7 @@
 
       <footer>
         <span>© 2026 Gary Virk — garyvirk.com</span>
-        <span><a href="mailto:contact@garyvirk.com">contact@garyvirk.com</a></span>
+        <span><a href="mailto:i@garyvirk.com">i@garyvirk.com</a> · <a href="https://www.linkedin.com/in/gary-virk/" rel="noopener">LinkedIn</a> · <a href="resume.html">Resume</a></span>
         <span>built as a working lab notebook</span>
       </footer>
     </main>
@@ -1307,7 +1310,7 @@
       var root = document.documentElement;
       root.classList.add('js');
 
-      var EMAIL = 'contact@garyvirk.com';
+      var EMAIL = 'i@garyvirk.com';
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       var finePointer = window.matchMedia('(pointer: fine)');
 
@@ -1635,16 +1638,6 @@
         });
       });
 
-      /* ---- Resume link (shown only when the PDF actually exists) ---- */
-      if (window.fetch) {
-        fetch('assets/Gary-Virk-Resume.pdf', { method: 'HEAD' }).then(function (r) {
-          if (r.ok) {
-            var rl = document.getElementById('resume-link');
-            if (rl) rl.removeAttribute('hidden');
-          }
-        }).catch(function () {});
-      }
-
       /* ---- Copy email ---- */
       var copyBtn = document.getElementById('copy-email');
       if (copyBtn) {
@@ -1691,6 +1684,8 @@
           { label: 'Tools', hint: 'section', href: '#tools' },
           { label: 'Roadmap', hint: 'section', href: '#roadmap' },
           { label: 'Open a ticket', hint: 'contact', href: '#contact' },
+          { label: 'View resume', hint: 'page', url: 'resume.html' },
+          { label: 'LinkedIn profile', hint: 'link', url: 'https://www.linkedin.com/in/gary-virk/' },
           { label: 'Copy email address', hint: 'action', action: 'copy' }
         ];
         var filtered = items.slice();
@@ -1711,7 +1706,9 @@
         }
         function activate(item) {
           dlg.close();
-          if (item.action === 'copy') {
+          if (item.url) {
+            window.open(item.url, '_blank', 'noopener');
+          } else if (item.action === 'copy') {
             if (navigator.clipboard && navigator.clipboard.writeText) {
               navigator.clipboard.writeText(EMAIL).then(function () { showToast('address copied to clipboard'); });
             } else { showToast(EMAIL); }
