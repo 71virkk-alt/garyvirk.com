@@ -420,6 +420,33 @@
     .metric span { color: var(--muted); font-size: 0.8rem; }
     .metric small { display: block; margin-top: 6px; color: var(--muted); font-family: var(--mono); font-size: 0.66rem; opacity: 0.8; }
 
+    /* ============ Certifications strip ============ */
+    .cert-label {
+      margin: 46px 0 12px;
+      color: var(--muted);
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .cert-card {
+      padding: 14px 16px;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel);
+      transition: border-color var(--speed) ease;
+    }
+    .cert-card:hover { border-color: var(--line-strong); }
+    .cert-card span {
+      display: block; margin-bottom: 6px;
+      color: var(--amber);
+      font-family: var(--mono); font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .cert-card strong { font-size: 0.95rem; line-height: 1.25; }
+
     /* ============ Notes / tools rows ============ */
     .row-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 36px; }
     .note-meta { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); font-family: var(--mono); font-size: 0.7rem; }
@@ -617,6 +644,7 @@
       .hero { padding-top: 56px; }
       .card-grid { grid-template-columns: 1fr; }
       .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .row-grid { grid-template-columns: 1fr; }
       .roadmap { grid-template-columns: 1fr; }
       .service-list { grid-template-columns: 1fr; }
@@ -689,7 +717,6 @@
       <a href="#proof">Proof</a>
       <a href="#notes">Field Notes</a>
       <a href="#tools">Tools</a>
-      <a href="#services">Services</a>
       <a href="#roadmap">Roadmap</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -725,7 +752,6 @@
         <a href="#proof">Proof Dashboard</a>
         <a href="#notes">Field Notes</a>
         <a href="#tools">Tools</a>
-        <a href="#services">Services</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -767,6 +793,15 @@
           <a class="btn btn-primary" href="#lab-map">View Lab Map</a>
           <a class="btn btn-ghost" href="#proof">Explore Proof Dashboard</a>
           <a class="btn btn-ghost" href="#contact">Open a Ticket</a>
+          <a class="btn btn-ghost" id="resume-link" href="assets/Gary-Virk-Resume.pdf" hidden>Download Resume</a>
+        </div>
+
+        <p class="cert-label">Certifications</p>
+        <div class="cert-grid" aria-label="Certifications">
+          <div class="cert-card"><span>Cisco</span><strong>CCNA</strong></div>
+          <div class="cert-card"><span>CompTIA</span><strong>A+</strong></div>
+          <div class="cert-card"><span>CompTIA</span><strong>Network+</strong></div>
+          <div class="cert-card"><span>CompTIA</span><strong>IT Operations Specialist (CIOS)</strong></div>
         </div>
       </section>
 
@@ -1150,22 +1185,9 @@
         </div>
       </section>
 
-      <!-- ============ 06 Services ============ -->
-      <section id="services" class="reveal" aria-labelledby="services-title">
-        <p class="kicker"><span class="idx">06</span> Services</p>
-        <h2 id="services-title">Future direction, stated plainly.</h2>
-        <p class="service-note">Future service direction — available after proof pages are published. Nothing here is offered yet.</p>
-        <ul class="service-list">
-          <li>Endpoint troubleshooting documentation <span class="badge badge-future">Future</span></li>
-          <li>Small office network review checklist <span class="badge badge-future">Future</span></li>
-          <li>Device inventory workflow cleanup <span class="badge badge-future">Future</span></li>
-          <li>AI-assisted support documentation workflow <span class="badge badge-future">Future</span></li>
-        </ul>
-      </section>
-
-      <!-- ============ 07 Roadmap ============ -->
+      <!-- ============ 06 Roadmap ============ -->
       <section id="roadmap" class="reveal" aria-labelledby="roadmap-title">
-        <p class="kicker"><span class="idx">07</span> Roadmap</p>
+        <p class="kicker"><span class="idx">06</span> Roadmap</p>
         <h2 id="roadmap-title">What's actually being built.</h2>
         <p class="lead">Trust comes from honest sequencing. This is the real order of work.</p>
         <div class="roadmap">
@@ -1193,9 +1215,9 @@
         </div>
       </section>
 
-      <!-- ============ 08 Contact: ticket console ============ -->
+      <!-- ============ 07 Contact: ticket console ============ -->
       <section id="contact" class="reveal" aria-labelledby="contact-title">
-        <p class="kicker"><span class="idx">08</span> Contact</p>
+        <p class="kicker"><span class="idx">07</span> Contact</p>
         <h2 id="contact-title">Open a ticket.</h2>
         <p class="lead">
           The same way support actually works: describe the request, pick a category, submit.
@@ -1613,6 +1635,16 @@
         });
       });
 
+      /* ---- Resume link (shown only when the PDF actually exists) ---- */
+      if (window.fetch) {
+        fetch('assets/Gary-Virk-Resume.pdf', { method: 'HEAD' }).then(function (r) {
+          if (r.ok) {
+            var rl = document.getElementById('resume-link');
+            if (rl) rl.removeAttribute('hidden');
+          }
+        }).catch(function () {});
+      }
+
       /* ---- Copy email ---- */
       var copyBtn = document.getElementById('copy-email');
       if (copyBtn) {
@@ -1657,7 +1689,6 @@
           { label: 'Proof Dashboard', hint: 'section', href: '#proof' },
           { label: 'Field Notes', hint: 'section', href: '#notes' },
           { label: 'Tools', hint: 'section', href: '#tools' },
-          { label: 'Services', hint: 'section', href: '#services' },
           { label: 'Roadmap', hint: 'section', href: '#roadmap' },
           { label: 'Open a ticket', hint: 'contact', href: '#contact' },
           { label: 'Copy email address', hint: 'action', action: 'copy' }
@@ -1753,7 +1784,7 @@
         });
 
         /* -- Cards, metrics, lanes stagger in -- */
-        var batchTargets = gsap.utils.toArray('.card, .metric, .lane, .service-list li, .map-legend a');
+        var batchTargets = gsap.utils.toArray('.card, .metric, .lane, .cert-card, .map-legend a');
         var aboveFold = [];
         batchTargets = batchTargets.filter(function (el) {
           if (el.getBoundingClientRect().top < window.innerHeight) { aboveFold.push(el); return false; }
