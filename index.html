@@ -667,7 +667,15 @@
       main { padding: 0 16px; }
       section { padding: 52px 0; }
       .lab-map-frame { display: none; }
-      .map-legend { display: grid; }
+      .map-legend {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px;
+      }
+      .map-legend li { flex: 0 0 76%; scroll-snap-align: start; }
+      .map-legend a { padding: 18px 16px; min-height: 64px; }
       .metrics { grid-template-columns: 1fr 1fr; }
       .btn { width: 100%; justify-content: center; }
       .ticket-grid { grid-template-columns: 1fr; }
@@ -987,6 +995,55 @@
     .palette-prompt { color: var(--green); font-family: var(--mono); font-weight: 700; }
     .palette-row input { border-bottom: none; flex: 1; }
 
+    /* ============ Boot sequence overlay ============ */
+    .boot {
+      position: fixed; inset: 0; z-index: 80;
+      background: #0a0f13;
+      display: grid; place-items: center;
+      cursor: pointer;
+    }
+    .boot pre {
+      margin: 0; padding: 0 20px;
+      font-family: var(--mono); font-size: clamp(0.78rem, 2.4vw, 1rem);
+      line-height: 1.9; color: var(--green);
+    }
+    .boot.done { opacity: 0; transition: opacity 380ms ease; pointer-events: none; }
+
+    /* ============ Hero telemetry hint ============ */
+    .hero-hint {
+      position: absolute; right: 0; bottom: 14px; margin: 0;
+      color: var(--muted); font-family: var(--mono); font-size: 0.66rem;
+      display: none;
+    }
+    html.three-on .hero-hint { display: block; }
+
+    /* ============ Mobile status line ============ */
+    .bar-status {
+      display: block;
+      color: var(--green); font-family: var(--mono); font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    /* ============ Palette categories + fuzzy marks ============ */
+    .palette-cat {
+      padding: 9px 12px 3px;
+      color: var(--muted);
+      font-family: var(--mono); font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      list-style: none;
+    }
+    .palette li button em b { color: var(--green); font-weight: 800; }
+
+    /* ============ Map accent theming + related card ============ */
+    .map-panel { border-color: var(--acc, var(--line-strong)); }
+    .map-panel-tag { color: var(--acc, var(--blue)); }
+    .map-panel::before, .map-panel::after { border-color: var(--acc, rgba(61, 126, 255, 0.55)); }
+    .lab-map-svg .map-line.selected { stroke: var(--accsel, var(--green)); }
+    .card.map-related { box-shadow: inset 3px 0 0 0 var(--acc-card, var(--blue)); }
+
+    /* ============ Section depth tints ============ */
+    #proof, #tools { background: linear-gradient(180deg, rgba(17, 24, 30, 0.5), rgba(17, 24, 30, 0) 30%); }
+
     /* ============ GSAP enhancement mode ============ */
     /* When GSAP drives entrances and tilt, neutralize the CSS fallbacks so the
        two systems never fight over the same transform. */
@@ -1018,6 +1075,7 @@
       <div>
         <span class="brand-name">Gary Virk</span>
         <span class="brand-role">IT Support &amp; Network Infrastructure</span>
+        <span class="bar-status">● online · open to work</span>
       </div>
       <button class="menu-btn" type="button" id="menu-open" aria-haspopup="dialog">menu</button>
       <button class="palette-btn" type="button" data-palette aria-label="Open command palette"><kbd>⌘K</kbd></button>
@@ -1067,7 +1125,7 @@
 
       <p class="op-foot">
         garyvirk.com<br>
-        operator console v3.2<br>
+        operator console v3.3<br>
         statuses are honest — nothing<br>here is claimed before it ships
       </p>
     </aside>
@@ -1078,7 +1136,8 @@
         <div class="hero-bg" aria-hidden="true"></div>
         <div class="hero-aurora" aria-hidden="true"></div>
         <canvas id="net" aria-hidden="true"></canvas>
-        <p class="kicker"><span class="idx">01</span> Operator console — garyvirk.com</p>
+        <p class="hero-hint" aria-hidden="true">live telemetry · simulated lab traffic — move cursor, click to ping</p>
+        <p class="kicker"><span class="idx">01</span> Boot — operator console online</p>
         <h1 id="hero-title">Gary Virk</h1>
         <p class="lead" style="font-size:1.18rem; color:var(--text); max-width:680px;">
           IT Support &amp; Network Infrastructure
@@ -1114,7 +1173,7 @@
 
       <!-- ============ 02 Lab map ============ -->
       <section id="lab-map" class="reveal" aria-labelledby="map-title">
-        <p class="kicker"><span class="idx">02</span> System map</p>
+        <p class="kicker"><span class="idx">02</span> System scan — diagnostic map</p>
         <h2 id="map-title">Lab Map</h2>
         <p class="lead">
           The portfolio as a system. Each domain node connects to the labs and notes that prove it.
@@ -1204,7 +1263,7 @@
 
       <!-- ============ 03 Proof dashboard ============ -->
       <section id="proof" class="reveal" aria-labelledby="proof-title">
-        <p class="kicker"><span class="idx">03</span> Proof dashboard</p>
+        <p class="kicker"><span class="idx">03</span> Case files — proof dashboard</p>
         <h2 id="proof-title">Labs being documented, not inflated.</h2>
         <p class="lead">
           Each card is a working lab or writeup with its real status. Evidence pages publish
@@ -1438,7 +1497,7 @@
 
       <!-- ============ 04 Field notes ============ -->
       <section id="notes" class="reveal" aria-labelledby="notes-title">
-        <p class="kicker"><span class="idx">04</span> Field notes</p>
+        <p class="kicker"><span class="idx">04</span> Field notes — written evidence</p>
         <h2 id="notes-title">Writing as proof of understanding.</h2>
         <p class="lead">
           Technical explainers written the way support work actually happens: symptom first, evidence next, conclusion last.
@@ -1476,7 +1535,7 @@
 
       <!-- ============ 05 Tools ============ -->
       <section id="tools" class="reveal" aria-labelledby="tools-title">
-        <p class="kicker"><span class="idx">05</span> Tools</p>
+        <p class="kicker"><span class="idx">05</span> Toolkit — client-side utilities</p>
         <h2 id="tools-title">Small utilities, not toy demos.</h2>
         <p class="lead">
           Client-side tools that run in the browser. No data collection, no accounts, no private input stored.
@@ -1514,7 +1573,7 @@
 
       <!-- ============ 06 Roadmap ============ -->
       <section id="roadmap" class="reveal" aria-labelledby="roadmap-title">
-        <p class="kicker"><span class="idx">06</span> Roadmap</p>
+        <p class="kicker"><span class="idx">06</span> Build queue — live roadmap</p>
         <h2 id="roadmap-title">What's actually being built.</h2>
         <p class="lead">Trust comes from honest sequencing. This is the real order of work.</p>
         <div class="roadmap">
@@ -1544,7 +1603,7 @@
 
       <!-- ============ 07 Contact: ticket console ============ -->
       <section id="contact" class="reveal" aria-labelledby="contact-title">
-        <p class="kicker"><span class="idx">07</span> Contact</p>
+        <p class="kicker"><span class="idx">07</span> Open a ticket — direct line</p>
         <h2 id="contact-title">Open a ticket.</h2>
         <p class="lead">
           The same way support actually works: describe the request, pick a category, submit.
@@ -1626,7 +1685,7 @@
 
       <footer>
         <div class="foot-meta">
-          <div><span class="k">console</span><span class="v">v3.2</span></div>
+          <div><span class="k">console</span><span class="v">v3.3</span></div>
           <div><span class="k">updated</span><span class="v">June 2026</span></div>
           <div><span class="k">your local time</span><span class="v" id="meta-time">--:--:--</span></div>
           <div><span class="k">viewport</span><span class="v" id="meta-dim">—</span></div>
@@ -1712,6 +1771,38 @@
       }
       setSpotlight();
       reduceMotion.addEventListener && reduceMotion.addEventListener('change', setSpotlight);
+
+      /* ---- Boot sequence (first visit per session, motion allowed) ---- */
+      (function bootSeq() {
+        if (reduceMotion.matches) return;
+        try { if (sessionStorage.getItem('gvBooted')) return; } catch (err) { return; }
+        var boot = document.createElement('div');
+        boot.className = 'boot';
+        boot.setAttribute('aria-hidden', 'true');
+        var pre = document.createElement('pre');
+        boot.appendChild(pre);
+        document.body.appendChild(boot);
+        var lines = [
+          '> gv.console v3.3',
+          '> mounting lab map ............ ok',
+          '> loading case files [6] ...... ok',
+          '> operator status .. OPEN TO WORK'
+        ];
+        var li = 0, iv;
+        function done() {
+          clearInterval(iv);
+          boot.classList.add('done');
+          setTimeout(function () { boot.remove(); }, 420);
+          try { sessionStorage.setItem('gvBooted', '1'); } catch (err) {}
+        }
+        iv = setInterval(function () {
+          pre.textContent += (li ? '\n' : '') + lines[li];
+          li++;
+          if (li >= lines.length) { clearInterval(iv); setTimeout(done, 380); }
+        }, 210);
+        boot.addEventListener('click', done);
+        setTimeout(function () { if (document.body.contains(boot)) done(); }, 2000);
+      })();
       window.addEventListener('pointermove', function (e) {
         if (!root.classList.contains('spotlight-on')) return;
         root.style.setProperty('--mx', e.clientX + 'px');
@@ -1865,11 +1956,14 @@
           new THREE.PointsMaterial({ color: 0xd8a84a, size: 0.08, transparent: true, opacity: 0.9 })
         ));
         // Connection lattice between near neighbours
-        var lpos = [];
+        var lpos = [], edges = [], adj = {};
         for (i = 0; i < COUNT; i++) {
           for (j = i + 1; j < COUNT; j++) {
             if (pts[i].distanceTo(pts[j]) < 0.85) {
               lpos.push(pts[i].x, pts[i].y, pts[i].z, pts[j].x, pts[j].y, pts[j].z);
+              edges.push([i, j]);
+              (adj[i] = adj[i] || []).push(j);
+              (adj[j] = adj[j] || []).push(i);
             }
           }
         }
@@ -1879,6 +1973,119 @@
           lgeo,
           new THREE.LineBasicMaterial({ color: 0x3d7eff, transparent: true, opacity: 0.18 })
         ));
+
+        // Traveling packets along lattice edges
+        var PCOUNT = Math.min(10, edges.length);
+        var ppos = new Float32Array(PCOUNT * 3);
+        var pgeoPk = new THREE.BufferGeometry();
+        pgeoPk.setAttribute('position', new THREE.BufferAttribute(ppos, 3));
+        var packetPts = new THREE.Points(pgeoPk,
+          new THREE.PointsMaterial({ color: 0x9fc1ff, size: 0.11, transparent: true, opacity: 0.95 }));
+        group.add(packetPts);
+        var packets = [];
+        for (i = 0; i < PCOUNT; i++) {
+          packets.push({ a: edges[i % edges.length][0], b: edges[i % edges.length][1],
+                         t: Math.random(), s: 0.004 + Math.random() * 0.007 });
+        }
+        function hopPacket(p) {
+          var from = p.b;
+          var opts = adj[from] || [];
+          p.a = from;
+          p.b = opts.length ? opts[Math.floor(Math.random() * opts.length)] : edges[0][0];
+          p.t = 0;
+        }
+
+        // Slow scanning ring shell
+        var scanPts = new THREE.EllipseCurve(0, 0, R * 1.06, R * 1.06).getPoints(72)
+          .map(function (q) { return new THREE.Vector3(q.x, q.y, 0); });
+        var scanRing = new THREE.LineLoop(
+          new THREE.BufferGeometry().setFromPoints(scanPts),
+          new THREE.LineBasicMaterial({ color: 0x3d7eff, transparent: true, opacity: 0.14 }));
+        scanRing.rotation.x = Math.PI / 2;
+        group.add(scanRing);
+
+        // Incident marker (amber pulsing node) + heal cycle
+        var incGeo = new THREE.BufferGeometry();
+        incGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(3), 3));
+        var incMat = new THREE.PointsMaterial({ color: 0xd8a84a, size: 0.16, transparent: true, opacity: 0 });
+        var incPts = new THREE.Points(incGeo, incMat);
+        group.add(incPts);
+        var incident = { idx: -1, phase: 0, nextAt: performance.now() + 4500, healAt: 0 };
+
+        // Expanding ping rings (heal = green, click = blue)
+        var rings = [];
+        function spawnRing(localPos, color) {
+          var mesh = new THREE.Mesh(
+            new THREE.RingGeometry(0.06, 0.085, 32),
+            new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.9, side: THREE.DoubleSide }));
+          mesh.position.copy(localPos);
+          group.add(mesh);
+          rings.push({ mesh: mesh, born: performance.now() });
+        }
+        function updateExtras(now) {
+          // packets
+          for (var k = 0; k < packets.length; k++) {
+            var p = packets[k];
+            p.t += p.s;
+            if (p.t >= 1) hopPacket(p);
+            var A = pts[p.a], B = pts[p.b];
+            ppos[k * 3] = A.x + (B.x - A.x) * p.t;
+            ppos[k * 3 + 1] = A.y + (B.y - A.y) * p.t;
+            ppos[k * 3 + 2] = A.z + (B.z - A.z) * p.t;
+          }
+          pgeoPk.attributes.position.needsUpdate = true;
+          // scan ring tumble
+          scanRing.rotation.x += 0.0028;
+          scanRing.rotation.y += 0.0016;
+          // incident lifecycle: appear amber -> heal green
+          if (incident.phase === 0 && now >= incident.nextAt) {
+            incident.idx = Math.floor(Math.random() * COUNT);
+            var v = pts[incident.idx];
+            incGeo.attributes.position.array.set([v.x, v.y, v.z]);
+            incGeo.attributes.position.needsUpdate = true;
+            incident.phase = 1;
+            incident.healAt = now + 2600;
+          } else if (incident.phase === 1) {
+            incMat.opacity = 0.55 + 0.45 * Math.sin(now * 0.012);
+            if (now >= incident.healAt) {
+              incMat.opacity = 0;
+              spawnRing(pts[incident.idx], 0x36d399);
+              incident.phase = 0;
+              incident.nextAt = now + 5000 + Math.random() * 4000;
+            }
+          }
+          // rings expand + fade
+          for (var r2 = rings.length - 1; r2 >= 0; r2--) {
+            var rg = rings[r2];
+            var age = (now - rg.born) / 900;
+            if (age >= 1) {
+              group.remove(rg.mesh);
+              rg.mesh.geometry.dispose(); rg.mesh.material.dispose();
+              rings.splice(r2, 1);
+            } else {
+              rg.mesh.scale.setScalar(1 + age * 7);
+              rg.mesh.material.opacity = 0.9 * (1 - age);
+              rg.mesh.lookAt(camera.position);
+            }
+          }
+        }
+
+        // Click to ping nearest node
+        var projV = new THREE.Vector3();
+        hero.addEventListener('pointerdown', function (e) {
+          if (e.target.closest('a, button, input, select, textarea')) return;
+          var rct = canvas.getBoundingClientRect();
+          var nx = ((e.clientX - rct.left) / rct.width) * 2 - 1;
+          var ny = -((e.clientY - rct.top) / rct.height) * 2 + 1;
+          group.updateMatrixWorld();
+          var best = -1, bestD = 1e9;
+          for (var q = 0; q < COUNT; q += 2) {
+            projV.copy(pts[q]).applyMatrix4(group.matrixWorld).project(camera);
+            var d = (projV.x - nx) * (projV.x - nx) + (projV.y - ny) * (projV.y - ny);
+            if (d < bestD) { bestD = d; best = q; }
+          }
+          if (best >= 0) spawnRing(pts[best], 0x3d7eff);
+        });
 
         var mx = 0, my = 0;
         hero.addEventListener('pointermove', function (e) {
@@ -1902,6 +2109,7 @@
           camera.position.x += (mx * 0.5 - camera.position.x) * 0.05;
           camera.position.y += (-my * 0.35 - camera.position.y) * 0.05;
           camera.lookAt(group.position.x * 0.4, 0, 0);
+          updateExtras(performance.now());
           renderer.render(scene, camera);
           raf3 = requestAnimationFrame(tick);
         }
@@ -1920,6 +2128,7 @@
         });
         resize3d();
         start3();
+        root.classList.add('three-on');
       }
 
       function chooseVisual() {
@@ -2072,9 +2281,22 @@
         mp.next.textContent = lab.next;
         mp.link.setAttribute('href', lab.href);
       }
+      var ACCENTS = { endpoint: '#3d7eff', network: '#36d399', security: '#d8a84a',
+                      automation: '#3d7eff', ai: '#36d399', writing: '#d8a84a' };
       function selectDomain(domainKey, animate) {
         if (!DOMAINS[domainKey]) return;
         selectedDomain = domainKey;
+        var accent = ACCENTS[domainKey] || '#3d7eff';
+        var panelEl = document.querySelector('.map-panel');
+        var svgEl = document.querySelector('.lab-map-svg');
+        if (panelEl) panelEl.style.setProperty('--acc', accent);
+        if (svgEl) svgEl.style.setProperty('--accsel', accent);
+        document.querySelectorAll('.card.map-related').forEach(function (c) { c.classList.remove('map-related'); });
+        var relCard = document.querySelector(LABS[DOMAINS[domainKey].lab].href);
+        if (relCard) {
+          relCard.classList.add('map-related');
+          relCard.style.setProperty('--acc-card', accent);
+        }
         document.querySelectorAll('.map-node').forEach(function (n) {
           n.setAttribute('aria-pressed', n.getAttribute('data-domain') === domainKey ? 'true' : 'false');
         });
@@ -2218,37 +2440,102 @@
         });
       }
 
-      /* ---- Command palette ---- */
+      /* ---- Operator macro commands ---- */
+      function diagnoseNetwork() {
+        var sec = document.getElementById('lab-map');
+        if (sec) sec.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+        var allLines = document.querySelectorAll('.map-line');
+        if (window.gsap && !reduceMotion.matches && allLines.length) {
+          allLines.forEach(function (l) {
+            var len = Math.hypot(l.x2.baseVal.value - l.x1.baseVal.value, l.y2.baseVal.value - l.y1.baseVal.value);
+            l.style.strokeDasharray = len;
+            l.style.strokeDashoffset = len;
+          });
+          window.gsap.to(allLines, {
+            strokeDashoffset: 0, duration: 0.5, stagger: 0.09, ease: 'power2.out',
+            onComplete: function () { selectDomain('network', true); }
+          });
+        } else {
+          selectDomain('network', false);
+        }
+      }
+      function scanProof() {
+        var sec = document.getElementById('proof');
+        if (sec) sec.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+        document.querySelectorAll('#proof .card').forEach(function (c, i) {
+          setTimeout(function () {
+            c.classList.add('flash');
+            setTimeout(function () { c.classList.remove('flash'); }, 520);
+          }, (reduceMotion.matches ? 100 : 420) + i * 140);
+        });
+      }
+
+      /* ---- Command palette (operator terminal) ---- */
       var dlg = document.getElementById('palette');
       if (dlg && dlg.showModal) {
         var input = document.getElementById('palette-input');
         var list = document.getElementById('palette-list');
+        var CATS = ['command', 'case file', 'action', 'section'];
         var items = [
-          { label: 'Show endpoint lab', hint: 'case file', caseKey: 'server' },
-          { label: 'Show networking proof', hint: 'case file', caseKey: 'network' },
-          { label: 'Show AI troubleshooting', hint: 'case file', caseKey: 'ai' },
-          { label: 'Open resume', hint: 'page', url: 'resume.html' },
-          { label: 'Copy email address', hint: 'action', action: 'copy' },
-          { label: 'Jump to roadmap', hint: 'section', href: '#roadmap' },
-          { label: 'Overview', hint: 'section', href: '#overview' },
-          { label: 'Lab Map', hint: 'section', href: '#lab-map' },
-          { label: 'Proof Dashboard', hint: 'section', href: '#proof' },
-          { label: 'Field Notes', hint: 'section', href: '#notes' },
-          { label: 'Tools', hint: 'section', href: '#tools' },
-          { label: 'Open a ticket', hint: 'contact', href: '#contact' },
-          { label: 'LinkedIn profile', hint: 'link', url: 'https://www.linkedin.com/in/gary-virk/' }
+          { cat: 'command', label: 'Diagnose network', run: 'diagnose' },
+          { cat: 'command', label: 'Scan proof dashboard', run: 'scanproof' },
+          { cat: 'case file', label: 'Show endpoint case', caseKey: 'server' },
+          { cat: 'case file', label: 'Show networking case', caseKey: 'network' },
+          { cat: 'case file', label: 'Show packet analysis case', caseKey: 'wireshark' },
+          { cat: 'case file', label: 'Show automation case', caseKey: 'inventory' },
+          { cat: 'case file', label: 'Show security baseline case', caseKey: 'baseline' },
+          { cat: 'case file', label: 'Show AI troubleshooting case', caseKey: 'ai' },
+          { cat: 'action', label: 'Open resume', url: 'resume.html' },
+          { cat: 'action', label: 'Copy email address', action: 'copy' },
+          { cat: 'action', label: 'Open LinkedIn profile', url: 'https://www.linkedin.com/in/gary-virk/' },
+          { cat: 'section', label: 'Jump to overview', href: '#overview' },
+          { cat: 'section', label: 'Jump to lab map', href: '#lab-map' },
+          { cat: 'section', label: 'Jump to proof dashboard', href: '#proof' },
+          { cat: 'section', label: 'Jump to field notes', href: '#notes' },
+          { cat: 'section', label: 'Jump to tools', href: '#tools' },
+          { cat: 'section', label: 'Jump to roadmap', href: '#roadmap' },
+          { cat: 'section', label: 'Open a ticket', href: '#contact' }
         ];
         var filtered = items.slice();
         var active = 0;
 
+        function fuzzy(q, label) {
+          var l = label.toLowerCase(), qi = 0, score = 0, marks = [], prev = -2;
+          for (var i = 0; i < l.length && qi < q.length; i++) {
+            if (l[i] === q[qi]) {
+              marks.push(i);
+              score += (prev === i - 1) ? 3 : 1;
+              prev = i; qi++;
+            }
+          }
+          return qi === q.length ? { score: score, marks: marks } : null;
+        }
+        function markup(label, marks) {
+          if (!marks || !marks.length) return label;
+          var out = '', set = {};
+          marks.forEach(function (m) { set[m] = true; });
+          for (var i = 0; i < label.length; i++) {
+            out += set[i] ? '<b>' + label[i] + '</b>' : label[i];
+          }
+          return out;
+        }
         function render() {
           list.innerHTML = '';
+          var lastCat = null;
           filtered.forEach(function (item, i) {
+            if (item.cat !== lastCat) {
+              lastCat = item.cat;
+              var hdr = document.createElement('li');
+              hdr.className = 'palette-cat';
+              hdr.setAttribute('aria-hidden', 'true');
+              hdr.textContent = item.cat;
+              list.appendChild(hdr);
+            }
             var li = document.createElement('li');
             var btn = document.createElement('button');
             btn.type = 'button';
             btn.className = i === active ? 'active' : '';
-            btn.innerHTML = '<em style="font-style:normal">' + item.label + '</em><span>' + item.hint + '</span>';
+            btn.innerHTML = '<em style="font-style:normal">' + markup(item.label, item.marks) + '</em><span>' + item.cat + '</span>';
             btn.addEventListener('click', function () { activate(item); });
             li.appendChild(btn);
             list.appendChild(li);
@@ -2256,13 +2543,20 @@
         }
         function activate(item) {
           dlg.close();
-          if (item.caseKey) {
+          if (item.run === 'diagnose') {
+            diagnoseNetwork();
+          } else if (item.run === 'scanproof') {
+            scanProof();
+          } else if (item.caseKey) {
             var lab = LABS[item.caseKey];
             var card = lab && document.querySelector(lab.href);
             if (card) {
               card.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'center' });
               card.classList.add('flash');
-              setTimeout(function () { card.classList.remove('flash'); openCase(item.caseKey, card.querySelector('.card-open')); }, reduceMotion.matches ? 100 : 700);
+              setTimeout(function () {
+                card.classList.remove('flash');
+                openCase(item.caseKey, card.querySelector('.card-open'));
+              }, reduceMotion.matches ? 100 : 700);
             }
           } else if (item.url) {
             window.open(item.url, '_blank', 'noopener');
@@ -2275,26 +2569,37 @@
             if (t) { t.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth' }); }
           }
         }
-        function openPalette() {
-          filtered = items.slice(); active = 0;
-          input.value = '';
+        function applyFilter() {
+          var q = input.value.trim().toLowerCase();
+          if (!q) {
+            filtered = items.map(function (it) { var c = Object.create(it); c.marks = null; return c; });
+          } else {
+            filtered = [];
+            items.forEach(function (it) {
+              var hit = fuzzy(q, it.label);
+              if (hit) { var c = Object.create(it); c.marks = hit.marks; c.score = hit.score; filtered.push(c); }
+            });
+            filtered.sort(function (a, b) {
+              var ca = CATS.indexOf(a.cat), cb = CATS.indexOf(b.cat);
+              return ca !== cb ? ca - cb : (b.score || 0) - (a.score || 0);
+            });
+          }
+          active = 0;
           render();
+        }
+        function openPalette() {
+          input.value = '';
+          applyFilter();
           dlg.showModal();
           input.focus();
         }
 
-        input.addEventListener('input', function () {
-          var q = input.value.toLowerCase();
-          filtered = items.filter(function (it) { return it.label.toLowerCase().indexOf(q) !== -1; });
-          active = 0;
-          render();
-        });
+        input.addEventListener('input', applyFilter);
         input.addEventListener('keydown', function (e) {
           if (e.key === 'ArrowDown') { e.preventDefault(); active = Math.min(active + 1, filtered.length - 1); render(); }
           else if (e.key === 'ArrowUp') { e.preventDefault(); active = Math.max(active - 1, 0); render(); }
           else if (e.key === 'Enter') { e.preventDefault(); if (filtered[active]) activate(filtered[active]); }
         });
-
         document.querySelectorAll('[data-palette]').forEach(function (btn) {
           btn.addEventListener('click', openPalette);
         });
