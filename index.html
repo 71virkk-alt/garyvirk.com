@@ -1179,6 +1179,65 @@
       pointer-events: none;
     }
 
+    /* v5: DOM domain controls (accessible portfolio doorways) */
+    .deck-domains { display: flex; flex-wrap: wrap; gap: 6px; }
+    .domain-btn {
+      padding: 5px 10px;
+      border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(11, 17, 21, 0.6); color: var(--soft);
+      font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color var(--speed) ease, color var(--speed) ease;
+    }
+    .domain-btn:hover, .domain-btn:focus-visible { border-color: var(--dc, var(--blue)); color: var(--text); }
+    .domain-btn::before { content: "◆ "; color: var(--dc, var(--blue)); font-size: 0.55rem; }
+
+    /* v5: artifact lists + previews in case drawers */
+    .artifact-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+    .artifact-list li {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 0.74rem; color: var(--soft);
+    }
+    .artifact-list .at {
+      flex: 0 0 auto;
+      padding: 2px 7px;
+      border: 1px solid var(--line-strong); border-radius: 4px;
+      font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .artifact-list .as { margin-left: auto; font-size: 0.64rem; }
+    .artifact-list .as.ok { color: var(--green); }
+    .artifact-list .as.prog { color: var(--amber); }
+    .artifact-list .as.plan { color: var(--muted); }
+    .art-preview {
+      border: 1px solid var(--line); border-radius: 6px;
+      background: var(--bg); padding: 12px 14px;
+      overflow-x: auto;
+    }
+    .ap-cap {
+      display: block; margin-bottom: 8px;
+      color: var(--muted);
+      font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .art-preview table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: 0.7rem; }
+    .art-preview th {
+      text-align: left; padding: 4px 8px;
+      color: var(--muted); font-weight: 700; font-size: 0.62rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .art-preview td { padding: 5px 8px; color: var(--soft); border-bottom: 1px solid var(--line); }
+    .art-preview td.b { color: var(--blue); }
+    .art-preview td.g { color: var(--green); }
+    .art-preview td.a { color: var(--amber); }
+    .art-preview tr:last-child td { border-bottom: none; }
+
+    /* v5: editorial rhythm */
+    h2 { font-weight: 760; letter-spacing: -0.015em; }
+    .lead { font-size: 1.08rem; line-height: 1.66; }
+    .kicker { margin-bottom: 18px; }
+
     /* Boot visual */
     .boot-inner { display: grid; justify-items: center; gap: 16px; }
     .boot-bar { width: min(280px, 60vw); height: 2px; background: var(--line); overflow: hidden; }
@@ -1265,7 +1324,7 @@
 
       <p class="op-foot">
         garyvirk.com<br>
-        operator console v4.0<br>
+        operator console v5.0<br>
         statuses are honest — nothing<br>here is claimed before it ships
       </p>
     </aside>
@@ -1293,14 +1352,22 @@
             </div>
           </div>
 
-          <aside class="console-deck" aria-label="Live diagnostic console (simulated lab telemetry)">
-            <div class="deck-head"><span>diagnostic console</span><span>simulated</span></div>
+          <aside class="console-deck" aria-label="Live diagnostic console (synthetic lab telemetry)">
+            <div class="deck-head"><span>diagnostic console</span><span>synthetic telemetry</span></div>
             <dl class="deck-state">
               <div><dt>active node</dt><dd id="ds-node">core.gv</dd></div>
               <div><dt>signal</dt><dd id="ds-signal" class="ok">stable</dd></div>
               <div><dt>incident</dt><dd id="ds-incident">none</dd></div>
               <div><dt>operator</dt><dd class="ok">open to work</dd></div>
             </dl>
+            <div class="deck-domains" role="group" aria-label="Portfolio domains">
+              <button class="domain-btn" type="button" data-domain="endpoint" style="--dc:#3d7eff">endpoint</button>
+              <button class="domain-btn" type="button" data-domain="network" style="--dc:#36d399">network</button>
+              <button class="domain-btn" type="button" data-domain="security" style="--dc:#d8a84a">security</button>
+              <button class="domain-btn" type="button" data-domain="automation" style="--dc:#3d7eff">automation</button>
+              <button class="domain-btn" type="button" data-domain="ai" style="--dc:#36d399">ai</button>
+              <button class="domain-btn" type="button" data-domain="writing" style="--dc:#d8a84a">writing</button>
+            </div>
             <div class="deck-actions" role="group" aria-label="Console actions">
               <button class="deck-btn" type="button" data-act="diagnose">diagnose</button>
               <button class="deck-btn" type="button" data-act="trace">trace route</button>
@@ -1308,7 +1375,7 @@
               <button class="deck-btn" type="button" data-act="scan">security scan</button>
               <button class="deck-btn" type="button" data-act="case">open case file</button>
             </div>
-            <pre class="deck-out" id="deck-out" aria-live="polite">&gt; console ready — simulated lab telemetry</pre>
+            <pre class="deck-out" id="deck-out" aria-live="polite">&gt; console ready — synthetic lab telemetry</pre>
             <a class="deck-link" id="deck-link" href="#proof" hidden>view proof dashboard ↓</a>
           </aside>
         </div>
@@ -1845,7 +1912,7 @@
 
       <footer>
         <div class="foot-meta">
-          <div><span class="k">console</span><span class="v">v4.0</span></div>
+          <div><span class="k">console</span><span class="v">v5.0</span></div>
           <div><span class="k">updated</span><span class="v">June 2026</span></div>
           <div><span class="k">your local time</span><span class="v" id="meta-time">--:--:--</span></div>
           <div><span class="k">viewport</span><span class="v" id="meta-dim">—</span></div>
@@ -1869,6 +1936,8 @@
       <div class="case-field"><span class="cf-k">problem</span><p id="cd-problem"></p></div>
       <div class="case-field"><span class="cf-k">environment</span><p id="cd-env"></p></div>
       <div class="case-field"><span class="cf-k">tools</span><div class="case-tools" id="cd-tools"></div></div>
+      <div class="case-field"><span class="cf-k">artifacts</span><ul class="artifact-list" id="cd-artifacts"></ul></div>
+      <div id="cd-preview"></div>
       <div class="case-field"><span class="cf-k">evidence</span><p id="cd-evidence"></p></div>
       <div class="case-field"><span class="cf-k">next step</span><p id="cd-next"></p></div>
     </div>
@@ -1956,7 +2025,7 @@
         boot.appendChild(inner);
         document.body.appendChild(boot);
         var lines = [
-          '> gv.console v4.0',
+          '> gv.console v5.0',
           '> mounting lab map ............ ok',
           '> loading case files [6] ...... ok',
           '> operator status .. OPEN TO WORK'
@@ -2563,6 +2632,56 @@
           evidence: 'Planned: side-by-side suggested vs verified resolution notes.',
           next: 'Synthetic VPN/app-access incident', href: '#card-ai' }
       };
+      var ARTIFACTS = {
+        server: [
+          { tag: 'diagram', name: 'AD lab topology', state: 'available' },
+          { tag: 'checklist', name: 'Server role checklist', state: 'available' },
+          { tag: 'writeup', name: 'S1 — account lockout triage', state: 'progress' },
+          { tag: 'writeup', name: 'S2 — GPO not applying', state: 'planned' },
+          { tag: 'writeup', name: 'S3 — DNS resolution failure', state: 'planned' }
+        ],
+        network: [
+          { tag: 'topology', name: 'Packet Tracer .pkt file', state: 'planned' },
+          { tag: 'table', name: 'IP / VLAN plan', state: 'planned' },
+          { tag: 'writeup', name: 'Intentional-fault triage doc', state: 'planned' }
+        ],
+        wireshark: [
+          { tag: 'capture', name: 'Sanitized DHCP capture', state: 'planned' },
+          { tag: 'timeline', name: 'Annotated packet timeline', state: 'planned' },
+          { tag: 'notes', name: 'Symptom-to-evidence notes', state: 'planned' }
+        ],
+        inventory: [
+          { tag: 'script', name: 'PowerShell collector', state: 'planned' },
+          { tag: 'schema', name: 'CSV output schema', state: 'planned' },
+          { tag: 'sample', name: 'Sanitized sample report', state: 'planned' }
+        ],
+        baseline: [
+          { tag: 'checklist', name: 'Protect / detect / respond list', state: 'planned' },
+          { tag: 'notes', name: 'Per-control rationale', state: 'planned' }
+        ],
+        ai: [
+          { tag: 'ticket', name: 'Synthetic incident set', state: 'planned' },
+          { tag: 'compare', name: 'Suggested vs verified notes', state: 'planned' }
+        ]
+      };
+      var PREVIEWS = {
+        server: '<div class="art-preview"><span class="ap-cap">scenario queue \u00b7 artifact shell</span>' +
+          '<table><tr><th>id</th><th>scenario</th><th>status</th></tr>' +
+          '<tr><td>S1</td><td>Account lockout \u2014 symptom to evidence to fix</td><td class="a">drafting</td></tr>' +
+          '<tr><td>S2</td><td>GPO not applying on client</td><td>planned</td></tr>' +
+          '<tr><td>S3</td><td>DNS resolution failure</td><td>planned</td></tr></table></div>',
+        network: '<div class="art-preview"><span class="ap-cap">ip plan \u00b7 artifact shell (sample schema)</span>' +
+          '<table><tr><th>vlan</th><th>subnet</th><th>gateway</th><th>role</th></tr>' +
+          '<tr><td class="b">10</td><td>10.0.10.0/24</td><td>10.0.10.1</td><td>staff</td></tr>' +
+          '<tr><td class="a">20</td><td>10.0.20.0/24</td><td>10.0.20.1</td><td>guest</td></tr>' +
+          '<tr><td class="g">99</td><td>10.0.99.0/24</td><td>10.0.99.1</td><td>mgmt</td></tr></table></div>',
+        wireshark: '<div class="art-preview"><span class="ap-cap">dhcp handshake \u00b7 synthetic sample</span>' +
+          '<table><tr><th>#</th><th>time</th><th>source</th><th>dest</th><th>info</th></tr>' +
+          '<tr><td>12</td><td>0.000</td><td>0.0.0.0</td><td>255.255.255.255</td><td class="b">DHCP Discover</td></tr>' +
+          '<tr><td>13</td><td>0.002</td><td>10.0.0.1</td><td>10.0.0.42</td><td class="g">DHCP Offer</td></tr>' +
+          '<tr><td>14</td><td>0.003</td><td>0.0.0.0</td><td>255.255.255.255</td><td class="b">DHCP Request</td></tr>' +
+          '<tr><td>15</td><td>0.004</td><td>10.0.0.1</td><td>10.0.0.42</td><td class="g">DHCP ACK</td></tr></table></div>'
+      };
       var DOMAINS = {
         endpoint:   { label: 'Endpoint Support', lab: 'server' },
         network:    { label: 'Networking', lab: 'network' },
@@ -2662,6 +2781,19 @@
         lab.tools.forEach(function (t) {
           var s = document.createElement('span'); s.textContent = t; tools.appendChild(s);
         });
+        var alist = document.getElementById('cd-artifacts');
+        alist.innerHTML = '';
+        (ARTIFACTS[key] || []).forEach(function (a) {
+          var li = document.createElement('li');
+          var tag = document.createElement('span'); tag.className = 'at'; tag.textContent = a.tag;
+          var nm = document.createElement('span'); nm.textContent = a.name;
+          var st = document.createElement('span');
+          st.className = 'as ' + (a.state === 'available' ? 'ok' : a.state === 'progress' ? 'prog' : 'plan');
+          st.textContent = a.state === 'progress' ? 'in progress' : a.state;
+          li.appendChild(tag); li.appendChild(nm); li.appendChild(st);
+          alist.appendChild(li);
+        });
+        document.getElementById('cd-preview').innerHTML = PREVIEWS[key] || '';
         caseOpener = opener || null;
         caseDrawer.showModal();
       }
@@ -2751,7 +2883,7 @@
 
       /* ---- Diagnostic deck (visible console controls) ---- */
       var deckOut = document.getElementById('deck-out');
-      var outLines = ['> console ready — simulated lab telemetry'];
+      var outLines = ['> console ready — synthetic lab telemetry'];
       function dlog(s) {
         outLines.push('> ' + s);
         if (outLines.length > 3) outLines.shift();
@@ -2790,6 +2922,20 @@
           }
         });
       }
+      var DOMAIN_CASE = { endpoint: 'server', network: 'network', security: 'baseline',
+                          automation: 'inventory', ai: 'ai', writing: 'wireshark' };
+      document.querySelectorAll('.domain-btn').forEach(function (db) {
+        db.addEventListener('click', function () {
+          var key = db.getAttribute('data-domain');
+          var caseKey = DOMAIN_CASE[key];
+          var lab = LABS[caseKey];
+          if (window.__scene && window.__scene.highlightDomain) window.__scene.highlightDomain(key);
+          dset('ds-node', key + '.gv');
+          dlog(key + '.gv \u00b7 ' + lab.status.toLowerCase() + ' \u00b7 case #' + lab.num);
+          setDeckLink('open case #' + lab.num + ' \u2014 ' + key + ' \u2192', caseKey, lab.href);
+          if (typeof selectDomain === 'function') selectDomain(key, false);
+        });
+      });
       var deckBusy = false;
       document.querySelectorAll('.deck-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
