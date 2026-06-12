@@ -19,11 +19,19 @@
 
   <style>
     /* ================================================================
-       garyvirk.com — v6.0 "Technical Operator"
-       Design system: one canvas, one accent, three honest statuses.
-       The page renders itself from the data objects in the script
-       below (LABS / ARTIFACTS / PREVIEWS / NOTES / TOOLS). Edit the
-       data; never this CSS.
+       garyvirk.com — v7.0 "Technical Operator · Interactive"
+       Design system: one WebGL scene, one accent, three honest statuses.
+       The page renders itself from the data objects in the script below
+       (LABS / ARTIFACTS / PREVIEWS / NOTES / TOOLS). Edit the data;
+       never this CSS.
+
+       Interaction layers (all progressive, all reversible):
+         L0  static page         — works with no JS at all (noscript note)
+         L1  data render         — vanilla JS, no dependencies
+         L2  2D ambient field    — canvas fallback, reduced-motion aware
+         L3  Three.js topology   — WebGL, cursor-magnetic, touch + gyro
+         L4  GSAP cinematics     — magnetic buttons, card tilt, reveals
+       Any layer may fail or be declined; the layer below carries on.
        ================================================================ */
 
     :root {
@@ -223,6 +231,7 @@
       font-family: var(--sans); font-weight: 600; font-size: 0.93rem; letter-spacing: -0.005em;
       transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease),
                   color var(--t-fast) var(--ease), transform var(--t-med) var(--ease);
+      will-change: transform;
     }
     .btn-primary { background: var(--text); color: #0a0b0d; }
     .btn-primary:hover, .btn-primary:focus-visible { background: #fff; transform: translateY(-1px); }
@@ -237,12 +246,28 @@
     }
     .btn-text:hover, .btn-text:focus-visible { color: var(--text); border-color: var(--text); }
 
+    /* When GSAP drives transforms (magnetic pull, tilt), CSS must never
+       transition or transform the same elements — two systems, one owner. */
+    html.gsap .btn {
+      transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease),
+                  color var(--t-fast) var(--ease);
+    }
+    html.gsap .btn-primary:hover, html.gsap .btn-primary:focus-visible,
+    html.gsap .btn-ghost:hover, html.gsap .btn-ghost:focus-visible { transform: none; }
+
+    /* Touch: native, satisfying press states instead of hover physics */
+    @media (hover: none) {
+      .btn:active { transform: scale(0.97); transition-duration: 70ms; }
+      .card:active { transform: scale(0.985); transition-duration: 90ms; }
+    }
+
     /* ============ Hero ============ */
     .hero {
       position: relative;
       isolation: isolate;
       padding-top: clamp(96px, 13vw, 170px);
       padding-bottom: 0;
+      touch-action: pan-y; /* topology drag must never hijack scroll */
     }
     #field {
       position: absolute; inset: 0; z-index: -1;
@@ -371,6 +396,7 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px; margin-top: 52px;
+      perspective: 1400px; /* stage for GSAP card tilt */
     }
 
     .card {
@@ -382,9 +408,14 @@
       cursor: pointer;
       transition: border-color var(--t-fast) var(--ease), transform var(--t-med) var(--ease),
                   background var(--t-med) var(--ease);
+      will-change: transform;
     }
     .card:hover, .card:focus-visible { border-color: var(--line-2); transform: translateY(-3px); }
     .card.flash { border-color: var(--accent); }
+    html.gsap .card {
+      transition: border-color var(--t-fast) var(--ease), background var(--t-med) var(--ease);
+    }
+    html.gsap .card:hover, html.gsap .card:focus-visible { transform: none; border-color: var(--line-2); }
 
     .card-art {
       margin: -26px -26px 4px;
@@ -512,6 +543,55 @@
     }
     .contact-info { display: grid; gap: 22px; }
     .contact-info p { margin: 0; color: var(--soft); font-size: 0.96rem; line-height: 1.7; max-width: 44ch; }
+
+    /* ---- Interactive operator ID (avatar) ---- */
+    .op-id {
+      display: flex; align-items: center; gap: 22px;
+      perspective: 750px; /* stage for the 3D tilt */
+    }
+    .id-card {
+      position: relative; flex: 0 0 auto;
+      width: 172px; aspect-ratio: 4 / 5;
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--line-2);
+      background: var(--surface-2);
+      transform-style: preserve-3d;
+      will-change: transform;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+    }
+    .id-photo {
+      position: absolute; inset: -7%;
+      width: 114%; height: 114%;
+      object-fit: cover; display: block;
+      filter: saturate(0.9) contrast(1.04);
+      will-change: transform;
+    }
+    .id-glare {
+      position: absolute; inset: 0; pointer-events: none; z-index: 2;
+      background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.13) 48%, transparent 64%);
+      transform: translateX(-130%);
+    }
+    .id-scan {
+      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background:
+        repeating-linear-gradient(0deg, rgba(10, 11, 13, 0.1) 0 1px, transparent 1px 3px),
+        linear-gradient(180deg, transparent 58%, rgba(10, 11, 13, 0.5));
+    }
+    .id-meta {
+      position: absolute; left: 11px; bottom: 9px; z-index: 3;
+      color: var(--ok);
+      font-family: var(--mono); font-size: 0.56rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .id-meta b { color: var(--accent); font-weight: 600; margin-right: 7px; }
+    .id-caption { display: grid; gap: 4px; min-width: 0; }
+    .id-caption strong { font-size: 1.08rem; font-weight: 650; letter-spacing: -0.01em; }
+    .id-caption span { color: var(--muted); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; }
+    .id-status {
+      display: inline-flex; align-items: center; gap: 7px;
+      color: var(--ok) !important; font-weight: 600;
+    }
+    .id-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); }
 
     .copy-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
     .copy-row code {
@@ -822,6 +902,8 @@
       .hero-actions .btn:not(.btn-text) { width: 100%; }
       .ticket-grid { grid-template-columns: 1fr; }
       .brand-status { display: none; }
+      .op-id { gap: 16px; }
+      .id-card { width: 132px; }
     }
 
     /* ============ Reduced motion: everything settles instantly ============ */
@@ -836,6 +918,7 @@
       .card:hover, .card:focus-visible { transform: none; }
       .btn:hover, .btn:focus-visible { transform: none; }
       .card:hover .card-art img { transform: none; }
+      .id-glare { display: none; }
     }
   </style>
 </head>
@@ -884,8 +967,8 @@
         with real evidence, never inflated claims.
       </p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#proof">View case files</a>
-        <a class="btn btn-ghost" href="#contact">Open a ticket</a>
+        <a class="btn btn-primary" data-magnetic href="#proof">View case files</a>
+        <a class="btn btn-ghost" data-magnetic href="#contact">Open a ticket</a>
         <a class="btn btn-text" href="resume.html" target="_blank" rel="noopener">Resume ↗</a>
       </div>
       <p class="status-line" id="status-line" aria-label="Live site status"></p>
@@ -921,7 +1004,7 @@
             <div><dt>evidence</dt><dd id="ro-evidence">—</dd></div>
             <div><dt>next artifact</dt><dd id="ro-next">—</dd></div>
           </dl>
-          <button class="btn btn-ghost" type="button" id="ro-open">Open case file</button>
+          <button class="btn btn-ghost" type="button" id="ro-open" data-magnetic>Open case file</button>
         </aside>
       </div>
 
@@ -991,6 +1074,20 @@
 
       <div class="contact-layout" data-reveal>
         <div class="contact-info">
+          <div class="op-id" id="op-id" aria-label="Operator identification">
+            <div class="id-card" id="id-card">
+              <img class="id-photo" id="id-photo" src="assets/avatar.webp" alt="Portrait of Gary Virk"
+                   onerror="if(!this.dataset.alt){this.dataset.alt=1;this.src='assets/avatar.jpg';}else{document.getElementById('op-id').style.display='none';}">
+              <span class="id-scan" aria-hidden="true"></span>
+              <span class="id-glare" id="id-glare" aria-hidden="true"></span>
+              <span class="id-meta"><b>GV-01</b>operator on duty</span>
+            </div>
+            <div class="id-caption">
+              <strong>Gary Virk</strong>
+              <span>IT Specialist · L3 Support</span>
+              <span class="id-status">open to work</span>
+            </div>
+          </div>
           <p>
             Recruiting, collaboration on a lab, a question about a writeup, or a
             correction — all valid categories. No phone, no tracking, no forms
@@ -1046,7 +1143,7 @@
           </div>
           <div class="ticket-foot">
             <small>submitting opens your mail app with the ticket pre-filled</small>
-            <button class="btn btn-primary" type="submit">Submit ticket</button>
+            <button class="btn btn-primary" type="submit" data-magnetic>Submit ticket</button>
           </div>
         </form>
       </div>
@@ -1060,7 +1157,7 @@
       <a href="https://www.linkedin.com/in/gary-virk/" rel="noopener">LinkedIn</a> ·
       <a href="resume.html">Resume</a>
     </span>
-    <span>v6.0 · updated June 2026 · no trackers, no analytics</span>
+    <span>v7.0 · updated June 2026 · no trackers, no analytics</span>
   </footer>
 
   <noscript>
@@ -1136,6 +1233,7 @@
     var EMAIL = 'i@garyvirk.com';
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     var finePointer = window.matchMedia('(pointer: fine)');
+    var coarsePointer = window.matchMedia('(pointer: coarse)');
 
     /* ================================================================
        DATA — the single source of truth.
@@ -1690,13 +1788,19 @@
     }
 
     /* ================================================================
-       Ambient signal field — one quiet canvas, nothing else.
-       Static frame under reduced motion; paused when tab is hidden.
+       L2/L3 — the hero scene.
+       Three.js "diagnostic topology" when WebGL + motion are available;
+       2D ambient field otherwise; a single static frame under
+       prefers-reduced-motion. Each layer is a complete experience.
        ================================================================ */
-    (function initField() {
+    var sceneState = { pointerX: 0, pointerY: 0, scrollFade: 1 };
+
+    function initField2D(staticOnly) {
       var canvas = document.getElementById('field');
       if (!canvas || !canvas.getContext) return;
-      var ctx = canvas.getContext('2d');
+      var ctx;
+      try { ctx = canvas.getContext('2d'); } catch (e) { return; }
+      if (!ctx) return;
       var w, h, dpr, pts = [], raf = null;
 
       function resize() {
@@ -1747,19 +1851,263 @@
         draw();
         raf = requestAnimationFrame(step);
       }
-      function start() { if (raf === null && !reduceMotion.matches) raf = requestAnimationFrame(step); }
+      function start() { if (raf === null && !staticOnly) raf = requestAnimationFrame(step); }
       function stop() { if (raf !== null) { cancelAnimationFrame(raf); raf = null; } }
 
-      window.addEventListener('resize', function () { resize(); seed(); if (reduceMotion.matches) draw(); });
+      window.addEventListener('resize', function () { resize(); seed(); if (staticOnly) draw(); });
       document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
-      if (reduceMotion.addEventListener) {
-        reduceMotion.addEventListener('change', function () {
-          if (reduceMotion.matches) { stop(); draw(); } else { start(); }
-        });
-      }
       resize(); seed();
-      if (reduceMotion.matches) { draw(); } else { start(); }
-    })();
+      if (staticOnly) { draw(); } else { start(); }
+    }
+
+    function initTopology() {
+      var THREE = window.THREE;
+      var canvas = document.getElementById('field');
+      var hero = document.querySelector('.hero');
+      if (!THREE || !canvas || !hero) return false;
+
+      var renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+      } catch (e) { return false; }
+
+      var coarse = coarsePointer.matches;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2));
+
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 60);
+      camera.position.z = 9;
+
+      var group = new THREE.Group();
+      group.position.set(2.1, 0.4, 0);
+      scene.add(group);
+
+      /* --- node cloud: organic stretched fibonacci lattice --- */
+      var N = coarse ? 70 : 110;
+      var SX = 4.6, SY = 2.7, SZ = 3.4;
+      var base = [], i, j;
+      for (i = 0; i < N; i++) {
+        var phi = Math.acos(1 - 2 * (i + 0.5) / N);
+        var theta = Math.PI * (1 + Math.sqrt(5)) * i;
+        var rJ = 0.9 + Math.random() * 0.2;
+        base.push(new THREE.Vector3(
+          SX * rJ * Math.cos(theta) * Math.sin(phi),
+          SY * rJ * Math.sin(theta) * Math.sin(phi),
+          SZ * rJ * Math.cos(phi)
+        ));
+      }
+      var cur = base.map(function (v) { return v.clone(); });
+      var offset = base.map(function () { return new THREE.Vector3(); });
+
+      /* --- edges between near neighbours (cap 4 per node) --- */
+      var edges = [], degree = new Array(N).fill(0);
+      for (i = 0; i < N; i++) {
+        for (j = i + 1; j < N; j++) {
+          if (degree[i] >= 4 || degree[j] >= 4) continue;
+          if (base[i].distanceTo(base[j]) < 1.55) {
+            edges.push([i, j]); degree[i]++; degree[j]++;
+          }
+        }
+      }
+
+      /* --- geometry buffers (updated each frame) --- */
+      var ptsPos = new Float32Array(N * 3);
+      var ptsGeo = new THREE.BufferGeometry();
+      ptsGeo.setAttribute('position', new THREE.BufferAttribute(ptsPos, 3).setUsage(THREE.DynamicDrawUsage));
+      group.add(new THREE.Points(ptsGeo, new THREE.PointsMaterial({
+        color: 0x9aa6b4, size: 0.055, transparent: true, opacity: 0.7, sizeAttenuation: true
+      })));
+
+      var accentIdx = [];
+      for (i = 0; i < N; i += 13) accentIdx.push(i);
+      var accPos = new Float32Array(accentIdx.length * 3);
+      var accGeo = new THREE.BufferGeometry();
+      accGeo.setAttribute('position', new THREE.BufferAttribute(accPos, 3).setUsage(THREE.DynamicDrawUsage));
+      group.add(new THREE.Points(accGeo, new THREE.PointsMaterial({
+        color: 0x5bd9a3, size: 0.085, transparent: true, opacity: 0.85, sizeAttenuation: true
+      })));
+
+      var linePos = new Float32Array(edges.length * 6);
+      var lineGeo = new THREE.BufferGeometry();
+      lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3).setUsage(THREE.DynamicDrawUsage));
+      group.add(new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({
+        color: 0x8ab4ff, transparent: true, opacity: 0.11
+      })));
+
+      /* --- travelling packet pulses --- */
+      var P = Math.min(6, edges.length);
+      var pkPos = new Float32Array(P * 3);
+      var pkGeo = new THREE.BufferGeometry();
+      pkGeo.setAttribute('position', new THREE.BufferAttribute(pkPos, 3).setUsage(THREE.DynamicDrawUsage));
+      group.add(new THREE.Points(pkGeo, new THREE.PointsMaterial({
+        color: 0xbcd3ff, size: 0.07, transparent: true, opacity: 0.8, sizeAttenuation: true
+      })));
+      var packets = [];
+      for (i = 0; i < P; i++) {
+        packets.push({ e: Math.floor(Math.random() * edges.length), t: Math.random(),
+                       s: 0.004 + Math.random() * 0.006 });
+      }
+
+      /* --- interaction state --- */
+      var rot = { x: 0, y: 0 }, target = { x: 0, y: 0 };
+      var spin = 0, spinVel = 0;
+      var ndc = { x: 10, y: 10 };           /* cursor in normalized device coords; 10 = far away */
+      var projV = new THREE.Vector3();
+      var qInv = new THREE.Quaternion();
+      var worldOff = new THREE.Vector3();
+      var PULL_R = 0.42, PULL_K = 2.1;
+
+      /* cursor parallax + magnetic pull (fine pointers) */
+      if (finePointer.matches) {
+        window.addEventListener('pointermove', function (e) {
+          var px = e.clientX / window.innerWidth - 0.5;
+          var py = e.clientY / window.innerHeight - 0.5;
+          target.x = px; target.y = py;
+          var r = canvas.getBoundingClientRect();
+          if (e.clientY >= r.top && e.clientY <= r.bottom) {
+            ndc.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+            ndc.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+          } else { ndc.x = 10; ndc.y = 10; }
+        }, { passive: true });
+      }
+
+      /* touch drag rotates the lattice with inertia; vertical scroll preserved */
+      var dragging = false, lastTX = 0;
+      hero.addEventListener('pointerdown', function (e) {
+        if (e.pointerType !== 'touch') return;
+        if (e.target.closest && e.target.closest('a, button, input, select, textarea')) return;
+        dragging = true; lastTX = e.clientX;
+      }, { passive: true });
+      window.addEventListener('pointermove', function (e) {
+        if (!dragging || e.pointerType !== 'touch') return;
+        spinVel = (e.clientX - lastTX) * 0.0035;
+        lastTX = e.clientX;
+      }, { passive: true });
+      window.addEventListener('pointerup', function () { dragging = false; }, { passive: true });
+      window.addEventListener('pointercancel', function () { dragging = false; }, { passive: true });
+
+      /* gyroscope where it needs no permission prompt (Android, most tablets) */
+      if (window.DeviceOrientationEvent &&
+          typeof window.DeviceOrientationEvent.requestPermission !== 'function' &&
+          coarse) {
+        window.addEventListener('deviceorientation', function (e) {
+          if (e.gamma == null || e.beta == null) return;
+          target.x = Math.max(-0.5, Math.min(0.5, e.gamma / 70));
+          target.y = Math.max(-0.5, Math.min(0.5, (e.beta - 40) / 90));
+        }, { passive: true });
+      }
+
+      /* scroll: lattice tips forward and the canvas quietly recedes */
+      var scrollTilt = 0;
+      window.addEventListener('scroll', function () {
+        var y = window.scrollY || 0;
+        scrollTilt = Math.min(y / 1600, 0.45);
+        sceneState.scrollFade = Math.max(0.15, 1 - y / 900);
+        canvas.style.opacity = sceneState.scrollFade.toFixed(3);
+      }, { passive: true });
+
+      function resize() {
+        var r = hero.getBoundingClientRect();
+        var wpx = Math.max(1, r.width), hpx = Math.max(1, r.height);
+        renderer.setSize(wpx, hpx, false);
+        camera.aspect = wpx / hpx;
+        camera.updateProjectionMatrix();
+      }
+
+      var raf = null;
+      function tick() {
+        spin += 0.0009 + spinVel;
+        spinVel *= 0.95;
+        rot.x += (target.y * 0.22 + scrollTilt - rot.x) * 0.045;
+        rot.y += (target.x * 0.4 - rot.y) * 0.045;
+        group.rotation.set(rot.x, spin + rot.y, 0);
+        camera.position.x += (target.x * 0.55 - camera.position.x) * 0.04;
+        camera.position.y += (-target.y * 0.35 - camera.position.y) * 0.04;
+        camera.lookAt(group.position.x * 0.5, 0, 0);
+
+        group.updateMatrixWorld();
+        qInv.copy(group.quaternion).invert();
+
+        /* magnetic pull: nodes near the cursor bulge toward it */
+        var k, v, p, dx, dy, d, s;
+        for (k = 0; k < N; k++) {
+          var desired = null;
+          if (ndc.x < 5) {
+            projV.copy(cur[k]).applyMatrix4(group.matrixWorld).project(camera);
+            dx = ndc.x - projV.x; dy = ndc.y - projV.y;
+            d = Math.sqrt(dx * dx + dy * dy);
+            if (d < PULL_R) {
+              s = (1 - d / PULL_R);
+              worldOff.set(dx * PULL_K * s, dy * PULL_K * s * 0.7, 0).applyQuaternion(qInv);
+              if (worldOff.length() > 0.85) worldOff.setLength(0.85);
+              desired = worldOff;
+            }
+          }
+          if (desired) offset[k].lerp(desired, 0.09);
+          else offset[k].multiplyScalar(0.9);
+          cur[k].copy(base[k]).add(offset[k]);
+          ptsPos[k * 3] = cur[k].x; ptsPos[k * 3 + 1] = cur[k].y; ptsPos[k * 3 + 2] = cur[k].z;
+        }
+        for (k = 0; k < accentIdx.length; k++) {
+          v = cur[accentIdx[k]];
+          accPos[k * 3] = v.x; accPos[k * 3 + 1] = v.y; accPos[k * 3 + 2] = v.z;
+        }
+        for (k = 0; k < edges.length; k++) {
+          var a = cur[edges[k][0]], b = cur[edges[k][1]];
+          linePos[k * 6] = a.x; linePos[k * 6 + 1] = a.y; linePos[k * 6 + 2] = a.z;
+          linePos[k * 6 + 3] = b.x; linePos[k * 6 + 4] = b.y; linePos[k * 6 + 5] = b.z;
+        }
+        for (k = 0; k < packets.length; k++) {
+          p = packets[k];
+          p.t += p.s;
+          if (p.t >= 1) { p.t = 0; p.e = Math.floor(Math.random() * edges.length); }
+          var ea = cur[edges[p.e][0]], eb = cur[edges[p.e][1]];
+          pkPos[k * 3] = ea.x + (eb.x - ea.x) * p.t;
+          pkPos[k * 3 + 1] = ea.y + (eb.y - ea.y) * p.t;
+          pkPos[k * 3 + 2] = ea.z + (eb.z - ea.z) * p.t;
+        }
+        ptsGeo.attributes.position.needsUpdate = true;
+        accGeo.attributes.position.needsUpdate = true;
+        lineGeo.attributes.position.needsUpdate = true;
+        pkGeo.attributes.position.needsUpdate = true;
+
+        renderer.render(scene, camera);
+        raf = requestAnimationFrame(tick);
+      }
+      function start() { if (raf === null) raf = requestAnimationFrame(tick); }
+      function stop() { if (raf !== null) { cancelAnimationFrame(raf); raf = null; } }
+
+      window.addEventListener('resize', resize);
+      document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+      canvas.addEventListener('webglcontextlost', function (e) {
+        e.preventDefault(); stop();
+        try { initField2D(false); } catch (err) {}
+      });
+
+      resize();
+      start();
+      return true;
+    }
+
+    function initScene() {
+      if (reduceMotion.matches) { initField2D(true); return; }
+      var webgl = false;
+      try {
+        var c = document.createElement('canvas');
+        webgl = !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+      } catch (e) { webgl = false; }
+      if (!webgl) { initField2D(false); return; }
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
+      s.onload = function () {
+        var ok = false;
+        try { ok = initTopology(); } catch (e) { ok = false; }
+        if (!ok) initField2D(false);
+      };
+      s.onerror = function () { initField2D(false); };
+      document.head.appendChild(s);
+    }
+    initScene();
 
     /* ================================================================
        Scroll progress + active nav
@@ -1991,9 +2339,11 @@
     }
 
     /* ================================================================
-       GSAP enhancement layer — progressive, reversible, optional.
-       If the CDN fails or motion is reduced, the IO reveals above
-       carry the page untouched.
+       L4 — GSAP cinematics. Progressive, reversible, optional.
+       Every module is isolated: one failure cannot dim the page.
+       Lesson learned in production: tabs opened in the background
+       never fire rAF, so the hero intro waits for first visibility
+       and a failsafe completes it if anything ever stalls.
        ================================================================ */
     function enhance() {
       if (!(window.gsap && window.ScrollTrigger) || reduceMotion.matches) return;
@@ -2001,52 +2351,151 @@
       gsap.registerPlugin(window.ScrollTrigger);
       root.classList.add('gsap');
 
-      /* Hero — masked line rise, then supporting copy settles in. */
-      var tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-      tl.from('.hero h1 .line > span', { yPercent: 110, duration: 1.1, stagger: 0.12 }, 0.05)
-        .from('.hero .kicker', { autoAlpha: 0, y: 10, duration: 0.7 }, 0.3)
-        .from('.role-line', { autoAlpha: 0, y: 12, duration: 0.7 }, 0.55)
-        .from('.hero .lead', { autoAlpha: 0, y: 14, duration: 0.8 }, 0.65)
-        .from('.hero-actions > *', { autoAlpha: 0, y: 12, duration: 0.6, stagger: 0.07 }, 0.8)
-        .from('.status-line', { autoAlpha: 0, duration: 0.7 }, 1.0)
-        .from('.cert-row > div', { autoAlpha: 0, y: 10, duration: 0.6, stagger: 0.06 }, 1.05);
+      /* -- Hero intro: masked line rise, copy settles; visibility-aware -- */
+      try {
+        var tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+        tl.from('.hero h1 .line > span', { yPercent: 110, duration: 1.1, stagger: 0.12 }, 0.05)
+          .from('.hero .kicker', { autoAlpha: 0, y: 10, duration: 0.7 }, 0.3)
+          .from('.role-line', { autoAlpha: 0, y: 12, duration: 0.7 }, 0.55)
+          .from('.hero .lead', { autoAlpha: 0, y: 14, duration: 0.8 }, 0.65)
+          .from('.hero-actions > *', { autoAlpha: 0, y: 12, duration: 0.6, stagger: 0.07 }, 0.8)
+          .from('.status-line', { autoAlpha: 0, duration: 0.7 }, 1.0)
+          .from('.cert-row > div', { autoAlpha: 0, y: 10, duration: 0.6, stagger: 0.06 }, 1.05);
 
-      /* Sections — one quiet rise per block. */
-      var blocks = gsap.utils.toArray('[data-reveal]').filter(function (b) {
-        return b.getBoundingClientRect().top > window.innerHeight;
-      });
-      gsap.set(blocks, { autoAlpha: 0, y: 26 });
-      window.ScrollTrigger.batch(blocks, {
-        start: 'top 88%', once: true,
-        onEnter: function (els) {
-          gsap.to(els, { autoAlpha: 1, y: 0, duration: 1.0, stagger: 0.1, ease: 'expo.out',
-                         clearProps: 'opacity,visibility,transform' });
+        var played = false;
+        function playIntro() {
+          if (played || document.hidden) return;
+          played = true;
+          tl.play();
         }
-      });
+        playIntro();
+        document.addEventListener('visibilitychange', playIntro);
+        /* failsafe: never strand the hero invisible */
+        setTimeout(function () {
+          if (tl.progress() < 1 && !document.hidden && tl.time() === 0) tl.progress(1);
+        }, 12000);
+      } catch (e) {}
 
-      /* Lab map — lines draw from the core, nodes settle. */
-      var mapSvg = document.getElementById('map-svg');
-      if (mapSvg) {
-        var lines = mapSvg.querySelectorAll('.map-line');
-        lines.forEach(function (l) {
-          var len = Math.hypot(l.x2.baseVal.value - l.x1.baseVal.value,
-                               l.y2.baseVal.value - l.y1.baseVal.value);
-          l.style.strokeDasharray = len;
-          l.style.strokeDashoffset = len;
+      /* -- Section blocks: one quiet rise per block -- */
+      try {
+        var blocks = gsap.utils.toArray('[data-reveal]').filter(function (b) {
+          return b.getBoundingClientRect().top > window.innerHeight;
         });
-        gsap.timeline({ scrollTrigger: { trigger: '.map-frame', start: 'top 80%', once: true } })
-          .from('#map-svg .map-core', { autoAlpha: 0, scale: 0.7, transformOrigin: '50% 50%', duration: 0.7, ease: 'expo.out' })
-          .to(lines, { strokeDashoffset: 0, duration: 0.9, stagger: 0.07, ease: 'power2.inOut' }, '-=0.3')
-          .from('#map-svg .map-node', { autoAlpha: 0, y: 6, duration: 0.6, stagger: 0.06, ease: 'expo.out' }, '-=0.7');
-      }
+        gsap.set(blocks, { autoAlpha: 0, y: 26 });
+        window.ScrollTrigger.batch(blocks, {
+          start: 'top 88%', once: true,
+          onEnter: function (els) {
+            gsap.to(els, { autoAlpha: 1, y: 0, duration: 1.0, stagger: 0.1, ease: 'expo.out',
+                           clearProps: 'opacity,visibility,transform' });
+          }
+        });
+      } catch (e) {}
 
-      /* Hero field fades as the reader commits to the page. */
-      gsap.to('#field', {
-        opacity: 0.25, ease: 'none',
-        scrollTrigger: { trigger: '#lab-map', start: 'top 95%', end: 'top 35%', scrub: true }
-      });
+      /* -- Lab map: lines draw from the core, nodes settle -- */
+      try {
+        var mapSvg = document.getElementById('map-svg');
+        if (mapSvg) {
+          var lines = mapSvg.querySelectorAll('.map-line');
+          lines.forEach(function (l) {
+            var len = Math.hypot(l.x2.baseVal.value - l.x1.baseVal.value,
+                                 l.y2.baseVal.value - l.y1.baseVal.value);
+            l.style.strokeDasharray = len;
+            l.style.strokeDashoffset = len;
+          });
+          gsap.timeline({ scrollTrigger: { trigger: '.map-frame', start: 'top 80%', once: true } })
+            .from('#map-svg .map-core', { autoAlpha: 0, scale: 0.7, transformOrigin: '50% 50%', duration: 0.7, ease: 'expo.out' })
+            .to(lines, { strokeDashoffset: 0, duration: 0.9, stagger: 0.07, ease: 'power2.inOut' }, '-=0.3')
+            .from('#map-svg .map-node', { autoAlpha: 0, y: 6, duration: 0.6, stagger: 0.06, ease: 'expo.out' }, '-=0.7');
+        }
+      } catch (e) {}
 
-      window.addEventListener('load', function () { window.ScrollTrigger.refresh(); });
+      /* -- Magnetic buttons (fine pointers only) -- */
+      try {
+        if (finePointer.matches) {
+          document.querySelectorAll('[data-magnetic]').forEach(function (btn) {
+            var qx = gsap.quickTo(btn, 'x', { duration: 0.35, ease: 'power3' });
+            var qy = gsap.quickTo(btn, 'y', { duration: 0.35, ease: 'power3' });
+            btn.addEventListener('pointermove', function (e) {
+              var r = btn.getBoundingClientRect();
+              qx(((e.clientX - r.left) / r.width - 0.5) * 10);
+              qy(((e.clientY - r.top) / r.height - 0.5) * 7);
+            });
+            btn.addEventListener('pointerleave', function () {
+              gsap.to(btn, { x: 0, y: 0, duration: 0.55, ease: 'elastic.out(1, 0.45)' });
+            });
+          });
+        }
+      } catch (e) {}
+
+      /* -- Card tilt: butter 3D on hover (fine pointers only) -- */
+      try {
+        if (finePointer.matches) {
+          document.querySelectorAll('#cards .card').forEach(function (card) {
+            gsap.set(card, { transformPerspective: 900 });
+            var rx = gsap.quickTo(card, 'rotationX', { duration: 0.5, ease: 'power3' });
+            var ry = gsap.quickTo(card, 'rotationY', { duration: 0.5, ease: 'power3' });
+            var ly = gsap.quickTo(card, 'y', { duration: 0.4, ease: 'power3' });
+            card.addEventListener('pointerenter', function () { ly(-5); });
+            card.addEventListener('pointermove', function (e) {
+              var r = card.getBoundingClientRect();
+              ry(((e.clientX - r.left) / r.width - 0.5) * 4.5);
+              rx(-((e.clientY - r.top) / r.height - 0.5) * 4.5);
+            });
+            card.addEventListener('pointerleave', function () { rx(0); ry(0); ly(0); });
+          });
+        }
+      } catch (e) {}
+
+      /* -- Operator ID: cinematic reveal + depth parallax + glare -- */
+      try {
+        var idCard = document.getElementById('id-card');
+        var idPhoto = document.getElementById('id-photo');
+        var idGlare = document.getElementById('id-glare');
+        var opId = document.getElementById('op-id');
+        if (idCard && idPhoto && opId) {
+          /* reveal: card unclips, photo settles from a slow zoom */
+          gsap.timeline({ scrollTrigger: { trigger: opId, start: 'top 85%', once: true } })
+            .fromTo(idCard, { clipPath: 'inset(0 0 100% 0)' },
+                            { clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: 'expo.out' })
+            .from(idPhoto, { scale: 1.18, duration: 1.6, ease: 'expo.out' }, 0)
+            .add(function () {
+              if (idGlare) gsap.fromTo(idGlare, { xPercent: -130 },
+                { xPercent: 140, duration: 1.1, ease: 'power2.inOut' });
+            }, 0.45);
+
+          if (finePointer.matches) {
+            /* 3D tilt + photo depth parallax following the cursor */
+            var idRx = gsap.quickTo(idCard, 'rotationX', { duration: 0.6, ease: 'power3' });
+            var idRy = gsap.quickTo(idCard, 'rotationY', { duration: 0.6, ease: 'power3' });
+            var phX = gsap.quickTo(idPhoto, 'x', { duration: 0.7, ease: 'power3' });
+            var phY = gsap.quickTo(idPhoto, 'y', { duration: 0.7, ease: 'power3' });
+            opId.addEventListener('pointermove', function (e) {
+              var r = idCard.getBoundingClientRect();
+              var px = (e.clientX - r.left) / r.width - 0.5;
+              var py = (e.clientY - r.top) / r.height - 0.5;
+              idRy(px * 10); idRx(-py * 10);
+              phX(-px * 9); phY(-py * 9);
+            });
+            opId.addEventListener('pointerleave', function () {
+              idRx(0); idRy(0); phX(0); phY(0);
+            });
+            opId.addEventListener('pointerenter', function () {
+              if (idGlare) gsap.fromTo(idGlare, { xPercent: -130 },
+                { xPercent: 140, duration: 0.9, ease: 'power2.out' });
+            });
+          } else {
+            /* touch: gentle scroll-driven float keeps the card alive */
+            gsap.fromTo(idCard, { rotationY: -6, rotationX: 2 }, {
+              rotationY: 6, rotationX: -2, ease: 'none',
+              scrollTrigger: { trigger: opId, start: 'top bottom', end: 'bottom top', scrub: 1.2 }
+            });
+          }
+        }
+      } catch (e) {}
+
+      try {
+        window.addEventListener('load', function () { window.ScrollTrigger.refresh(); });
+      } catch (e) {}
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', enhance);
