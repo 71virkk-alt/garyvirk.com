@@ -24,7 +24,7 @@ pnpm release:prepare
 git add -- \
   .gitattributes .gitignore .npmrc README.md astro.config.mjs deploy.sh package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json \
   _site-src _site-public scripts \
-  CNAME LICENSE index.html resume.html 404.html robots.txt sitemap.xml favicon.svg site.webmanifest \
+  .nojekyll CNAME LICENSE index.html resume.html 404.html robots.txt sitemap.xml favicon.svg site.webmanifest \
   assets/avatar.webp assets/Gary-Virk-Resume.pdf assets/og.jpg assets/og-source.svg assets/build
 
 git diff --cached --quiet && { echo "Nothing to deploy."; exit 0; }

@@ -24,6 +24,7 @@ function walk(directory) {
 }
 
 assert(existsSync(distRoot), "Build directory .site-dist does not exist.");
+assert(existsSync(join(distRoot, ".nojekyll")), "Build output must include .nojekyll.");
 
 const home = read("index.html");
 const resume = read("resume.html");

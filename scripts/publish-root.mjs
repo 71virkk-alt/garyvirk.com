@@ -12,6 +12,7 @@ const repoRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const distRoot = join(repoRoot, ".site-dist");
 const generatedAssets = join(repoRoot, "assets", "build");
 const publicFiles = [
+  ".nojekyll",
   "index.html",
   "resume.html",
   "404.html",
