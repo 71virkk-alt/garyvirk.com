@@ -5,3 +5,6 @@ AGENTS.md
 *.log
 .env
 node_modules/
+.astro/
+.site-dist/
+/*.pdf

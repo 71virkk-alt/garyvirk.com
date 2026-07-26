@@ -1,0 +1,15 @@
+{
+  "name": "Gary Virk — IT Support & Network Infrastructure",
+  "short_name": "Gary Virk",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f3f0e8",
+  "theme_color": "#f3f0e8",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

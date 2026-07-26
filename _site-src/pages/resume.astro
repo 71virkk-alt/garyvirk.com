@@ -1,0 +1,113 @@
+---
+import resumePdf from "../../assets/Gary-Virk-Resume.pdf?url";
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { activeLab, capabilities, credentials, experience, profile } from "../data/site";
+---
+
+<BaseLayout
+  title={`Résumé — ${profile.name} | ${profile.role}`}
+  description={`${profile.name}'s résumé: enterprise IT support, network infrastructure, Windows Server, Active Directory, and technical documentation.`}
+  canonicalPath="/resume.html"
+  bodyClass="resume-page"
+>
+  <SiteHeader compact />
+
+  <main class="resume-main" id="main">
+    <div class="resume-toolbar shell">
+      <p>Web résumé · print-friendly</p>
+      <div>
+        <button class="text-link" type="button" data-print>Print</button>
+        <a class="button button--ink button--small" href={resumePdf} download="Gary-Virk-Resume.pdf">
+          Download PDF <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </div>
+
+    <article class="resume-sheet">
+      <header class="resume-hero">
+        <div>
+          <p class="eyebrow">Résumé</p>
+          <h1>{profile.name}</h1>
+          <p class="resume-role">{profile.role}</p>
+        </div>
+        <address>
+          {profile.location}<br />
+          <a href={`mailto:${profile.email}`}>{profile.email}</a><br />
+          <a href={profile.linkedin} rel="noopener">linkedin.com/in/gary-virk</a><br />
+          <a href="https://garyvirk.com">garyvirk.com</a>
+        </address>
+      </header>
+
+      <section class="resume-section" aria-labelledby="resume-summary">
+        <h2 id="resume-summary">Summary</h2>
+        <p>{profile.summary} Certified: CCNA, CompTIA A+, Network+, and CIOS.</p>
+      </section>
+
+      <section class="resume-section" aria-labelledby="resume-experience">
+        <h2 id="resume-experience">Experience</h2>
+        <div class="resume-section-content">
+          {
+            experience.map((job) => (
+              <article class="resume-job">
+                <header>
+                  <div>
+                    <h3>{job.role}</h3>
+                    <p>{job.company} · {job.location}</p>
+                  </div>
+                  <p>{job.period}</p>
+                </header>
+                <ul>
+                  {job.highlights.map((highlight) => <li>{highlight}</li>)}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="resume-section" aria-labelledby="resume-skills">
+        <h2 id="resume-skills">Core skills</h2>
+        <div class="resume-section-content resume-skills">
+          {capabilities.map((capability) => (
+            <div>
+              <h3>{capability.title}</h3>
+              <p>{capability.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="resume-section" aria-labelledby="resume-credentials">
+        <h2 id="resume-credentials">Credentials</h2>
+        <div class="resume-section-content credential-lines">
+          {credentials.map((credential) => (
+            <p><strong>{credential.name}</strong><span>{credential.detail}</span></p>
+          ))}
+        </div>
+      </section>
+
+      <section class="resume-section" aria-labelledby="resume-education">
+        <h2 id="resume-education">Education</h2>
+        <div class="resume-section-content resume-education">
+          <div>
+            <h3>St. Clair College · Windsor, Ontario</h3>
+            <p>IT Systems & Network Administration</p>
+          </div>
+          <div>
+            <h3>Cisco Networking Academy · Windsor, Ontario</h3>
+            <p>Systems, networking, and LAN/WAN management</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="resume-section" aria-labelledby="resume-lab">
+        <h2 id="resume-lab">Current lab</h2>
+        <div class="resume-section-content">
+          <h3>{activeLab.title}</h3>
+          <p>{activeLab.description}</p>
+        </div>
+      </section>
+    </article>
+  </main>
+</BaseLayout>

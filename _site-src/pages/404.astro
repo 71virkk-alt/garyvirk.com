@@ -1,0 +1,19 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found — Gary Virk"
+  description="The requested page could not be found."
+  canonicalPath="/404.html"
+  bodyClass="not-found-page"
+>
+  <SiteHeader compact />
+  <main class="not-found shell" id="main">
+    <p class="eyebrow">404 · Page not found</p>
+    <h1>This path ends here.</h1>
+    <p>The page may have moved, or the work is not ready to publish yet.</p>
+    <a class="button button--ink" href="/">Return home <span aria-hidden="true">←</span></a>
+  </main>
+</BaseLayout>

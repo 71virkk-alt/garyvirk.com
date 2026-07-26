@@ -1,92 +1,59 @@
 # garyvirk.com
 
-Personal technical portfolio for Gary Virk, hosted with GitHub Pages.
+Personal technical portfolio for Gary Virk, hosted at
+[garyvirk.com](https://garyvirk.com) with GitHub Pages.
 
-Live site: https://garyvirk.com
+## Architecture
 
-## Purpose
+The authored source is an Astro static site with TypeScript content validation,
+native CSS, and one isolated React Three Fiber scene. Essential content is
+rendered as HTML and remains available without JavaScript.
 
-This site is a static portfolio for practical IT support, network infrastructure, troubleshooting, cybersecurity learning, scripting experiments, and technical project writeups.
+- `_site-src/` — pages, components, styles, content, and typed site data
+- `_site-public/` — root-level static files copied into the build
+- `assets/` — public portrait, résumé PDF, social image, and generated assets
+- `scripts/` — build validation and allowlisted root publishing
+- `.site-dist/` — temporary local build, ignored by Git
+- `index.html`, `resume.html`, and `404.html` — generated GitHub Pages output
+- `CNAME` — custom-domain binding; keep unchanged
 
-The public site should stay concise and proof-oriented. It should show useful technical work without exposing private personal details, employer-specific information, screenshots with private data, or sensitive operational context.
+Draft case studies are validated during the build but are not given public
+routes. A project should be marked as published only when its evidence is
+complete, sanitized, and safe to share.
 
-## Current Structure
+## Local development
 
-- `index.html` - single-file homepage with inline CSS.
-- `assets/` - public optimized images and other safe public assets.
-- `CNAME` - custom domain binding for GitHub Pages. Do not delete.
-- `deploy.sh` - one-command deploy helper.
-- `_reference/` - private local planning/reference material, gitignored.
-- `AGENTS.md` - private local operating notes, gitignored.
-
-## Hosting And HTTPS
-
-- Host: GitHub Pages
-- Source: `main` branch, repository root
-- Custom domain: `garyvirk.com`
-- HTTPS: enforced through GitHub Pages
-
-Expected checks:
+Node.js 22.12 or newer and pnpm are required.
 
 ```bash
-curl -I https://garyvirk.com
-curl -I http://garyvirk.com
-curl -I https://www.garyvirk.com
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-Expected behavior:
-
-- `https://garyvirk.com` returns `200`.
-- `http://garyvirk.com` redirects to `https://garyvirk.com/`.
-- `https://www.garyvirk.com` redirects to `https://garyvirk.com/`.
-
-## Deploy
-
-From the repository root:
+Production checks:
 
 ```bash
-./deploy.sh "Update homepage"
+pnpm build
+pnpm validate
 ```
 
-The script pulls with rebase, stages changes, commits, and pushes to `main`.
+## Deployment
 
-If Git authentication fails, run:
+GitHub Pages serves the repository root from `main`. The deployment helper
+pulls current changes, installs the locked dependencies, builds and validates
+the site, copies only approved generated files into the root, stages an
+explicit allowlist, commits, and pushes:
 
 ```bash
-gh auth login
-gh auth setup-git
+./deploy.sh "Update portfolio"
 ```
 
-Then retry the deploy or push.
+The script refuses to deploy from a non-`main` branch. GitHub Pages normally
+publishes a successful push within about one minute.
 
-## Content Direction
+## Public content rules
 
-Near-term public content should prioritize:
-
-- Windows Server support lab
-- Packet Tracer small-office network lab
-- Wireshark troubleshooting notes
-- PowerShell endpoint inventory script
-- Sanitized support-ticket writeups
-
-Longer-term content can expand into:
-
-- Cybersecurity fundamentals and defensive controls
-- Endpoint management and deployment workflows
-- Scripting and diagnostic utilities
-- Small tools and diagnostics
-- Technical articles and case studies
-
-## Public Content Rules
-
-Do not publish:
-
-- Private screenshots
-- Private identifiers
-- Phone numbers or personal contact details
-- Exact address or unnecessary location details
-- Sensitive personal context
-- Employer-private details
-- Internal notes from `_reference/`
-
-Use sanitized diagrams, synthetic lab data, and clean screenshots.
+Use synthetic lab data, sanitized diagrams, and clean evidence. Do not publish
+private screenshots, identifiers, phone numbers, home addresses,
+employer-confidential material, credentials, internal reference files, or
+unfinished work described as complete.

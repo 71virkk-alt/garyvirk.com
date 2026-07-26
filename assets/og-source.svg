@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f3f0e8"/>
+  <rect x="0" y="0" width="28" height="630" fill="#3157f6"/>
+  <path d="M68 64H1132" stroke="#111318" stroke-opacity=".2"/>
+  <path d="M68 566H1132" stroke="#111318" stroke-opacity=".2"/>
+
+  <text x="68" y="115" fill="#5e605d" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="3">MISSISSAUGA · ONTARIO · CANADA</text>
+  <text x="64" y="286" fill="#111318" font-family="Helvetica Neue, Arial, sans-serif" font-size="112" font-weight="700" letter-spacing="-7">GARY VIRK</text>
+  <text x="68" y="352" fill="#3157f6" font-family="Georgia, serif" font-size="46" font-style="italic">IT support that gets to the why.</text>
+  <text x="68" y="422" fill="#2e3138" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" font-weight="600">IT Support &amp; Network Infrastructure Specialist</text>
+  <text x="68" y="525" fill="#5e605d" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700">GARYVIRK.COM</text>
+
+  <g transform="translate(858 96) rotate(-7)">
+    <path d="M-24 5H274V446H-24Z" fill="#111318"/>
+    <path d="M4 52H228V104H4Z" fill="#222936"/>
+    <path d="M24 52V104M208 52V104" stroke="#7088ff" stroke-width="3"/>
+    <circle cx="54" cy="78" r="5" fill="#7088ff"/>
+    <circle cx="74" cy="78" r="5" fill="#7088ff"/>
+
+    <path d="M28 132H248V184H28Z" fill="#222936"/>
+    <circle cx="78" cy="158" r="5" fill="#7088ff"/>
+    <circle cx="98" cy="158" r="5" fill="#7088ff"/>
+
+    <path d="M48 212H264V264H48Z" fill="#222936"/>
+    <circle cx="98" cy="238" r="5" fill="#f3f0e8"/>
+    <circle cx="118" cy="238" r="5" fill="#f3f0e8"/>
+
+    <path d="M68 292H260V344H68Z" fill="#222936"/>
+    <circle cx="118" cy="318" r="5" fill="#f3f0e8"/>
+    <circle cx="138" cy="318" r="5" fill="#f3f0e8"/>
+
+    <path d="M92 372H264V424H92Z" fill="#3157f6"/>
+    <circle cx="142" cy="398" r="5" fill="#f3f0e8"/>
+    <circle cx="162" cy="398" r="5" fill="#f3f0e8"/>
+    <path d="M56 78C28 150 152 206 117 274C93 322 188 346 179 398" fill="none" stroke="#8ea1ff" stroke-width="3"/>
+  </g>
+</svg>
