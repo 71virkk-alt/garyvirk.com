@@ -10,8 +10,19 @@ const { compact = false } = Astro.props;
 
 <header class:list={["site-header", { "site-header--compact": compact }]} data-site-header>
   <a class="brand" href="/" aria-label="Gary Virk, home">
-    <span class="brand-mark" aria-hidden="true">GV</span>
-    <span class="brand-name">{profile.name}</span>
+    <span class="brand-route" aria-hidden="true">
+      <svg viewBox="0 0 44 32" role="presentation">
+        <path d="M3 23h10l6-13h10l5 7h7" />
+        <circle cx="3" cy="23" r="2.2" />
+        <circle cx="19" cy="10" r="2.2" />
+        <circle cx="34" cy="17" r="2.2" />
+        <circle cx="41" cy="17" r="2.2" />
+      </svg>
+    </span>
+    <span class="brand-copy">
+      <span class="brand-name">{profile.name}</span>
+      <span class="brand-discipline">Systems / support</span>
+    </span>
   </a>
 
   {

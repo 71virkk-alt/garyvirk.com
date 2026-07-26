@@ -1,7 +1,7 @@
 ---
 import avatar from "../../assets/avatar.webp?url";
 import resumePdf from "../../assets/Gary-Virk-Resume.pdf?url";
-import HeroScene from "../components/HeroScene";
+import LivingSignal from "../components/LivingSignal";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -10,100 +10,160 @@ import {
   capabilities,
   credentials,
   experience,
-  method,
   profile
 } from "../data/site";
+import "../styles/living-signal.css";
 ---
 
-<BaseLayout>
+<BaseLayout
+  title="Gary Virk — IT Support & Network Infrastructure"
+  description="Gary Virk is an IT support and network infrastructure specialist in Mississauga, Ontario, with enterprise experience across endpoints, identity, networks, and documentation."
+  bodyClass="living-site"
+  themeColor="#071a15"
+  colorScheme="dark light"
+>
   <SiteHeader />
 
   <main id="main">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-grid shell">
-        <div class="hero-copy">
-          <p class="eyebrow hero-location">{profile.location}</p>
-          <p class="hero-name">{profile.name}</p>
-          <h1 id="hero-title">
-            IT support that gets to the <em>why.</em>
-          </h1>
-          <p class="hero-role">{profile.role}</p>
-          <p class="hero-intro">{profile.introduction}</p>
+    <section
+      class="signal-journey"
+      data-signal-journey
+      data-scene="0"
+      aria-labelledby="hero-title"
+    >
+      <div class="signal-sticky">
+        <LivingSignal portraitUrl={avatar} client:load />
 
-          <div class="hero-actions">
-            <a class="button button--ink" href="#experience">
-              View experience
-              <span aria-hidden="true">↓</span>
-            </a>
-            <a class="button button--line" href={resumePdf} download="Gary-Virk-Resume.pdf">
-              Download résumé
-              <span aria-hidden="true">↘</span>
-            </a>
-            <a class="text-link" href={`mailto:${profile.email}`}>Email Gary</a>
-          </div>
-
-          <p class="hero-proof">
-            Nearly 3 years in enterprise IT support
-            <span aria-hidden="true">·</span>
-            CCNA
-            <span aria-hidden="true">·</span>
-            CompTIA A+, Network+, CIOS
-          </p>
+        <div class="signal-atmosphere" aria-hidden="true">
+          <i></i><i></i><i></i>
         </div>
 
-        <div class="hero-visual" aria-label="Portrait of Gary Virk and a visual model of his diagnostic process">
-          <div class="scene-stage">
-            <div class="stage-heading" aria-hidden="true">
-              <span>Diagnostic path</span>
-              <span>01—05</span>
-            </div>
-            <HeroScene client:idle />
-            <p class="scene-description">
-              Follow the signal. Isolate the layer. Verify the fix.
-            </p>
+        <div class="signal-interface">
+          <div class="signal-meta" aria-hidden="true">
+            <span>Living Signal / 2026</span>
+            <span>Mississauga · 43.5890° N</span>
           </div>
-          <figure class="portrait-card">
-            <img
-              src={avatar}
-              alt="Portrait of Gary Virk wearing a black shirt against a light background"
-              width={600}
-              height={750}
-              loading="eager"
-              decoding="sync"
-              fetchpriority="high"
-            />
-            <figcaption>
-              <span>Gary Virk</span>
-              <span>Mississauga, ON</span>
-            </figcaption>
-          </figure>
-        </div>
-      </div>
 
-      <div class="trust-rail" aria-label="Career highlights">
-        <div class="shell trust-grid">
-          <p><span>Experience</span><strong>Enterprise IT support</strong></p>
-          <p><span>Previously</span><strong>Cummins Inc.</strong></p>
-          <p><span>Certified</span><strong>CCNA · A+ · Network+ · CIOS</strong></p>
-          <p><span>Based in</span><strong>Mississauga, Ontario</strong></p>
+          <nav class="signal-chapters" aria-label="Living Signal chapters">
+            <button type="button" data-signal-nav="0" aria-current="step">
+              <span>01</span>
+              <b>Operator</b>
+              <i aria-hidden="true"></i>
+            </button>
+            <button type="button" data-signal-nav="1">
+              <span>02</span>
+              <b>Method</b>
+              <i aria-hidden="true"></i>
+            </button>
+            <button type="button" data-signal-nav="2">
+              <span>03</span>
+              <b>Evidence</b>
+              <i aria-hidden="true"></i>
+            </button>
+          </nav>
+
+          <div class="signal-panels">
+            <article class="signal-panel signal-panel--identity" data-signal-panel="0">
+              <p class="signal-kicker">Gary Virk · IT support & network infrastructure</p>
+              <h1 id="hero-title">
+                <span>I follow the signal.</span>
+                <em>Then prove the fix.</em>
+              </h1>
+              <p class="signal-lede">
+                Nearly three years of hands-on enterprise support across endpoints, identity,
+                networks, and the documentation that makes the next incident faster.
+              </p>
+
+              <dl class="signal-facts" aria-label="Career highlights">
+                <div><dt>Experience</dt><dd>Cummins Inc. · Bluum</dd></div>
+                <div><dt>Credentials</dt><dd>CCNA · A+ · Network+ · CIOS</dd></div>
+                <div><dt>Based in</dt><dd>Mississauga, Ontario</dd></div>
+              </dl>
+
+              <div class="signal-actions">
+                <a class="signal-button" href="#experience">Enter the portfolio <span aria-hidden="true">↘</span></a>
+                <a class="signal-link" href={resumePdf} download="Gary-Virk-Resume.pdf">Download résumé</a>
+              </div>
+            </article>
+
+            <article class="signal-panel signal-panel--method" data-signal-panel="1">
+              <p class="signal-kicker">A five-layer diagnostic path</p>
+              <h2>A symptom is only the first clue.</h2>
+              <p class="signal-lede">
+                I move from the user’s report to the smallest useful test—checking the endpoint,
+                identity, network, and service layer until the failure has one defensible cause.
+              </p>
+
+              <ol class="signal-route" aria-label="Troubleshooting layers">
+                <li><span>01</span><b>Endpoint</b><small>State & configuration</small></li>
+                <li><span>02</span><b>Identity</b><small>Access & policy</small></li>
+                <li><span>03</span><b>Network</b><small>Path & resolution</small></li>
+                <li><span>04</span><b>Service</b><small>Dependency & response</small></li>
+                <li><span>05</span><b>Evidence</b><small>Verify & hand off</small></li>
+              </ol>
+            </article>
+
+            <article class="signal-panel signal-panel--evidence" data-signal-panel="2">
+              <p class="signal-kicker">The resolution is not the end</p>
+              <h2>Every fix should leave a trace.</h2>
+              <p class="signal-lede">
+                Clear checks, honest boundaries, and a concise handoff turn one solved ticket into
+                a stronger support system.
+              </p>
+
+              <div class="signal-proof">
+                <div>
+                  <span>Enterprise record</span>
+                  <strong>2 years 8 months</strong>
+                  <small>IT Specialist · Cummins Inc.</small>
+                </div>
+                <div>
+                  <span>Current lab</span>
+                  <strong>Identity troubleshooting</strong>
+                  <small>In progress · not presented as a completed case</small>
+                </div>
+              </div>
+
+              <div class="signal-actions">
+                <a class="signal-button" href="#experience">See the record <span aria-hidden="true">↓</span></a>
+                <a class="signal-link" href={`mailto:${profile.email}`}>Start a conversation</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="signal-scroll" aria-hidden="true">
+            <span>Scroll to trace</span>
+            <i><b></b></i>
+            <span>01 — 03</span>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <section class="section section--experience shell" id="experience" aria-labelledby="experience-title">
-      <div class="section-intro" data-reveal>
-        <p class="eyebrow">Experience</p>
-        <h2 id="experience-title">Enterprise support with an infrastructure mindset.</h2>
-        <p>
-          My work has included endpoint deployment, escalated support, network troubleshooting,
-          and documentation designed for clean handoffs.
-        </p>
+    <section class="proof-rail" aria-label="Career summary">
+      <div class="proof-rail__intro">
+        <span>Signal received</span>
+        <strong>Now inspect the evidence.</strong>
+      </div>
+      <div><span>01 / Role</span><strong>IT support & infrastructure</strong></div>
+      <div><span>02 / Record</span><strong>Enterprise + on-site support</strong></div>
+      <div><span>03 / Standard</span><strong>Test · verify · document</strong></div>
+    </section>
+
+    <section class="section experience-section shell" id="experience" aria-labelledby="experience-title">
+      <div class="section-heading section-heading--editorial" data-reveal>
+        <div>
+          <p class="eyebrow">01 / Experience</p>
+          <p class="section-note">A record of work in live support environments.</p>
+        </div>
+        <h2 id="experience-title">Real systems.<br /><em>Real users.</em><br />Clear evidence.</h2>
       </div>
 
-      <div class="experience-list">
+      <div class="experience-list living-experience">
         {
           experience.map((job, index) => (
-            <article class="experience-item" data-reveal>
+            <article class="experience-item living-experience__item" data-reveal>
               <div class="experience-index" aria-hidden="true">0{index + 1}</div>
               <div class="experience-primary">
                 <p class="experience-period">{job.period}</p>
@@ -117,41 +177,92 @@ import {
                   {job.highlights.map((highlight) => <li>{highlight}</li>)}
                 </ul>
               </div>
+              <div class="experience-trace" aria-hidden="true">
+                <span></span><span></span><span></span><i></i>
+              </div>
             </article>
           ))
         }
       </div>
 
       <div class="section-action" data-reveal>
-        <a class="text-link text-link--large" href="/resume.html">View the full résumé <span aria-hidden="true">↗</span></a>
+        <a class="text-link text-link--large" href="/resume.html">Open the full résumé <span aria-hidden="true">↗</span></a>
       </div>
     </section>
 
-    <section class="section section--lab" id="lab" aria-labelledby="lab-title">
+    <section class="section capabilities-section" id="capabilities" aria-labelledby="capabilities-title">
+      <div class="shell">
+        <div class="section-heading section-heading--split" data-reveal>
+          <div>
+            <p class="eyebrow eyebrow--light">02 / Working range</p>
+            <p class="section-note">Hover or focus to inspect each layer.</p>
+          </div>
+          <h2 id="capabilities-title">One incident.<br />Several possible layers.</h2>
+          <p>
+            Broad enough to trace a problem across the stack. Disciplined enough to test one
+            assumption at a time.
+          </p>
+        </div>
+
+        <div class="capability-system" data-capability-system data-active-capability="0">
+          <div class="capability-orbit" aria-hidden="true">
+            <div class="capability-orbit__core">
+              <span>Signal</span>
+              <b>01</b>
+            </div>
+            <i></i><i></i><i></i><i></i>
+            <p>Endpoint → identity → network → handoff</p>
+          </div>
+
+          <div class="capability-list">
+            {
+              capabilities.map((capability, index) => (
+                <article
+                  class="capability-row"
+                  data-capability={index}
+                  tabindex="0"
+                  data-reveal
+                >
+                  <p class="capability-number">{capability.number}</p>
+                  <h3>{capability.title}</h3>
+                  <p>{capability.description}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section lab-section" id="lab" aria-labelledby="lab-title">
       <div class="shell lab-shell">
         <div class="lab-heading" data-reveal>
-          <p class="eyebrow eyebrow--light">Lab work</p>
-          <h2 id="lab-title">Support work, shown step by step.</h2>
+          <div>
+            <p class="eyebrow eyebrow--light">03 / Lab work</p>
+            <p class="lab-status"><i aria-hidden="true"></i>{activeLab.eyebrow}</p>
+          </div>
+          <h2 id="lab-title">Show the checks.<br />Not just the claim.</h2>
           <p>
-            I use lab environments and synthetic or sanitized data to show how I troubleshoot:
-            symptom, checks, evidence, fix, validation, and handoff.
+            Lab cases use synthetic or sanitized data and open on their own route only when the
+            topology, commands, evidence, fix, and validation are complete.
           </p>
         </div>
 
         <article class="lab-feature" data-reveal>
           <div class="lab-copy">
-            <p class="lab-status"><i aria-hidden="true"></i>{activeLab.eyebrow}</p>
+            <p class="lab-index">Case / 001</p>
             <h3>{activeLab.title}</h3>
             <p>{activeLab.description}</p>
             <p class="lab-honesty">
-              This case will open only when every artifact below is complete and safe to publish.
+              This case is visibly marked in progress. It will not be promoted as finished work
+              before every artifact is complete and safe to publish.
             </p>
           </div>
           <div class="lab-evidence">
             <p>Evidence being assembled</p>
             <ol>
               {activeLab.evidence.map((item, index) => (
-                <li><span>0{index + 1}</span>{item}</li>
+                <li><span>0{index + 1}</span>{item}<i aria-hidden="true">In progress</i></li>
               ))}
             </ol>
           </div>
@@ -159,60 +270,20 @@ import {
       </div>
     </section>
 
-    <section class="section shell" id="capabilities" aria-labelledby="capabilities-title">
-      <div class="split-heading" data-reveal>
-        <p class="eyebrow">Focus</p>
-        <h2 id="capabilities-title">The layers I work across.</h2>
-        <p>
-          Broad enough to trace a problem across the stack. Disciplined enough to test one
-          assumption at a time.
-        </p>
-      </div>
-
-      <div class="capability-list">
-        {
-          capabilities.map((capability) => (
-            <article class="capability-row" data-reveal>
-              <p class="capability-number">{capability.number}</p>
-              <h3>{capability.title}</h3>
-              <p>{capability.description}</p>
-            </article>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="section section--method" aria-labelledby="method-title">
-      <div class="shell">
-        <div class="method-intro" data-reveal>
-          <p class="eyebrow">Approach</p>
-          <h2 id="method-title">A calm way through ambiguous problems.</h2>
+    <section class="section credentials-section shell" id="credentials" aria-labelledby="credentials-title">
+      <div class="section-heading section-heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">04 / Credentials</p>
+          <p class="section-note">Technical foundations, kept practical.</p>
         </div>
-        <ol class="method-list">
-          {
-            method.map(([title, description], index) => (
-              <li data-reveal>
-                <span class="method-number">0{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </li>
-            ))
-          }
-        </ol>
-      </div>
-    </section>
-
-    <section class="section shell" id="credentials" aria-labelledby="credentials-title">
-      <div class="split-heading" data-reveal>
-        <p class="eyebrow">Credentials</p>
-        <h2 id="credentials-title">Technical foundations, kept practical.</h2>
+        <h2 id="credentials-title">Learn the model.<br /><em>Prove it in practice.</em></h2>
         <p>
-          Certification study is most useful when it changes how the next real problem is
-          investigated.
+          Certification study matters when it improves the next diagnosis—not when it becomes a
+          substitute for one.
         </p>
       </div>
 
-      <div class="credentials-grid">
+      <div class="credentials-grid living-credentials">
         {
           credentials.map((credential, index) => (
             <article class="credential" data-reveal>
@@ -237,42 +308,55 @@ import {
       </div>
     </section>
 
-    <section class="section section--about" id="about" aria-labelledby="about-title">
-      <div class="shell about-grid">
+    <section class="section about-section" id="about" aria-labelledby="about-title">
+      <div class="shell about-grid living-about">
+        <figure class="about-portrait" data-reveal>
+          <img
+            src={avatar}
+            alt="Gary Virk wearing a black shirt against a light background"
+            width="600"
+            height="750"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>
+            <span>Gary Virk</span>
+            <span>Mississauga, Ontario</span>
+          </figcaption>
+        </figure>
+
         <div class="about-heading" data-reveal>
-          <p class="eyebrow">About</p>
-          <h2 id="about-title">I like solving the part after the obvious fix fails.</h2>
+          <p class="eyebrow">05 / About</p>
+          <h2 id="about-title">The person inside the signal.</h2>
         </div>
+
         <div class="about-copy" data-reveal>
           <p>
-            I’m Gary, an IT specialist based in Mississauga. I enjoy narrowing a vague user
-            symptom into a testable problem, checking the right layer, and collecting enough
-            evidence to make the resolution clear.
+            I’m Gary, an IT specialist based in Mississauga. I like narrowing a vague user symptom
+            into a testable problem, checking the right layer, and collecting enough evidence to
+            make the resolution clear.
           </p>
           <p>
             My background includes enterprise endpoint deployment, escalated support, network
-            troubleshooting, and documentation. Outside day-to-day work, I build labs around
-            Windows Server, networking, packet analysis, and automation so employers can see
-            how I reason—not just a list of tools I recognize.
+            troubleshooting, and documentation. I build labs around Windows Server, networking,
+            packet analysis, and automation so employers can see how I reason—not just a list of
+            tools I recognize.
           </p>
-          <p>
-            I care about accurate claims, clear handoffs, and systems that are easier to
-            support after I work on them.
-          </p>
+          <p>I care about accurate claims, clean handoffs, and systems that are easier to support.</p>
         </div>
       </div>
     </section>
 
-    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+    <section class="contact-section living-contact" id="contact" aria-labelledby="contact-title">
       <div class="shell contact-grid">
         <div data-reveal>
-          <p class="eyebrow eyebrow--light">Contact</p>
-          <h2 id="contact-title">Let’s talk about the role.</h2>
+          <p class="eyebrow eyebrow--light">06 / Contact</p>
+          <h2 id="contact-title">Let’s talk<br />about the role.</h2>
         </div>
         <div class="contact-copy" data-reveal>
           <p>
-            If you’re hiring for IT support, infrastructure support, systems support, or
-            networking-focused work, email me or connect on LinkedIn. I’ll reply directly.
+            Hiring for IT support, infrastructure support, systems support, or networking-focused
+            work? Email me or connect on LinkedIn. I’ll reply directly.
           </p>
           <div class="contact-actions">
             <a class="button button--paper" href={`mailto:${profile.email}`}>Email Gary <span aria-hidden="true">↗</span></a>

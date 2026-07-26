@@ -3,7 +3,7 @@ import "@fontsource-variable/instrument-sans/wght.css";
 import "@fontsource/instrument-serif/latin-400.css";
 import "@fontsource/instrument-serif/latin-400-italic.css";
 import "../styles/global.css";
-import ogImage from "../../assets/og.jpg?url";
+import ogImage from "../../assets/og-living-signal.jpg?url";
 import { profile } from "../data/site";
 
 interface Props {
@@ -11,13 +11,17 @@ interface Props {
   description?: string;
   canonicalPath?: string;
   bodyClass?: string;
+  themeColor?: string;
+  colorScheme?: string;
 }
 
 const {
   title = `${profile.name} — ${profile.role}`,
   description = profile.introduction,
   canonicalPath = "/",
-  bodyClass = ""
+  bodyClass = "",
+  themeColor = "#f3f0e8",
+  colorScheme = "light"
 } = Astro.props;
 
 const canonical = new URL(canonicalPath, Astro.site);
@@ -51,8 +55,8 @@ const personSchema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f3f0e8" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content={themeColor} />
+    <meta name="color-scheme" content={colorScheme} />
     <meta name="description" content={description} />
     <meta name="author" content={profile.name} />
     <meta name="robots" content="index, follow" />

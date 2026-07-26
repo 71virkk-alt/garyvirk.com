@@ -302,19 +302,48 @@ blockquote {
   font-weight: 700;
 }
 
-.brand-mark {
+.brand-route {
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 32px;
   place-items: center;
-  background: var(--ink);
-  color: var(--paper);
-  font-size: 0.72rem;
-  letter-spacing: -0.03em;
+  color: var(--blue);
+}
+
+.brand-route svg {
+  width: 100%;
+  overflow: visible;
+}
+
+.brand-route path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.35;
+}
+
+.brand-route circle {
+  fill: currentColor;
+}
+
+.brand-copy {
+  display: grid;
+  gap: 1px;
+  line-height: 1;
 }
 
 .brand-name {
   letter-spacing: -0.02em;
+}
+
+.brand-discipline {
+  color: currentColor;
+  font-size: 0.51rem;
+  font-weight: 560;
+  letter-spacing: 0.13em;
+  opacity: 0.58;
+  text-transform: uppercase;
 }
 
 .primary-nav,
@@ -1783,6 +1812,10 @@ blockquote {
   }
 
   .brand-name {
+    display: block;
+  }
+
+  .brand-discipline {
     display: none;
   }
 
