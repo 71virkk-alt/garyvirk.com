@@ -47,14 +47,15 @@ for (const [name, html] of [
 
 for (const phrase of [
   "Gary Virk",
-  "I follow the signal",
-  "Then prove the fix",
-  "Real systems",
+  "Hello, I’m Gary",
+  "Start a conversation",
+  "Show the checks",
+  "Support work in",
   "Cummins Inc.",
   "Bluum",
   "Windows Server identity troubleshooting",
   "CompTIA Network+",
-  "Let’s talk"
+  "Mississauga"
 ]) {
   assert(home.includes(phrase), `Homepage is missing required content: ${phrase}`);
 }

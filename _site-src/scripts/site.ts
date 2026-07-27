@@ -1,16 +1,18 @@
+export {};
+
 const root = document.documentElement;
 const header = document.querySelector<HTMLElement>("[data-site-header]");
 const menuButton = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
 const menu = document.querySelector<HTMLElement>("[data-menu]");
-const signalJourney = document.querySelector<HTMLElement>("[data-signal-journey]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function closeMenu() {
+function closeMenu(returnFocus = false) {
   if (!menuButton || !menu) return;
   menuButton.setAttribute("aria-expanded", "false");
   menu.removeAttribute("data-open");
   menu.inert = window.innerWidth <= 820;
   document.body.classList.remove("menu-open");
+  if (returnFocus) menuButton.focus();
 }
 
 if (menuButton && menu) {
@@ -29,10 +31,7 @@ if (menuButton && menu) {
   });
 
   window.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeMenu();
-      menuButton.focus();
-    }
+    if (event.key === "Escape" && menu.hasAttribute("data-open")) closeMenu(true);
   });
 
   window.addEventListener("resize", () => {
@@ -47,90 +46,10 @@ if (menuButton && menu) {
 
 function updateHeader() {
   header?.toggleAttribute("data-scrolled", window.scrollY > 16);
-  if (!header || !signalJourney) return;
-  const signalBounds = signalJourney.getBoundingClientRect();
-  const insideSignal = signalBounds.top < header.offsetHeight && signalBounds.bottom > header.offsetHeight;
-  header.toggleAttribute("data-signal-zone", insideSignal);
 }
 
 updateHeader();
 window.addEventListener("scroll", updateHeader, { passive: true });
-
-const signalPanels = Array.from(
-  document.querySelectorAll<HTMLElement>("[data-signal-panel]")
-);
-const signalNavButtons = Array.from(
-  document.querySelectorAll<HTMLButtonElement>("[data-signal-nav]")
-);
-
-function setSignalScene(scene: number) {
-  if (!signalJourney || reduceMotion) return;
-  const normalizedScene = Math.max(0, Math.min(2, scene));
-  signalJourney.dataset.scene = String(normalizedScene);
-
-  signalPanels.forEach((panel) => {
-    const active = Number(panel.dataset.signalPanel) === normalizedScene;
-    panel.toggleAttribute("data-active", active);
-    panel.setAttribute("aria-hidden", String(!active));
-    panel.inert = !active;
-  });
-
-  signalNavButtons.forEach((button) => {
-    if (Number(button.dataset.signalNav) === normalizedScene) {
-      button.setAttribute("aria-current", "step");
-    } else {
-      button.removeAttribute("aria-current");
-    }
-  });
-}
-
-if (signalJourney) {
-  if (reduceMotion) {
-    signalJourney.setAttribute("data-reduced-motion", "");
-    signalPanels.forEach((panel) => {
-      panel.removeAttribute("aria-hidden");
-      panel.inert = false;
-      panel.setAttribute("data-active", "");
-    });
-  } else {
-    setSignalScene(0);
-    window.addEventListener("living-signal:state", (event) => {
-      const detail = (event as CustomEvent<{ scene?: number }>).detail;
-      if (typeof detail?.scene === "number") setSignalScene(detail.scene);
-    });
-
-    signalNavButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const scene = Number(button.dataset.signalNav);
-        const bounds = signalJourney.getBoundingClientRect();
-        const journeyTop = window.scrollY + bounds.top;
-        const travel = Math.max(1, signalJourney.offsetHeight - window.innerHeight);
-        window.scrollTo({
-          top: journeyTop + travel * (scene / 2),
-          behavior: "smooth"
-        });
-      });
-    });
-  }
-}
-
-const capabilitySystem = document.querySelector<HTMLElement>("[data-capability-system]");
-const capabilityRows = Array.from(
-  document.querySelectorAll<HTMLElement>("[data-capability]")
-);
-
-function setCapability(index: number) {
-  if (!capabilitySystem) return;
-  capabilitySystem.dataset.activeCapability = String(index);
-  const counter = capabilitySystem.querySelector<HTMLElement>(".capability-orbit__core b");
-  if (counter) counter.textContent = String(index + 1).padStart(2, "0");
-}
-
-capabilityRows.forEach((row) => {
-  const activate = () => setCapability(Number(row.dataset.capability ?? 0));
-  row.addEventListener("pointerenter", activate);
-  row.addEventListener("focus", activate);
-});
 
 const revealItems = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
 

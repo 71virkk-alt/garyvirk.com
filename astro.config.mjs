@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import react from "@astrojs/react";
 
 export default defineConfig({
   site: "https://garyvirk.com",
@@ -7,7 +6,6 @@ export default defineConfig({
   publicDir: "./_site-public",
   outDir: "./.site-dist",
   output: "static",
-  integrations: [react()],
   build: {
     format: "file",
     assets: "assets/build",
