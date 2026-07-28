@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -28,8 +29,10 @@ function walk(directory) {
 assert(existsSync(distRoot), "Build directory .site-dist does not exist.");
 assert(existsSync(join(distRoot, ".nojekyll")), "Build output must include .nojekyll.");
 assert(
-  /\bwork\.html\b/.test(deployScript) && /\bwork\s+work-assets\b/.test(deployScript),
-  "deploy.sh must stage the work index, generated routes, and their public assets."
+  /\bwork\.html\b/.test(deployScript) &&
+    /\bmessage-sent\.html\b/.test(deployScript) &&
+    /\bwork\s+work-assets\b/.test(deployScript),
+  "deploy.sh must stage the work index, message confirmation, generated routes, and their public assets."
 );
 
 const projectSlugs = new Set();
@@ -79,14 +82,24 @@ for (const project of projects) {
       );
     }
     if (artifact.download) {
+      const publicArtifactPath = join(distRoot, artifact.download.replace(/^\//, ""));
       assert(
         artifact.download.startsWith("/work-assets/"),
         `${project.slug} artifact ${artifact.id} has a download outside the public evidence directory.`
       );
       assert(
-        existsSync(join(distRoot, artifact.download.replace(/^\//, ""))),
+        existsSync(publicArtifactPath),
         `${project.slug} artifact ${artifact.id} points to a missing download: ${artifact.download}.`
       );
+      if (artifact.sha256 && existsSync(publicArtifactPath)) {
+        const actualSha256 = createHash("sha256")
+          .update(readFileSync(publicArtifactPath))
+          .digest("hex");
+        assert(
+          actualSha256 === artifact.sha256,
+          `${project.slug} artifact ${artifact.id} does not match its declared SHA-256.`
+        );
+      }
     }
     if (artifact.origin === "generated") {
       assert(artifact.role === "generated-illustration", `${project.slug} generated artifact ${artifact.id} has the wrong role.`);
@@ -157,6 +170,7 @@ for (const project of projects) {
 const home = read("index.html");
 const resume = read("resume.html");
 const work = read("work.html");
+const messageSent = read("message-sent.html");
 const notFound = read("404.html");
 const robots = read("robots.txt");
 const sitemap = read("sitemap.xml");
@@ -166,6 +180,7 @@ for (const [name, html] of [
   ["index.html", home],
   ["work.html", work],
   ["resume.html", resume],
+  ["message-sent.html", messageSent],
   ["404.html", notFound]
 ]) {
   assert((html.match(/<h1[\s>]/g) || []).length === 1, `${name} must contain exactly one h1.`);
@@ -176,12 +191,12 @@ for (const [name, html] of [
 for (const phrase of [
   "Gary Virk · IT Specialist",
   "Introduction",
-  "I’m based in Mississauga, Ontario, with more than 3 years of hands-on experience",
-  "supporting Windows endpoints, hardware, deployments, software, and networks",
-  "My case studies show how I isolate faults, document changes, and confirm that a fix worked.",
+  "I’m an IT specialist based in Mississauga, Ontario, with more than three years of hands-on experience",
+  "supporting Windows endpoints, hardware, software deployments, and network issues",
+  "The case studies below show how I narrow down faults, document the work, and retest the fix.",
   "View case studies",
   "View résumé",
-  "View every case study",
+  "View all work",
   "Background",
   "On-site enterprise IT support",
   "Windows endpoints and networks",
@@ -197,6 +212,40 @@ for (const phrase of [
 ]) {
   assert(home.includes(phrase), `Homepage is missing required content: ${phrase}`);
 }
+
+for (const phrase of [
+  'action="https://formsubmit.co/i@garyvirk.com"',
+  'method="POST"',
+  'enctype="multipart/form-data"',
+  'name="first_name"',
+  'name="last_name"',
+  'name="email"',
+  'name="message"',
+  'name="attachment"',
+  'name="_honey"',
+  'name="_next" value="https://garyvirk.com/message-sent.html"',
+  "Maximum 10 MB",
+  "Do not send passwords or sensitive personal records",
+  "Privacy details",
+  "data-contact-form",
+  "data-contact-file",
+  "data-contact-submit"
+]) {
+  assert(home.includes(phrase), `Homepage contact form is missing required content: ${phrase}`);
+}
+assert(
+  messageSent.includes('name="robots" content="noindex, follow"'),
+  "Message confirmation page must remain noindex."
+);
+assert(
+  messageSent.includes("Thanks for reaching out.") &&
+    messageSent.includes("Your message was submitted through the contact form."),
+  "Message confirmation page is missing its delivery confirmation."
+);
+assert(
+  !sitemap.includes("https://garyvirk.com/message-sent.html"),
+  "Message confirmation page must not appear in the sitemap."
+);
 
 assert(
   !home.includes("Portrait / 2026") &&
@@ -220,7 +269,7 @@ assert(
 );
 
 for (const phrase of [
-  "Flagship cases",
+  "Detailed case studies",
   "Supporting labs",
   "Support notes",
   "Windows endpoint connectivity triage",
@@ -232,6 +281,7 @@ for (const phrase of [
   "SMB authentication and share permissions",
   "Tracing an HTTP 502 through a reverse proxy",
   "SSH access and private-key permissions",
+  "Endpoint application deployment and rollback",
   "macOS enrollment and FileVault support guide",
   "Laptop boot and storage troubleshooting guide",
   "Enterprise Wi-Fi troubleshooting guide",
@@ -269,14 +319,15 @@ const selectedSlugs = [
   "tls-service-trust",
   "smb-share-access",
   "reverse-proxy-path",
-  "ssh-access-permissions"
+  "ssh-access-permissions",
+  "endpoint-deployment-rollback"
 ];
 
 for (const slug of selectedSlugs) {
   const casePath = `work/${slug}.html`;
   const casePage = read(casePath);
   assert(casePage.includes("Evidence from the lab"), `${casePath} has no evidence section.`);
-  assert(casePage.includes("What changed, and where this test stops"), `${casePath} has no result boundary.`);
+  assert(casePage.includes("What changed, and what this lab does not prove"), `${casePath} has no result boundary.`);
   assert(casePage.includes("What the evidence supports"), `${casePath} has no claim check.`);
   assert(casePage.includes("Selected evidence on this page"), `${casePath} has no publication label.`);
   assert(
@@ -291,6 +342,20 @@ for (const slug of selectedSlugs) {
     sitemap.includes(`https://garyvirk.com/${casePath}`),
     `sitemap.xml has no URL for ${casePath}.`
   );
+}
+
+const deploymentPage = read("work/endpoint-deployment-rollback.html");
+for (const phrase of [
+  "Illustration, not evidence",
+  "Controlled health failure",
+  "Rollback retest",
+  "New-process retest",
+  "Already-compliant rerun",
+  "Named data boundary",
+  "Public evidence manifest",
+  "It does not demonstrate Windows, MSI, Intune"
+]) {
+  assert(deploymentPage.includes(phrase), `Endpoint deployment case is missing: ${phrase}`);
 }
 
 const technicalNoteSlugs = [

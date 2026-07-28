@@ -1,0 +1,3 @@
+package=support-agent-1.0.0.tar.gz version=1.0.0 sha256=42c6efcf45956629e2ab956400327c7814c71c6feb67240268eb55341e080a6c
+package=support-agent-2.0.0.tar.gz version=2.0.0 sha256=15401f66303b41d500a72193c1e519aadd64b007810654083373c0b83752dafe
+package=support-agent-2.0.1.tar.gz version=2.0.1 sha256=d9808807ec884bf8e5c3a183d41091ffcbb45704a12da29cb5db0daa45d6a1f0

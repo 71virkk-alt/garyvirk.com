@@ -172,6 +172,43 @@ body.work-page {
   font-size: 0.8125rem;
 }
 
+.evidence-key {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 24px 0 0;
+  border-top: 1px solid var(--work-line);
+}
+
+.evidence-key > div {
+  min-width: 0;
+  padding: 15px 14px 15px 0;
+  border-bottom: 1px solid var(--work-line);
+}
+
+.evidence-key > div:nth-child(2n) {
+  padding-right: 0;
+  padding-left: 14px;
+  border-left: 1px solid var(--work-line);
+}
+
+.evidence-key dt,
+.evidence-key dd {
+  margin: 0;
+}
+
+.evidence-key dt {
+  color: var(--work-text);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.evidence-key dd {
+  margin-top: 6px;
+  color: var(--work-soft);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
 .work-editorial {
   position: relative;
   grid-column: 1 / -1;
@@ -497,6 +534,54 @@ body.work-page {
   padding: 8px 12px;
   color: var(--work-muted);
   font-size: 0.62rem;
+}
+
+.case-jump-links {
+  display: flex;
+  min-height: 54px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 22px;
+  margin-top: 24px;
+  border-top: 1px solid var(--work-line);
+  border-bottom: 1px solid var(--work-line);
+}
+
+.case-jump-links span,
+.case-jump-links a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--work-muted);
+  font-size: 0.69rem;
+}
+
+.case-jump-links span {
+  margin-right: auto;
+  color: var(--work-soft);
+  font-weight: 600;
+}
+
+.case-jump-links a {
+  transition: color 180ms ease;
+}
+
+.case-jump-links a:hover {
+  color: var(--work-text);
+}
+
+.case-question h2,
+.case-process h2,
+.compact-matrix h2,
+.change-matrix-section h2,
+.note-map-section h2,
+.packet-notes h2,
+.source-section h2,
+.case-outcome h2,
+.claim-list h2,
+.evidence-heading h2,
+.project-visualization__heading h2 {
+  scroll-margin-top: 92px;
 }
 
 .case-question,
@@ -931,6 +1016,19 @@ body.work-page {
   height: auto;
 }
 
+.evidence-card--generated-illustration .evidence-image {
+  min-height: 0;
+  padding: clamp(18px, 3vw, 40px);
+  background: #090b0d;
+}
+
+.evidence-card--generated-illustration .evidence-image img {
+  width: 100%;
+  max-width: none;
+  border: 1px solid var(--work-line);
+  border-radius: 8px;
+}
+
 .notes-list {
   margin-top: 42px;
   border-top: 1px solid var(--work-line);
@@ -1362,6 +1460,23 @@ body.work-page {
 
   .case-status div:first-child {
     border-top: 0;
+  }
+
+  .case-jump-links {
+    flex-wrap: nowrap;
+    margin-right: -18px;
+    overflow-x: auto;
+    padding-right: 18px;
+    scrollbar-width: none;
+  }
+
+  .case-jump-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .case-jump-links span,
+  .case-jump-links a {
+    min-width: max-content;
   }
 
   .case-question,

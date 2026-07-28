@@ -17,6 +17,7 @@ export type PresentationType =
   | "tls"
   | "smb"
   | "service"
+  | "deployment"
   | "archive";
 export type ArtifactRole =
   | "execution-proof"
@@ -2275,6 +2276,277 @@ export const projects: PortfolioProject[] = [
           summary: "At mode 0600, the allowed account completes the remote checks while an unknown account remains denied.",
           artifactIds: ["ssh-mode-correction", "ssh-correction", "ssh-retest", "ssh-negative"],
           nodeStates: { service: "normal", "key-mode": "changed", "key-match": "normal", account: "normal", command: "normal" }
+        }
+      ]
+    }
+  },
+  {
+    number: "10",
+    slug: "endpoint-deployment-rollback",
+    title: "Endpoint application deployment and rollback",
+    tier: "supporting",
+    kind: "executed-lab",
+    releaseState: "published",
+    presentation: "deployment",
+    discipline: "IT support · Application deployment · POSIX shell",
+    summary:
+      "A disposable endpoint accepts a release that passes package checks but fails its health test, returns to the previous version, and then installs a corrected release.",
+    employerValue:
+      "A successful package transfer is not a successful deployment. The active version, application health, rollback result, and user-state boundary all need separate checks.",
+    ownership:
+      "I prepared the versioned releases, deployment wrapper, inserted failure, separate retests, and sanitized public record for this controlled local lab.",
+    environment: ["macOS ARM64", "POSIX shell", "Versioned tar packages", "Disposable endpoint root"],
+    status: {
+      completion: "Complete within stated scope",
+      execution: "Local disposable-endpoint run",
+      review: "Scripted assertions and artifact review",
+      publication: "Selected evidence on this page",
+      evidenceLevel: "E3"
+    },
+    question:
+      "A release passes its package checks but the application is unhealthy after activation. Can the endpoint restore the last healthy version without changing the named configuration and user-state files?",
+    approach: [
+      "Create a healthy 1.0.0 baseline and record the active version, health output, configuration hash, and synthetic user-state hash.",
+      "Activate 2.0.0 after its SHA-256 and declared version match, then let its deliberately incompatible health check fail.",
+      "Restore the previous release pointer and run a separate health check against 1.0.0.",
+      "Deploy corrected 2.0.1, retest it in a new shell process, and repeat the deployment to confirm that an already-compliant endpoint makes no activation change.",
+      "Compare the two named data-file hashes after failure, correction, and rerun, then validate the public evidence manifest."
+    ],
+    processLabel: "Deployment sequence",
+    processHeading:
+      "Verify the package, activate it, test health, and prove the rollback.",
+    evidenceHeading:
+      "The failed activation, restored baseline, corrected release, and data boundary.",
+    evidenceDescription:
+      "Captured output from the retained lab run. The editorial image explains the sequence and is not execution evidence.",
+    outcome:
+      "Release 2.0.0 passed its package checks, failed health with a missing configuration key, and returned to healthy 1.0.0. Corrected 2.0.1 passed during deployment and in a separate process. A later rerun made no activation change. The two named data-file hashes did not change.",
+    limitation:
+      "This is one synthetic application in a disposable macOS endpoint root using tar packages. It does not demonstrate Windows, MSI, Intune, Configuration Manager, MDM, remote fleet deployment, package signing, production execution, or recovery from an interrupted activation. The data boundary covers two named files, not an entire profile or filesystem.",
+    claims: [
+      {
+        id: "deployment-rollback-01",
+        publicWording:
+          "Release 2.0.0 passed its hash and version checks, failed post-activation health, and restored healthy 1.0.0.",
+        evidenceRefs: ["deployment-failure", "deployment-rollback-retest", "deployment-manifest"],
+        limitation:
+          "The failed release remains staged but inactive, and the test covers one controlled incompatibility.",
+        verification: "lab-demonstrated"
+      },
+      {
+        id: "deployment-correction-01",
+        publicWording:
+          "Corrected release 2.0.1 passed during deployment and in a new shell process; a later rerun reported the endpoint already compliant.",
+        evidenceRefs: [
+          "deployment-correction",
+          "deployment-separate-retest",
+          "deployment-idempotent",
+          "deployment-manifest"
+        ],
+        limitation: "The result applies to one local synthetic application.",
+        verification: "lab-demonstrated"
+      },
+      {
+        id: "deployment-data-01",
+        publicWording:
+          "The configuration and synthetic user-state hashes remained unchanged after failure, correction, and rerun.",
+        evidenceRefs: ["deployment-data-boundary", "deployment-manifest"],
+        limitation: "The check covers two named files outside the managed release directory.",
+        verification: "lab-demonstrated"
+      }
+    ],
+    evidence: [
+      {
+        id: "deployment-editorial",
+        title: "Deployment sequence",
+        kind: "diagram",
+        caption:
+          "A visual explanation of baseline, failed activation, rollback, and corrected release. It was generated for this page and is not proof of execution.",
+        claimIds: [],
+        privacyClass: "public-sanitized",
+        role: "generated-illustration",
+        origin: "generated",
+        proofValue: "explanation",
+        src: "/work-assets/editorial/endpoint-deployment-rollback.webp",
+        width: 1600,
+        height: 901,
+        alt: "Editorial illustration of a software release moving through failure, rollback, and correction"
+      },
+      {
+        id: "deployment-failure",
+        title: "Controlled health failure",
+        kind: "command",
+        caption:
+          "The package hash and declared version match before 2.0.0 activates. Its health check then reports the missing key and the wrapper restores 1.0.0.",
+        claimIds: ["deployment-rollback-01"],
+        privacyClass: "public-sanitized",
+        origin: "captured",
+        proofValue: "execution",
+        download: "/work-assets/evidence/endpoint-deployment-rollback/controlled-failure.txt",
+        sha256: "08297c4e8a87d1ac38634f49ce8c014780bc188c5e083b18f88de9544779d48d",
+        excerpt:
+          "declared_version=2.0.0\naction=activate\nhealth_error=missing_api_url\nhealth_exit=42\nrollback_action=restore\nrollback_version=1.0.0\nstatus=healthy\nresult=health-check-failed"
+      },
+      {
+        id: "deployment-rollback-retest",
+        title: "Rollback retest",
+        kind: "result",
+        caption:
+          "A separate check reads the active link after the failure and runs the restored 1.0.0 health command.",
+        claimIds: ["deployment-rollback-01"],
+        privacyClass: "public-sanitized",
+        origin: "captured",
+        proofValue: "execution",
+        download: "/work-assets/evidence/endpoint-deployment-rollback/rollback-retest.txt",
+        sha256: "4ff0050e19c6e606b442c0d13a536d1b170c74a6451f44140bd23f356114b52b",
+        excerpt:
+          "installed_version=1.0.0\nconfig_key=server_url\nstate=available\nstatus=healthy"
+      },
+      {
+        id: "deployment-correction",
+        title: "Corrected release",
+        kind: "result",
+        caption:
+          "Release 2.0.1 uses the endpoint’s existing configuration contract and passes its activation health check.",
+        claimIds: ["deployment-correction-01"],
+        privacyClass: "public-sanitized",
+        origin: "captured",
+        proofValue: "execution",
+        download: "/work-assets/evidence/endpoint-deployment-rollback/correction.txt",
+        sha256: "c4dddf138abb4a6673e0c6c70ee593044bd914d8b974be31780f9137383f2038",
+        excerpt:
+          "declared_version=2.0.1\naction=activate\nstatus=healthy\nhealth_exit=0\nresult=deployed\ninstalled_after=2.0.1"
+      },
+      {
+        id: "deployment-separate-retest",
+        title: "New-process retest",
+        kind: "result",
+        caption:
+          "A new shell process reads the active version, configuration, state file, and health result after correction.",
+        claimIds: ["deployment-correction-01"],
+        privacyClass: "public-sanitized",
+        origin: "captured",
+        proofValue: "execution",
+        download: "/work-assets/evidence/endpoint-deployment-rollback/separate-retest.txt",
+        sha256: "0cc1408e1eab8d872aa435529b03eea2ad86a0a411c81b2ced9d055f95fdd26a",
+        excerpt:
+          "retest_version=2.0.1\nconfig_key=server_url\nstate=available\nstatus=healthy"
+      },
+      {
+        id: "deployment-idempotent",
+        title: "Already-compliant rerun",
+        kind: "result",
+        caption:
+          "The wrapper checks the installed version and health before deciding that no activation change is needed.",
+        claimIds: ["deployment-correction-01"],
+        privacyClass: "public-sanitized",
+        origin: "captured",
+        proofValue: "execution",
+        download: "/work-assets/evidence/endpoint-deployment-rollback/idempotent-rerun.txt",
+        sha256: "3a3e1f22e4780a7aef02af5eda1d0fde2e2362c8a61fd89a826bc9b11e841eea",
+        excerpt:
+          "installed_before=2.0.1\nstatus=healthy\naction=none\nreason=already-compliant\ninstalled_after=2.0.1"
+      },
+      {
+        id: "deployment-data-boundary",
+        title: "Named data boundary",
+        kind: "record",
+        caption:
+          "The configuration and synthetic user-state hashes match before and after the failed release, correction, and rerun.",
+        claimIds: ["deployment-data-01"],
+        privacyClass: "public-sanitized",
+        origin: "captured",
+        proofValue: "execution",
+        download: "/work-assets/evidence/endpoint-deployment-rollback/data-boundary.txt",
+        sha256: "71421a5ab55be1040601bab80e790037e0412d10184812f80e00f505ddcd5f3a",
+        excerpt:
+          "managed_boundary=releases/\nconfiguration_boundary=config/endpoint.conf\nuser_state_boundary=user-data/user-state.txt\nconfiguration_result=unchanged\nuser_state_result=unchanged"
+      },
+      {
+        id: "deployment-manifest",
+        title: "Public evidence manifest",
+        kind: "record",
+        caption:
+          "The checksum list covers the baseline, failure, rollback, correction, new-process retest, compliant rerun, data boundary, environment, and limits.",
+        claimIds: ["deployment-rollback-01", "deployment-correction-01", "deployment-data-01"],
+        privacyClass: "public-sanitized",
+        origin: "captured",
+        proofValue: "execution",
+        download: "/work-assets/evidence/endpoint-deployment-rollback/SHA256SUMS.txt",
+        sha256: "1d013a8dbe230f52b3ac596422fd0d34241266c92649933f3c5ffc6afd2a2107",
+        excerpt:
+          "Public package\n• baseline and controlled failure\n• rollback and correction retests\n• already-compliant rerun\n• named data boundary\n• environment, scope, and SHA-256 checksums"
+      }
+    ],
+    visualization: {
+      title: "Follow the release before and after activation.",
+      description:
+        "Package validation, application health, the active version, and preserved data are separate checks. Choose a state to see where the release stops.",
+      depth: "layered",
+      nodes: [
+        { id: "package", label: "Package", detail: "Hash and version" },
+        { id: "activation", label: "Activation", detail: "Current release link" },
+        { id: "health", label: "Health check", detail: "Configuration contract" },
+        { id: "active", label: "Active version", detail: "1.0.0 or 2.0.1" },
+        { id: "data", label: "Named data", detail: "Config and user state" }
+      ],
+      states: [
+        {
+          id: "baseline",
+          label: "Baseline",
+          summary: "Healthy 1.0.0 is active before a new release is introduced.",
+          artifactIds: ["deployment-rollback-retest"],
+          nodeStates: {
+            package: "normal",
+            activation: "normal",
+            health: "normal",
+            active: "normal",
+            data: "normal"
+          }
+        },
+        {
+          id: "failed-release",
+          label: "Failed release",
+          summary: "Release 2.0.0 passes package checks and activates, but its health check cannot find the required configuration key.",
+          artifactIds: ["deployment-failure"],
+          nodeStates: {
+            package: "normal",
+            activation: "changed",
+            health: "failed",
+            active: "failed",
+            data: "normal"
+          }
+        },
+        {
+          id: "rollback",
+          label: "Rollback check",
+          summary: "The active link returns to 1.0.0 and a separate health check passes.",
+          artifactIds: ["deployment-failure", "deployment-rollback-retest"],
+          nodeStates: {
+            package: "normal",
+            activation: "changed",
+            health: "normal",
+            active: "normal",
+            data: "normal"
+          }
+        },
+        {
+          id: "corrected",
+          label: "Corrected retest",
+          summary: "Release 2.0.1 passes in a new process, and a later rerun makes no activation change.",
+          artifactIds: [
+            "deployment-correction",
+            "deployment-separate-retest",
+            "deployment-idempotent",
+            "deployment-data-boundary"
+          ],
+          nodeStates: {
+            package: "normal",
+            activation: "changed",
+            health: "normal",
+            active: "normal",
+            data: "normal"
+          }
         }
       ]
     }

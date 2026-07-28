@@ -24,7 +24,7 @@ pnpm release:prepare
 git add -- \
   .gitattributes .gitignore .npmrc README.md astro.config.mjs deploy.sh package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json \
   _site-src _site-public scripts \
-  .nojekyll CNAME LICENSE index.html work.html resume.html 404.html robots.txt sitemap.xml favicon.svg site.webmanifest \
+  .nojekyll CNAME LICENSE index.html message-sent.html work.html resume.html 404.html robots.txt sitemap.xml favicon.svg site.webmanifest \
   assets/avatar.webp assets/og.jpg assets/og-source.svg assets/og-portfolio.png assets/og-portfolio-v2.png assets/build \
   work work-assets
 

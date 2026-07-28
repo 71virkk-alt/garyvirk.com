@@ -1,0 +1,6 @@
+retest_version=2.0.1
+version=2.0.1
+config_key=server_url
+endpoint=https://support.lab.test
+state=available
+status=healthy

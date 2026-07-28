@@ -1,0 +1,12 @@
+Scope
+Disposable endpoint root with versioned application releases.
+One deliberately broken release and one corrected release.
+Hash, version, health, rollback, separate-retest, and idempotency checks.
+Configuration and synthetic user state remain outside the managed release.
+
+Limitations
+Executed locally on macOS ARM64 with POSIX shell and tar archives.
+Not a Windows, MSI, Intune, Configuration Manager, MDM, or production run.
+No remote fleet, package-signing, power-loss, or concurrent-deployment test.
+The application, configuration, and user state are synthetic.
+Rollback restores the active release pointer; the failed release remains staged but inactive.

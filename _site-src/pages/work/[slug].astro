@@ -88,6 +88,15 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             <ul class="case-environment" aria-label="Project environment">
               {project.environment.map((item) => <li>{item}</li>)}
             </ul>
+
+            <nav class="case-jump-links" aria-label="On this page">
+              <span>On this page</span>
+              <a href="#question-heading">{isTechnicalNote ? "Scenario" : "Question"}</a>
+              {project.visualization && <a href={`#${project.slug}-visualization-title`}>Interactive view</a>}
+              <a href="#process-heading">{isTechnicalNote ? "Decision path" : "Method"}</a>
+              <a href="#evidence-heading">{isTechnicalNote ? "Sources and aids" : "Evidence"}</a>
+              <a href="#outcome-heading">Result and limits</a>
+            </nav>
           </header>
 
           <section class="case-question" aria-labelledby="question-heading">
@@ -186,7 +195,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             </p>
             <div>
               <h2 id="process-heading">
-                {project.processHeading ?? (project.presentation === "timeline" ? "The same checks before and after the change." : project.presentation === "packet" ? "Read the exchange before changing the service." : project.presentation === "notes" ? "One symptom, one relevant filter, one post-change capture." : "Intent first, then regression, correction, and rollback.")}
+                {project.processHeading ?? (project.presentation === "timeline" ? "The same checks before and after the change." : project.presentation === "packet" ? "Read the exchange before changing the service." : project.presentation === "notes" ? "Start with the symptom, apply one relevant filter, then capture the post-change result." : "Intent first, then regression, correction, and rollback.")}
               </h2>
               <ol class="process-list">
                 {project.approach.map((item, index) => (
@@ -304,7 +313,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
                       href={artifact.download}
                       aria-label={`Open ${artifact.title} artifact`}
                     >
-                        Open artifact <span aria-hidden="true">↗</span>
+                        View artifact <span aria-hidden="true">↗</span>
                       </a>
                     )}
                   </figcaption>
@@ -335,7 +344,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
           <section class="case-outcome" aria-labelledby="outcome-heading">
             <p class="section-label">Result and limits</p>
             <div>
-              <h2 id="outcome-heading">{isTechnicalNote ? "What this note supports, and what it does not claim." : "What changed, and where this test stops."}</h2>
+              <h2 id="outcome-heading">{isTechnicalNote ? "What this note supports, and what it does not claim." : "What changed, and what this lab does not prove."}</h2>
               <div class="outcome-grid">
                 <article>
                   <h3>{isTechnicalNote ? "Supports" : "Result"}</h3>
