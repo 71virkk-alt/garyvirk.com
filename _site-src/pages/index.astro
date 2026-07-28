@@ -8,7 +8,7 @@ import "../styles/portrait-home.css";
 
 <BaseLayout
   title={`Gary Virk | ${profile.role}`}
-  description="Gary Virk is an IT specialist in Mississauga with on-site experience across Windows endpoints, user support, ticket documentation, and network troubleshooting."
+  description="Gary Virk is an IT specialist in Mississauga with hands-on experience across endpoints, hardware, deployments, ticket documentation, and network troubleshooting."
   bodyClass="profile-page"
   themeColor="#080a0c"
   colorScheme="dark"
@@ -29,9 +29,10 @@ import "../styles/portrait-home.css";
   <main id="main">
     <section class="profile-hero" id="about" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="hero-role">IT support and networking</p>
+        <p class="hero-role">{profile.role}</p>
         <h1 id="hero-title">{profile.focus}</h1>
         <p class="hero-story">{profile.introduction}</p>
+        <p class="hero-story hero-story--work">{profile.workIntroduction}</p>
 
         <div class="hero-actions">
           <a class="profile-button profile-button--light" href="/work.html">
@@ -69,9 +70,6 @@ import "../styles/portrait-home.css";
           fetchpriority="high"
         />
         <span class="portrait-light" aria-hidden="true"></span>
-        <figcaption class="portrait-cue" aria-hidden="true">
-          <span></span> Move cursor
-        </figcaption>
       </figure>
     </section>
 
@@ -79,10 +77,10 @@ import "../styles/portrait-home.css";
       <div class="section-heading">
         <p class="section-index">Selected work</p>
         <div>
-          <h2 id="work-title">See how I work through a problem.</h2>
+          <h2 id="work-title">Troubleshooting, with the evidence kept close.</h2>
           <p>
-            Each case shows the fault, what I checked, what I changed, and how I confirmed
-            the result. The evidence published here is selected and sanitized.
+            Each case records the fault, the decisive check, the correction, and a separate
+            retest. Public evidence is selected and sanitized.
           </p>
         </div>
       </div>

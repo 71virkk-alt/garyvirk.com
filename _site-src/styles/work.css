@@ -17,7 +17,7 @@ html:has(.work-page) {
 }
 
 body.work-page {
-  min-width: 320px;
+  min-width: 0;
   overflow-x: hidden;
   background: var(--work-bg);
   color: var(--work-text);
@@ -42,7 +42,7 @@ body.work-page {
   z-index: 50;
   top: 0;
   display: flex;
-  min-height: 70px;
+  min-height: 64px;
   align-items: center;
   justify-content: space-between;
   gap: 28px;
@@ -169,7 +169,7 @@ body.work-page {
   border-top: 1px solid var(--work-line);
   padding-top: 21px;
   color: var(--work-muted);
-  font-size: 0.76rem;
+  font-size: 0.8125rem;
 }
 
 .work-group {
@@ -180,6 +180,10 @@ body.work-page {
 .work-group--supporting {
   padding-top: 0;
   border-top: 0;
+}
+
+.work-group--notes {
+  padding-top: clamp(70px, 9vw, 130px);
 }
 
 .work-group-heading {
@@ -232,6 +236,10 @@ body.work-page {
   background: var(--work-panel);
 }
 
+.project-row--note {
+  background: rgba(18, 23, 28, 0.32);
+}
+
 .project-number {
   margin: 0;
   color: var(--work-accent);
@@ -266,7 +274,7 @@ body.work-page {
   max-width: 780px;
   margin-top: 15px;
   color: var(--work-muted);
-  font-size: 0.79rem;
+  font-size: 0.8125rem;
   line-height: 1.52;
 }
 
@@ -346,6 +354,18 @@ body.work-page {
 
 .case-back:hover {
   color: var(--work-text);
+}
+
+.note-disclosure {
+  max-width: 760px;
+  margin: 0 0 24px;
+  border-left: 2px solid var(--work-accent);
+  padding: 11px 0 11px 16px;
+  color: var(--work-text);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.55;
 }
 
 .case-hero h1 {
@@ -444,7 +464,9 @@ body.work-page {
 .case-process,
 .compact-matrix,
 .change-matrix-section,
+.note-map-section,
 .packet-notes,
+.source-section,
 .case-outcome,
 .claim-list {
   display: grid;
@@ -467,7 +489,9 @@ body.work-page {
 .case-process h2,
 .compact-matrix h2,
 .change-matrix-section h2,
+.note-map-section h2,
 .packet-notes h2,
+.source-section h2,
 .case-outcome h2,
 .claim-list h2,
 .evidence-heading h2 {
@@ -484,8 +508,8 @@ body.work-page {
   max-width: 810px;
   margin: 30px 0 0;
   color: var(--work-muted);
-  font-size: 0.91rem;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .ownership strong {
@@ -518,7 +542,7 @@ body.work-page {
   max-width: 800px;
   margin: 0;
   color: rgba(244, 244, 239, 0.79);
-  font-size: 0.88rem;
+  font-size: 1rem;
   line-height: 1.6;
 }
 
@@ -558,6 +582,154 @@ body.work-page {
 
 .matrix-pass {
   color: var(--work-green);
+}
+
+.macos-flow,
+.hardware-tree,
+.wifi-ladder {
+  margin: 44px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.macos-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--work-line);
+  border-left: 1px solid var(--work-line);
+}
+
+.macos-flow li {
+  position: relative;
+  min-height: 250px;
+  border-right: 1px solid var(--work-line);
+  border-bottom: 1px solid var(--work-line);
+  padding: 22px;
+}
+
+.macos-flow li:not(:last-child)::after {
+  position: absolute;
+  z-index: 2;
+  top: 38px;
+  right: -6px;
+  width: 11px;
+  height: 11px;
+  border-top: 1px solid var(--work-accent);
+  border-right: 1px solid var(--work-accent);
+  background: var(--work-bg);
+  content: "";
+  transform: rotate(45deg);
+}
+
+.macos-flow li > span,
+.wifi-ladder li > span {
+  color: var(--work-accent);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.macos-flow h3,
+.hardware-tree h3,
+.wifi-ladder h3 {
+  margin: 34px 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.macos-flow p,
+.hardware-tree p,
+.wifi-ladder p {
+  margin: 12px 0 0;
+  color: var(--work-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.macos-flow small,
+.hardware-tree small,
+.wifi-ladder small {
+  display: block;
+  margin-top: 24px;
+  color: var(--work-green);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.hardware-tree {
+  position: relative;
+  max-width: 900px;
+  border-top: 1px solid var(--work-line);
+}
+
+.hardware-tree::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 26px;
+  width: 1px;
+  background: var(--work-line-strong);
+  content: "";
+}
+
+.hardware-tree li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  min-height: 150px;
+  border-bottom: 1px solid var(--work-line);
+  padding: 22px 0;
+}
+
+.hardware-tree .tree-node {
+  z-index: 1;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border: 1px solid var(--work-accent);
+  border-radius: 50%;
+  background: var(--work-bg);
+  color: var(--work-accent);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.hardware-tree li > div {
+  padding: 0 0 0 28px;
+}
+
+.hardware-tree h3 {
+  margin-top: 0;
+}
+
+.wifi-ladder {
+  max-width: 980px;
+  border: 1px solid var(--work-line);
+}
+
+.wifi-ladder li {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) minmax(170px, 0.32fr);
+  gap: 22px;
+  align-items: center;
+  min-height: 118px;
+  padding: 20px 24px;
+  background: rgba(156, 188, 255, 0.025);
+}
+
+.wifi-ladder li + li {
+  border-top: 1px solid var(--work-line);
+}
+
+.wifi-ladder h3,
+.wifi-ladder p,
+.wifi-ladder small {
+  margin-top: 0;
+}
+
+.wifi-ladder small {
+  color: var(--work-green);
+  text-align: right;
 }
 
 .evidence-section {
@@ -610,7 +782,7 @@ body.work-page {
   background-size: 100% 28px;
   color: rgba(244, 244, 239, 0.78);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: clamp(0.65rem, 0.85vw, 0.76rem);
+  font-size: 0.75rem;
   line-height: 1.7;
   white-space: pre-wrap;
   word-break: break-word;
@@ -620,6 +792,15 @@ body.work-page {
   min-height: 150px;
   border-top: 1px solid var(--work-line);
   padding: 24px;
+}
+
+.evidence-card figcaption small {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--work-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
 .evidence-card figcaption strong,
@@ -636,12 +817,51 @@ body.work-page {
   max-width: 640px;
   margin-top: 11px;
   color: var(--work-muted);
-  font-size: 0.73rem;
-  line-height: 1.55;
+  font-size: 0.8125rem;
+  line-height: 1.6;
 }
 
 .evidence-card--image {
   grid-column: 1 / -1;
+}
+
+.evidence-card--deterministic-illustration pre {
+  background: var(--work-panel-soft);
+}
+
+.evidence-record {
+  display: grid;
+  min-height: 280px;
+  align-content: center;
+  padding: clamp(20px, 3vw, 36px);
+  background: var(--work-panel-soft);
+}
+
+.evidence-record dl {
+  margin: 0;
+  border-top: 1px solid var(--work-line);
+}
+
+.evidence-record dl > div {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.34fr) minmax(0, 0.66fr);
+  gap: 20px;
+  border-bottom: 1px solid var(--work-line);
+  padding: 14px 0;
+}
+
+.evidence-record dt {
+  color: var(--work-accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.evidence-record dd {
+  margin: 0;
+  color: rgba(244, 244, 239, 0.78);
+  font-size: 0.875rem;
+  line-height: 1.55;
 }
 
 .evidence-image {
@@ -724,6 +944,53 @@ body.work-page {
   line-height: 1.5;
 }
 
+.source-list {
+  margin-top: 42px;
+  border-top: 1px solid var(--work-line);
+}
+
+.source-list a {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(130px, 0.2fr) minmax(220px, 0.32fr) minmax(0, 0.48fr);
+  gap: 24px;
+  min-height: 112px;
+  align-items: center;
+  border-bottom: 1px solid var(--work-line);
+  padding: 22px 44px 22px 0;
+  transition: background 180ms ease;
+}
+
+.source-list a:hover {
+  background: var(--work-panel);
+}
+
+.source-list span {
+  color: var(--work-accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.source-list strong {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.source-list p {
+  margin: 0;
+  color: var(--work-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.source-list i {
+  position: absolute;
+  right: 12px;
+  color: var(--work-accent);
+  font-style: normal;
+}
+
 .outcome-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -751,8 +1018,8 @@ body.work-page {
 .outcome-grid p {
   margin: 42px 0 0;
   color: rgba(244, 244, 239, 0.78);
-  font-size: 0.88rem;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .claim-list > div > div {
@@ -769,7 +1036,7 @@ body.work-page {
 }
 
 .claim-list article strong {
-  font-size: 0.83rem;
+  font-size: 1rem;
   font-weight: 590;
   line-height: 1.5;
 }
@@ -778,8 +1045,8 @@ body.work-page {
 .claim-list article span {
   margin: 0;
   color: var(--work-muted);
-  font-size: 0.68rem;
-  line-height: 1.5;
+  font-size: 0.8125rem;
+  line-height: 1.6;
 }
 
 .claim-list article span {
@@ -891,7 +1158,7 @@ body.work-page {
 
 @media (max-width: 700px) {
   .work-header {
-    min-height: 106px;
+    min-height: 88px;
     flex-wrap: wrap;
     gap: 0;
     padding: 9px 16px 0;
@@ -950,6 +1217,10 @@ body.work-page {
 
   .work-group--supporting {
     padding-top: 0;
+  }
+
+  .work-group--notes {
+    padding-top: 68px;
   }
 
   .work-group-heading {
@@ -1026,7 +1297,9 @@ body.work-page {
   .case-process,
   .compact-matrix,
   .change-matrix-section,
+  .note-map-section,
   .packet-notes,
+  .source-section,
   .case-outcome,
   .claim-list {
     display: block;
@@ -1041,7 +1314,9 @@ body.work-page {
   .case-process h2,
   .compact-matrix h2,
   .change-matrix-section h2,
+  .note-map-section h2,
   .packet-notes h2,
+  .source-section h2,
   .case-outcome h2,
   .claim-list h2,
   .evidence-heading h2 {
@@ -1075,12 +1350,43 @@ body.work-page {
   .evidence-card pre {
     min-height: 235px;
     padding: 19px;
-    font-size: 0.63rem;
+    font-size: 0.75rem;
   }
 
   .evidence-card figcaption {
     min-height: 0;
     padding: 20px;
+  }
+
+  .macos-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .macos-flow li {
+    min-height: 0;
+  }
+
+  .macos-flow li:not(:last-child)::after {
+    top: auto;
+    right: 30px;
+    bottom: -6px;
+    transform: rotate(135deg);
+  }
+
+  .wifi-ladder li {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .wifi-ladder small {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .evidence-record dl > div {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 
   .evidence-image {
@@ -1104,6 +1410,12 @@ body.work-page {
   .claim-list article {
     grid-template-columns: 1fr;
     gap: 11px;
+  }
+
+  .source-list a {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 20px 38px 20px 0;
   }
 
   .next-case {
@@ -1130,10 +1442,6 @@ body.work-page {
 }
 
 /* Compact editorial typography */
-
-.work-header {
-  min-height: 64px;
-}
 
 .work-brand strong {
   font-size: 0.9375rem;
@@ -1177,10 +1485,10 @@ body.work-page {
 
 .work-intro h1 {
   max-width: 840px;
-  font-size: clamp(2.5rem, 3.9vw, 3.5rem);
+  font-size: clamp(2.5rem, 3.9vw, 3.375rem);
   font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.06;
+  letter-spacing: -0.03em;
+  line-height: 1.07;
 }
 
 .work-intro-copy > p {
@@ -1191,8 +1499,8 @@ body.work-page {
 .work-group-heading h2 {
   font-size: clamp(1.75rem, 2.6vw, 2.5rem);
   font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.12;
+  letter-spacing: -0.02em;
+  line-height: 1.14;
 }
 
 .project-row {
@@ -1200,26 +1508,34 @@ body.work-page {
 }
 
 .project-row-copy h3 {
-  font-size: clamp(1.5rem, 2.2vw, 2.125rem);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
   font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.16;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
 }
 
 .project-row-copy > p,
 .project-row-copy > span,
 .project-row-result p,
-.case-environment li,
 .process-list span,
 .matrix-head > *,
-.evidence-card figcaption span,
 .notes-list dt,
-.notes-list dd,
 .outcome-grid h3,
-.claim-list article p,
-.claim-list article span,
 .next-case p {
   font-size: 0.75rem;
+}
+
+.case-status dd,
+.case-environment li,
+.matrix-row > *,
+.evidence-card figcaption span,
+.claim-list article p,
+.claim-list article span {
+  font-size: 0.8125rem;
+}
+
+.project-page--technical-note .evidence-heading > div > p {
+  font-size: 1rem;
 }
 
 .case-hero {
@@ -1228,10 +1544,10 @@ body.work-page {
 
 .case-hero h1 {
   max-width: 960px;
-  font-size: clamp(2.75rem, 4.5vw, 4rem);
+  font-size: clamp(2.75rem, 4.2vw, 3.375rem);
   font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 1.02;
+  letter-spacing: -0.03em;
+  line-height: 1.07;
 }
 
 .case-deck {
@@ -1251,14 +1567,16 @@ body.work-page {
 .case-process h2,
 .compact-matrix h2,
 .change-matrix-section h2,
+.note-map-section h2,
 .packet-notes h2,
+.source-section h2,
 .case-outcome h2,
 .claim-list h2,
 .evidence-heading h2 {
-  font-size: clamp(1.875rem, 2.8vw, 2.75rem);
+  font-size: clamp(1.875rem, 2.8vw, 2.5rem);
   font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.12;
+  letter-spacing: -0.02em;
+  line-height: 1.14;
 }
 
 .outcome-grid h3 {
@@ -1286,14 +1604,14 @@ body.work-page {
 
 @media (max-width: 700px) {
   .work-header {
-    min-height: 88px;
     padding: 0 16px;
   }
 
   .work-header nav {
     min-height: 44px;
     justify-content: flex-start;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
   .work-header nav a {
@@ -1333,7 +1651,9 @@ body.work-page {
   .case-process h2,
   .compact-matrix h2,
   .change-matrix-section h2,
+  .note-map-section h2,
   .packet-notes h2,
+  .source-section h2,
   .case-outcome h2,
   .claim-list h2,
   .evidence-heading h2 {

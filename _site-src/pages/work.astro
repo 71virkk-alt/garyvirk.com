@@ -1,13 +1,13 @@
 ---
 import WorkHeader from "../components/WorkHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { flagshipProjects, supportingProjects } from "../data/projects";
+import { flagshipProjects, supportingProjects, technicalNotes } from "../data/projects";
 import "../styles/work.css";
 ---
 
 <BaseLayout
   title="Selected IT Support and Networking Work | Gary Virk"
-  description="Controlled IT support and networking case studies showing the fault, evidence, correction, retest, and limitation."
+  description="Executed IT support labs and source-cited troubleshooting notes covering endpoints, hardware, and networks."
   canonicalPath="/work.html"
   bodyClass="work-page"
   themeColor="#080a0c"
@@ -17,16 +17,17 @@ import "../styles/work.css";
     <WorkHeader />
 
     <header class="work-intro">
-      <p class="work-kicker"><span>Work</span> Controlled labs · selected evidence</p>
+      <p class="work-kicker"><span>Work</span> Executed labs · cited support notes</p>
       <h1>Selected IT support and networking work.</h1>
       <div class="work-intro-copy">
         <p>
-          Each case begins with a practical support question. The page then shows what I
-          checked, what changed, how I tested the result, and where the evidence stops.
+          Executed labs show the fault, the decisive evidence, the correction, and a
+          separate retest. Support notes organize primary-source guidance into a clear
+          troubleshooting path.
         </p>
         <p class="work-disclosure">
-          These are owned labs using synthetic data. Employment work and employer records
-          are not used as project evidence.
+          Technical notes are labeled and never presented as lab execution. Employment
+          records, borrowed screenshots, and generated proof are not used.
         </p>
       </div>
     </header>
@@ -79,6 +80,34 @@ import "../styles/work.css";
               </div>
               <div class="project-row-result">
                 <p>{project.status.execution}</p>
+                <span aria-hidden="true">↗</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="work-group work-group--notes" aria-labelledby="notes-heading">
+      <div class="work-group-heading">
+        <p>03</p>
+        <div>
+          <h2 id="notes-heading">Support notes</h2>
+          <span>Source-cited troubleshooting paths. These are not executed labs.</span>
+        </div>
+      </div>
+      <div class="project-index project-index--notes">
+        {
+          technicalNotes.map((project) => (
+            <a class="project-row project-row--note" href={`/work/${project.slug}.html`}>
+              <p class="project-number">{project.number}</p>
+              <div class="project-row-copy">
+                <p>{project.discipline}</p>
+                <h3>{project.title}</h3>
+                <span>{project.summary}</span>
+              </div>
+              <div class="project-row-result">
+                <p>Technical note<br />Not an executed lab</p>
                 <span aria-hidden="true">↗</span>
               </div>
             </a>

@@ -55,8 +55,8 @@ function movePortrait(event: PointerEvent) {
   const bounds = portrait.getBoundingClientRect();
   const horizontal = (event.clientX - bounds.left) / bounds.width;
   const vertical = (event.clientY - bounds.top) / bounds.height;
-  const rotateY = (horizontal - 0.5) * 4;
-  const rotateX = (0.5 - vertical) * 4;
+  const rotateY = (horizontal - 0.5) * 2.5;
+  const rotateX = (0.5 - vertical) * 2.5;
 
   portrait.style.setProperty("--portrait-rotate-x", `${rotateX.toFixed(2)}deg`);
   portrait.style.setProperty("--portrait-rotate-y", `${rotateY.toFixed(2)}deg`);

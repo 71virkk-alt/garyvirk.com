@@ -17,7 +17,7 @@ html:has(.profile-page) {
 }
 
 body.profile-page {
-  min-width: 320px;
+  min-width: 0;
   overflow-x: hidden;
   background: var(--profile-bg);
   color: var(--profile-text);
@@ -937,7 +937,11 @@ body.profile-page {
   }
 
   .hero-facts div:last-child {
-    display: none;
+    display: block;
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--profile-line);
+    border-left: 0;
+    padding-left: 0;
   }
 
   .profile-section {
@@ -1132,9 +1136,6 @@ body.profile-page {
     transform: none;
   }
 
-  .portrait-cue {
-    display: none !important;
-  }
 }
 
 /* Compact editorial type and portrait interaction */
@@ -1174,7 +1175,7 @@ body.profile-page {
 }
 
 .hero-copy {
-  max-width: 760px;
+  max-width: 740px;
 }
 
 .hero-role,
@@ -1197,17 +1198,22 @@ body.profile-page {
 
 .hero-copy h1 {
   max-width: 720px;
-  font-size: clamp(2.5rem, 3.9vw, 3.5rem);
+  font-size: clamp(2.5rem, 3.9vw, 3.375rem);
   font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.06;
+  letter-spacing: -0.03em;
+  line-height: 1.07;
 }
 
 .hero-story {
   max-width: 660px;
   margin-top: 24px;
   font-size: 1rem;
+  letter-spacing: -0.01em;
   line-height: 1.6;
+}
+
+.hero-story--work {
+  margin-top: 12px;
 }
 
 .hero-actions {
@@ -1285,32 +1291,12 @@ body.profile-page {
   opacity: 0.42;
 }
 
-.portrait-cue {
-  position: absolute;
-  z-index: 6;
-  right: 12px;
-  bottom: -28px;
-  display: none;
-  align-items: center;
-  gap: 8px;
-  color: var(--profile-muted);
-  font-size: 0.75rem;
-  font-style: normal;
-  line-height: 1;
-}
-
-.portrait-cue span {
-  width: 18px;
-  height: 1px;
-  background: var(--profile-accent);
-}
-
 .section-heading h2,
 .contact-section h2 {
-  font-size: clamp(1.875rem, 2.8vw, 2.75rem);
+  font-size: clamp(1.875rem, 2.8vw, 2.5rem);
   font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.12;
+  letter-spacing: -0.02em;
+  line-height: 1.14;
 }
 
 .section-heading > div > p {
@@ -1340,10 +1326,10 @@ body.profile-page {
 
 .project-card h3 {
   margin-top: clamp(42px, 5vw, 64px);
-  font-size: clamp(1.625rem, 2.35vw, 2.25rem);
+  font-size: clamp(1.625rem, 2.35vw, 2rem);
   font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
 }
 
 .experience-title h3,
@@ -1366,21 +1352,13 @@ body.profile-page {
 
   .hero-portrait:hover img {
     filter: contrast(1.07) brightness(0.98);
-    transform: translateZ(16px);
-  }
-
-  .portrait-cue {
-    display: flex;
+    transform: translateZ(16px) scale(1.015);
   }
 }
 
 @media (max-width: 760px) {
   html:has(.profile-page) {
     scroll-padding-top: 88px;
-  }
-
-  .portrait-cue {
-    display: none !important;
   }
 
   .profile-header {
@@ -1390,7 +1368,8 @@ body.profile-page {
 
   .profile-nav {
     min-height: 44px;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
   .profile-nav a {
@@ -1439,8 +1418,12 @@ body.profile-page {
 
   .hero-story {
     margin-top: 20px;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     line-height: 1.6;
+  }
+
+  .hero-story--work {
+    margin-top: 12px;
   }
 
   .hero-actions {
@@ -1502,7 +1485,11 @@ body.profile-page {
     transform: none !important;
   }
 
-  .portrait-cue {
-    display: none !important;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .hero-portrait {
+    transform: none !important;
+    will-change: auto;
   }
 }

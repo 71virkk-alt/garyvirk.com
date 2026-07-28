@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 const repoRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const distRoot = join(repoRoot, ".site-dist");
 const errors = [];
+const { projects } = await import(new URL("../_site-src/data/projects.ts", import.meta.url));
+const deployScript = readFileSync(join(repoRoot, "deploy.sh"), "utf8");
 
 function assert(condition, message) {
   if (!condition) errors.push(message);
@@ -25,6 +27,94 @@ function walk(directory) {
 
 assert(existsSync(distRoot), "Build directory .site-dist does not exist.");
 assert(existsSync(join(distRoot, ".nojekyll")), "Build output must include .nojekyll.");
+assert(
+  /\bwork\.html\b/.test(deployScript) && /\bwork\s+work-assets\b/.test(deployScript),
+  "deploy.sh must stage the work index, generated routes, and their public assets."
+);
+
+const projectSlugs = new Set();
+const publisherHosts = new Map([
+  ["Microsoft Learn", "learn.microsoft.com"],
+  ["Microsoft Support", "support.microsoft.com"],
+  ["Apple Platform Deployment", "support.apple.com"],
+  ["Dell Support", "www.dell.com"]
+]);
+
+for (const project of projects) {
+  assert(!projectSlugs.has(project.slug), `Duplicate project slug: ${project.slug}.`);
+  projectSlugs.add(project.slug);
+
+  const claimIds = new Set(project.claims.map((claim) => claim.id));
+  const evidenceIds = new Set(project.evidence.map((artifact) => artifact.id));
+  const sourceIds = new Set((project.sources ?? []).map((source) => source.id));
+
+  assert(claimIds.size === project.claims.length, `${project.slug} has duplicate claim IDs.`);
+  assert(evidenceIds.size === project.evidence.length, `${project.slug} has duplicate evidence IDs.`);
+  assert(sourceIds.size === (project.sources ?? []).length, `${project.slug} has duplicate source IDs.`);
+
+  for (const claim of project.claims) {
+    for (const evidenceRef of claim.evidenceRefs) {
+      assert(evidenceIds.has(evidenceRef), `${project.slug} claim ${claim.id} has an invalid evidence reference: ${evidenceRef}.`);
+    }
+    for (const sourceRef of claim.sourceRefs ?? []) {
+      assert(sourceIds.has(sourceRef), `${project.slug} claim ${claim.id} has an invalid source reference: ${sourceRef}.`);
+    }
+    if (claim.verification === "source-cited") {
+      assert(
+        (claim.sourceRefs ?? []).length > 0,
+        `${project.slug} source-cited claim ${claim.id} has no supporting source reference.`
+      );
+    }
+  }
+
+  for (const artifact of project.evidence) {
+    for (const claimId of artifact.claimIds) {
+      assert(claimIds.has(claimId), `${project.slug} artifact ${artifact.id} has an invalid claim reference: ${claimId}.`);
+    }
+  }
+
+  for (const source of project.sources ?? []) {
+    const expectedHost = publisherHosts.get(source.publisher);
+    assert(Boolean(expectedHost), `${project.slug} has an unsupported source publisher: ${source.publisher}.`);
+    let host = "";
+    try {
+      host = new URL(source.url).hostname;
+    } catch {
+      assert(false, `${project.slug} source ${source.id} has an invalid URL.`);
+    }
+    assert(host === expectedHost, `${project.slug} source ${source.id} publisher does not match ${host}.`);
+  }
+
+  if (project.releaseState === "withheld") {
+    assert(project.status.publication === "Withheld", `${project.slug} is withheld without a withheld publication status.`);
+    assert(project.status.evidenceLevel === "E0", `${project.slug} is withheld without E0 evidence.`);
+    assert(project.claims.length === 0, `${project.slug} is withheld but still has public claims.`);
+    assert(project.evidence.length === 0, `${project.slug} is withheld but still has public evidence.`);
+  }
+
+  if (project.kind === "technical-note") {
+    assert(project.releaseState === "published", `${project.slug} technical note is not in the published set.`);
+    assert(project.tier === "technical-note", `${project.slug} has the wrong technical-note tier.`);
+    assert(project.status.completion === "Research note", `${project.slug} has an unsupported completion status.`);
+    assert(project.status.execution === "Not an executed lab", `${project.slug} implies runtime execution.`);
+    assert(project.status.publication === "Cited sources and deterministic aids", `${project.slug} has the wrong publication status.`);
+    assert(project.status.evidenceLevel === "source-cited", `${project.slug} must use source-cited evidence.`);
+    assert((project.sources ?? []).length >= 2, `${project.slug} must cite at least two primary sources.`);
+    for (const claim of project.claims) {
+      assert(claim.verification === "source-cited", `${project.slug} contains a non-source-cited claim.`);
+    }
+    for (const artifact of project.evidence) {
+      assert(artifact.role === "deterministic-illustration", `${project.slug} artifact ${artifact.id} has a misleading evidence role.`);
+      assert(artifact.privacyClass === "public-sanitized", `${project.slug} artifact ${artifact.id} is not public-sanitized.`);
+    }
+  }
+
+  if (project.kind === "executed-lab" && project.releaseState === "published") {
+    assert(project.status.completion === "Complete within stated scope", `${project.slug} published lab is not complete within scope.`);
+    assert(project.status.publication === "Selected evidence on this page", `${project.slug} published lab has the wrong evidence status.`);
+    assert(["E2", "E3", "E4"].includes(project.status.evidenceLevel), `${project.slug} published lab has an unsupported evidence level.`);
+  }
+}
 
 const home = read("index.html");
 const resume = read("resume.html");
@@ -47,9 +137,11 @@ for (const [name, html] of [
 
 for (const phrase of [
   "IT Specialist",
-  "IT support and networking",
-  "I help people get back to work.",
-  "I got into IT through computer networking at St. Clair College",
+  "Computers have been part of my life since I was a kid.",
+  "I studied IT Systems &amp; Network Administration at St. Clair College in Windsor",
+  "continued my networking training through Cisco Networking Academy",
+  "I later moved into hands-on support",
+  "endpoints, hardware, deployments, networks, and complex technical cases",
   "Selected work",
   "i@garyvirk.com",
   "data-copy-email",
@@ -65,9 +157,13 @@ for (const phrase of [
 }
 
 assert(
-  !home.includes("Portrait / 2026") && !home.includes("Move to inspect"),
+  !home.includes("Portrait / 2026") &&
+    !home.includes("Move to inspect") &&
+    !home.includes("Move cursor") &&
+    !home.includes("portrait-cue"),
   "Retired portrait labels remain on the homepage."
 );
+assert(!home.includes("I help people get back to work."), "Retired homepage headline remains.");
 assert(!home.includes("Instrument Sans"), "Retired Instrument Sans remains in the homepage build.");
 assert(!home.includes("Instrument Serif"), "Retired Instrument Serif remains in the homepage build.");
 assert(!home.includes("© 2026"), "A static design year remains on the homepage.");
@@ -80,10 +176,16 @@ assert(
 for (const phrase of [
   "Flagship cases",
   "Supporting labs",
+  "Support notes",
   "Windows endpoint connectivity triage",
   "Network access-control change validation",
   "DHCP failure isolation",
-  "Packet triage notes"
+  "Packet triage notes",
+  "macOS enrollment and FileVault support",
+  "Laptop boot and storage triage",
+  "Enterprise Wi-Fi connection triage",
+  "Technical note",
+  "Not an executed lab"
 ]) {
   assert(work.includes(phrase), `Work index is missing required content: ${phrase}`);
 }
@@ -130,6 +232,64 @@ for (const slug of selectedSlugs) {
   );
 }
 
+const technicalNoteSlugs = [
+  "macos-enrollment-filevault",
+  "laptop-boot-storage-triage",
+  "enterprise-wifi-triage"
+];
+const technicalNoteStructures = new Map([
+  ["macos-enrollment-filevault", { className: "macos-flow", commandCards: 0 }],
+  ["laptop-boot-storage-triage", { className: "hardware-tree", commandCards: 0 }],
+  ["enterprise-wifi-triage", { className: "wifi-ladder", commandCards: 1 }]
+]);
+
+for (const slug of technicalNoteSlugs) {
+  const notePath = `work/${slug}.html`;
+  const notePage = read(notePath);
+  for (const phrase of [
+    "Technical note, not an executed lab",
+    "Official vendor documentation",
+    "Deterministic reconstructions",
+    "Primary sources",
+    "Guidance used for this note",
+    "Every conclusion stays tied to a cited source",
+    "deterministic illustration"
+  ]) {
+    assert(notePage.includes(phrase), `${notePath} is missing its note boundary: ${phrase}`);
+  }
+  assert(
+    !notePage.includes("These are allowlisted, sanitized excerpts from the controlled project record"),
+    `${notePath} incorrectly describes a controlled execution record.`
+  );
+  assert(
+    (notePage.match(/href="https:\/\/(?:learn\.microsoft\.com|support\.apple\.com|www\.dell\.com)/g) || []).length >= 2,
+    `${notePath} does not contain enough visible primary-source links.`
+  );
+  const noteStructure = technicalNoteStructures.get(slug);
+  assert(notePage.includes(`class="${noteStructure.className}"`), `${notePath} is missing its distinct semantic note structure.`);
+  assert(
+    (notePage.match(/<pre><code>/g) || []).length === noteStructure.commandCards,
+    `${notePath} renders a reconstructed record as terminal output or has an unexpected command block.`
+  );
+  assert(notePage.includes('class="evidence-record"'), `${notePath} has no semantic reconstructed record.`);
+  assert(notePage.includes("Sources:"), `${notePath} claim footer does not name its cited sources.`);
+  assert(
+    sitemap.includes(`https://garyvirk.com/${notePath}`),
+    `sitemap.xml has no URL for ${notePath}.`
+  );
+}
+
+for (const withheldSlug of ["intune-win32-deployment", "active-directory-recovery"]) {
+  assert(
+    !existsSync(join(distRoot, `work/${withheldSlug}.html`)),
+    `Withheld lab route was built: ${withheldSlug}.`
+  );
+  assert(
+    !sitemap.includes(`https://garyvirk.com/work/${withheldSlug}.html`),
+    `Withheld lab route appears in the sitemap: ${withheldSlug}.`
+  );
+}
+
 const archivePath = "work/network-inventory-drift.html";
 const archivePage = read(archivePath);
 assert(archivePage.includes('name="robots" content="noindex, follow"'), "Archived route must be noindex.");
@@ -173,7 +333,10 @@ if (existsSync(distRoot)) {
     "enterprise-grade",
     "robust",
     "seamless",
-    "cutting-edge"
+    "cutting-edge",
+    "I help people get back to work.",
+    "Move cursor",
+    "Shows how I"
   ];
   for (const phrase of forbiddenCopy) {
     assert(!combinedHtml.includes(phrase), `Public copy contains a blocked phrase: ${phrase}`);
