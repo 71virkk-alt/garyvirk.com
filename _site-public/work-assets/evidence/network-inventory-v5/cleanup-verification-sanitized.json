@@ -1,0 +1,14 @@
+{
+  "all_absent": true,
+  "all_containers_absent": true,
+  "container_count_checked": 12,
+  "image_absent": true,
+  "network_absent": true,
+  "omitted_fields": [
+    "container_names",
+    "runtime_image_tag",
+    "runtime_network_name"
+  ],
+  "sanitized": true,
+  "schema_version": 1
+}

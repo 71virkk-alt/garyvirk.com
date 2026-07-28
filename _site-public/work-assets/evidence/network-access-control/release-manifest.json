@@ -1,0 +1,113 @@
+{
+  "file_count": 21,
+  "files": [
+    {
+      "bytes": 1720,
+      "path": "README.md",
+      "sha256": "a955b744a04d259ec5aaaf3b76bb656512e74ee8e608d36f06bc411094b976b0"
+    },
+    {
+      "bytes": 1850,
+      "path": "REPORT.md",
+      "sha256": "3ecabf5201a71b1a4152c66b41df1b1f9f58246e56a36ac2788092f111fd25a2"
+    },
+    {
+      "bytes": 8202,
+      "path": "batfish/baseline-evaluation.json",
+      "sha256": "247edc951cae5e605b7122d12bf5c89f205231de6c7d2b5152a96a345839a1b2"
+    },
+    {
+      "bytes": 8216,
+      "path": "batfish/baseline-repeat-evaluation.json",
+      "sha256": "a8786534cc6befa5d00db74dabc19c93706e42da2c68b5fed99bd5e2193c9d11"
+    },
+    {
+      "bytes": 8191,
+      "path": "batfish/broken-evaluation.json",
+      "sha256": "522dc6cdb268c6e30b46655c8ef168ea7ee70c6ae96faa76ccd055f7b1efcefe"
+    },
+    {
+      "bytes": 8206,
+      "path": "batfish/corrected-evaluation.json",
+      "sha256": "1fd4384d2f197515c6a594200cbc8050eb2285a6c29bd640f38510988e7eef3d"
+    },
+    {
+      "bytes": 3184,
+      "path": "batfish/input-bindings.json",
+      "sha256": "60a90ecdca97326d1efcf475419417994ff6e4e448afa2a993e297d6aaf27bd0"
+    },
+    {
+      "bytes": 8202,
+      "path": "batfish/rollback-evaluation.json",
+      "sha256": "87d1ea5be2e0b3d792e1766802061c90df879cbb11eb0845aa6e4bce216b5df6"
+    },
+    {
+      "bytes": 1386,
+      "path": "batfish/sequence-evaluation.json",
+      "sha256": "06f351d07cf3f59fb37252293ca07ff79e66d28c4591b07507a84d46cd98a9b2"
+    },
+    {
+      "bytes": 4288,
+      "path": "packet-tracer/cli-transcript.md",
+      "sha256": "d30a50a09ea2561867da1d52eee7bfd8c7d995f7858dd7a8c32273e8c96274d7"
+    },
+    {
+      "bytes": 4220,
+      "path": "packet-tracer/evidence-record.json",
+      "sha256": "86503c374ab28883900a6fc7b4250a820dc15a13cc6669004de0b282521eef8a"
+    },
+    {
+      "bytes": 111894,
+      "path": "packet-tracer/screenshots/baseline-users-https-pass.png",
+      "sha256": "bf8c7d4729a972c834186e9ea3b4d5c0be8e2ba4edcf95d17cdb12dd8e79c26f"
+    },
+    {
+      "bytes": 186865,
+      "path": "packet-tracer/screenshots/broken-router-deny-counter.png",
+      "sha256": "3c39e3336a03d659a7c7f24dd362cdeade4e1f2d3e314562af75a08a0df92c57"
+    },
+    {
+      "bytes": 47629,
+      "path": "packet-tracer/screenshots/broken-users-https-timeout.png",
+      "sha256": "52ea2ac6445dc9c2113dfd08e9deb615547c457085674f663f1d68279d28c338"
+    },
+    {
+      "bytes": 185338,
+      "path": "packet-tracer/screenshots/corrected-router-permit-counter.png",
+      "sha256": "2dd21e7cbdd74e6fb011d53cac09fd38fea539709d29e9cfef112fe75ba6d4bd"
+    },
+    {
+      "bytes": 112020,
+      "path": "packet-tracer/screenshots/corrected-users-https-pass.png",
+      "sha256": "b25b81bc883ce48a1ca871924eb4de7adc084602ac5558edce765ca27856f17c"
+    },
+    {
+      "bytes": 67797,
+      "path": "packet-tracer/screenshots/rollback-admin-to-server-ping-pass.png",
+      "sha256": "d5064a16332e2ec1800e34aa68500acd251e0e27a297baa70473bf41964c1dbb"
+    },
+    {
+      "bytes": 61449,
+      "path": "packet-tracer/screenshots/rollback-guest-to-admin-denied.png",
+      "sha256": "633cf585b94ab9332b8d071b232f55a2761b75cb451756ad51524ff50e335b7d"
+    },
+    {
+      "bytes": 111971,
+      "path": "packet-tracer/screenshots/rollback-users-https-pass.png",
+      "sha256": "41d7b4e7824fbd196cb6e0db875bbdf7a596c7b47e4880ce865ae73fb59c657d"
+    },
+    {
+      "bytes": 3720,
+      "path": "packet-tracer/topology.svg",
+      "sha256": "ac4f6fbc5e947350ba7a439b93bc62c5cc7b584b88ce318272737b2423e55d66"
+    },
+    {
+      "bytes": 4028,
+      "path": "source-provenance.json",
+      "sha256": "3b0cb905711663f3ca47a37e1bdea375ab8ce9b0d3de64efeb769f2e6486695c"
+    }
+  ],
+  "generator": "src/build_public_release.py",
+  "generator_sha256": "f01231f68de56cfd5256c100c660530c2eae0f512f2725ac0c6d37096b3b42e0",
+  "schema_version": 1
+}

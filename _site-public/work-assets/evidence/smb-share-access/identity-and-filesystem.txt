@@ -1,0 +1,4 @@
+uid=1000(labuser) gid=1000(labuser) groups=1000(labuser)
+uid=1001(auditor) gid=1001(auditor) groups=1001(auditor),1000(labuser)
+labuser labuser 750 /srv/support
+labuser labuser 644 /srv/support/readme.txt

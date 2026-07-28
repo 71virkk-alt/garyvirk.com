@@ -1,0 +1,2 @@
+retest-user=labops
+retest-sentinel=controlled remote support access

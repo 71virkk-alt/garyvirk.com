@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "environment": {
+    "application": "Cisco Packet Tracer",
+    "application_version": "9.0",
+    "router_model": "PT8200",
+    "topology_kind": "router_on_a_stick_four_vlan"
+  },
+  "claim_boundary": {
+    "batfish_topology": "four routed physical interfaces",
+    "packet_tracer_topology": "one 802.1Q trunk with four router subinterfaces",
+    "statement": "Packet Tracer corroborates representative policy behavior; it is not byte-identical execution of the Batfish configuration."
+  },
+  "config_exports": {
+    "router": {
+      "path": "lab/packet-tracer/configs/edge-r1-pt.cfg",
+      "sha256": "e8f08d829358e15ddb2956e1e8687b47398e6ebb8cd2804f112f8c64d8c2cdc9"
+    },
+    "switch": {
+      "path": "lab/packet-tracer/configs/access-sw1.cfg",
+      "sha256": "4ee6120f1c63017c879b3524c4b7315aded1a44e3c0f8e95d963a98f9cd82fee"
+    }
+  },
+  "lab_files": {
+    "baseline": {
+      "path": "lab/packet-tracer/four-zone-acl-validation.pkt",
+      "sha256": "90b6a5354e2ffdf1147cf5d3c25d26ae849c615c5b12f13806840717a34f62b4"
+    },
+    "broken": {
+      "path": "lab/packet-tracer/four-zone-acl-broken.pkt",
+      "sha256": "057d5c335b6b33f83cb65ba574817c7213d0906098b0fecee71b60ba6be52825"
+    },
+    "corrected": {
+      "path": "lab/packet-tracer/four-zone-acl-corrected.pkt",
+      "sha256": "8967d588eb41d9c433ae7139952dfc8728c3ca81256f5eff1ba091a36b39d1d2"
+    },
+    "rollback": {
+      "path": "lab/packet-tracer/four-zone-acl-rollback.pkt",
+      "sha256": "90b6a5354e2ffdf1147cf5d3c25d26ae849c615c5b12f13806840717a34f62b4",
+      "byte_identical_to_baseline": true
+    }
+  },
+  "checks": [
+    {
+      "state": "baseline",
+      "policy_id": "ACL-REQ-001",
+      "action": "users-pc requested https://10.20.30.80",
+      "expected": "HTTPS page returned",
+      "observed": "HTTPS page returned",
+      "result": "pass",
+      "screenshot": "screenshots/baseline-users-https-pass.png"
+    },
+    {
+      "state": "broken",
+      "policy_id": "ACL-REQ-001",
+      "action": "inserted sequence 5 HTTPS deny, then repeated request",
+      "expected": "controlled regression",
+      "observed": "Request Timeout; deny rule recorded 12 matches",
+      "result": "expected_failure_observed",
+      "screenshots": [
+        "screenshots/broken-users-https-timeout.png",
+        "screenshots/broken-router-deny-counter.png"
+      ]
+    },
+    {
+      "state": "corrected",
+      "policy_id": "ACL-REQ-001",
+      "action": "removed sequence 5, then repeated request",
+      "expected": "HTTPS page returned",
+      "observed": "HTTPS page returned; permit rule recorded 6 matches",
+      "result": "pass",
+      "screenshots": [
+        "screenshots/corrected-users-https-pass.png",
+        "screenshots/corrected-router-permit-counter.png"
+      ]
+    },
+    {
+      "state": "rollback",
+      "policy_id": "ACL-REQ-001",
+      "action": "opened byte-identical rollback file after router boot",
+      "expected": "HTTPS page returned",
+      "observed": "HTTPS page returned",
+      "result": "pass",
+      "screenshot": "screenshots/rollback-users-https-pass.png"
+    },
+    {
+      "state": "rollback",
+      "policy_id": "ACL-REQ-006",
+      "action": "admin-pc pinged 10.20.30.80",
+      "expected": "four replies",
+      "observed": "4 sent, 4 received, 0 percent loss",
+      "result": "pass",
+      "screenshot": "screenshots/rollback-admin-to-server-ping-pass.png"
+    },
+    {
+      "state": "rollback",
+      "policy_id": "ACL-PRO-004",
+      "action": "guest-pc pinged 10.20.20.10",
+      "expected": "blocked at inbound guest ACL",
+      "observed": "4 sent, 0 received; GUESTS_IN deny recorded 4 matches",
+      "result": "pass",
+      "screenshot": "screenshots/rollback-guest-to-admin-denied.png",
+      "counter_evidence": "cli-transcript.md"
+    }
+  ],
+  "manual_corroboration_scope": {
+    "rows_corroborated": [
+      "ACL-REQ-001",
+      "ACL-REQ-006",
+      "ACL-PRO-004"
+    ],
+    "rows_modeled_only": [
+      "ACL-REQ-002",
+      "ACL-REQ-003",
+      "ACL-REQ-004",
+      "ACL-REQ-005",
+      "ACL-PRO-001",
+      "ACL-PRO-002",
+      "ACL-PRO-003",
+      "ACL-PRO-005",
+      "ACL-UNA-001",
+      "ACL-UNA-002",
+      "ACL-UNA-003",
+      "ACL-UNA-004"
+    ]
+  }
+}

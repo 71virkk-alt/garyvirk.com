@@ -1,0 +1,31 @@
+{
+  "base_image": {
+    "id": "sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b",
+    "reference": "alpine:3.24.1",
+    "repo_digests": [
+      "alpine@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b"
+    ]
+  },
+  "docker_server": {
+    "architecture": "arm64",
+    "os": "linux",
+    "version": "29.5.2"
+  },
+  "network_contract": {
+    "gateway": "198.51.100.254",
+    "internal": true,
+    "scan_scope": "explicit owned container addresses only",
+    "subnet": "198.51.100.0/24"
+  },
+  "omitted_fields": [
+    "docker_context"
+  ],
+  "run_id": "native-inventory-20260727-v5",
+  "runtime_source_sha256": {
+    "inventory_drift.py": "76d2c226c255db86f0052dc47d5753632a014735925b9c8a4566e97a55d5c3ab",
+    "native-lab/expected-inventory.json": "6540d04dc9ce41e3407f229ed20c094ea76ac67430bc15db1cb769e0c57d573c",
+    "native-lab/run_native_lab.py": "41776040d7bcd73580e2f0f219b4c9a60174246209fce2a477a9182c78b35f35"
+  },
+  "sanitized": true,
+  "schema_version": 1
+}

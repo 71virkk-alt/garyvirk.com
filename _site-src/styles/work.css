@@ -172,6 +172,45 @@ body.work-page {
   font-size: 0.8125rem;
 }
 
+.work-editorial {
+  position: relative;
+  grid-column: 1 / -1;
+  margin: clamp(24px, 4vw, 52px) 0 0;
+  overflow: hidden;
+  border: 1px solid var(--work-line);
+  background: var(--work-panel);
+}
+
+.work-editorial img {
+  display: block;
+  width: 100%;
+  height: clamp(230px, 34vw, 470px);
+  object-fit: cover;
+  object-position: center 54%;
+  filter: saturate(0.72) contrast(1.03);
+}
+
+.work-editorial::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 58%, rgba(8, 10, 12, 0.78));
+  content: "";
+  pointer-events: none;
+}
+
+.work-editorial figcaption {
+  position: absolute;
+  z-index: 1;
+  top: 15px;
+  right: 18px;
+  border: 1px solid rgba(244, 244, 239, 0.18);
+  border-radius: 999px;
+  padding: 6px 9px;
+  background: rgba(8, 10, 12, 0.72);
+  color: rgba(244, 244, 239, 0.72);
+  font-size: 0.7rem;
+}
+
 .work-group {
   padding: clamp(70px, 9vw, 130px) clamp(24px, 6vw, 96px);
   border-top: 1px solid var(--work-line);
@@ -552,6 +591,10 @@ body.work-page {
   border-left: 1px solid var(--work-line);
 }
 
+.matrix-scroll-cue {
+  display: none;
+}
+
 .matrix-row {
   display: grid;
   grid-template-columns: minmax(170px, 0.36fr) repeat(2, minmax(0, 0.32fr));
@@ -789,6 +832,8 @@ body.work-page {
 }
 
 .evidence-card figcaption {
+  display: flex;
+  flex-direction: column;
   min-height: 150px;
   border-top: 1px solid var(--work-line);
   padding: 24px;
@@ -823,6 +868,15 @@ body.work-page {
 
 .evidence-card--image {
   grid-column: 1 / -1;
+}
+
+.evidence-card--execution-proof.evidence-card--image {
+  grid-column: auto;
+}
+
+.evidence-card--execution-proof.evidence-card--image .evidence-image {
+  min-height: 320px;
+  padding: clamp(18px, 3vw, 38px);
 }
 
 .evidence-card--deterministic-illustration pre {
@@ -1073,6 +1127,7 @@ body.work-page {
 
 .next-case a {
   display: flex;
+  min-height: 44px;
   max-width: 920px;
   align-items: center;
   justify-content: space-between;
@@ -1211,6 +1266,22 @@ body.work-page {
     font-size: 0.91rem;
   }
 
+  .work-editorial {
+    margin-top: 34px;
+  }
+
+  .work-editorial img {
+    height: 240px;
+  }
+
+  .work-editorial figcaption {
+    top: 10px;
+    right: 12px;
+    left: auto;
+    font-size: 0.65rem;
+    text-align: right;
+  }
+
   .work-group {
     padding: 68px 18px;
   }
@@ -1325,10 +1396,32 @@ body.work-page {
 
   .evidence-matrix {
     overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding-bottom: 8px;
+    scrollbar-color: var(--work-accent) var(--work-panel);
+  }
+
+  .matrix-scroll-cue {
+    display: block;
+    margin: 24px 0 -26px;
+    color: var(--work-soft);
+    font-size: 0.7rem;
+    text-align: right;
   }
 
   .matrix-row {
     min-width: 620px;
+  }
+
+  .matrix-row > :first-child {
+    position: sticky;
+    z-index: 1;
+    left: 0;
+    background: var(--work-panel);
+  }
+
+  .matrix-head > :first-child {
+    background: var(--work-panel-soft);
   }
 
   .evidence-section {

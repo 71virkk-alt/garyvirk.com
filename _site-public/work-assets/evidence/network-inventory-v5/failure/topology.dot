@@ -1,0 +1,8 @@
+digraph inventory_drift {
+  graph [rankdir="LR", label="Inventory Drift — Building"];
+  node [shape="box", style="rounded"];
+  "backup-nas" [label="backup-nas", color="#027a48"];
+  "edge-router" [label="edge-router", color="#027a48"];
+  "observed-2fe8fa024e7e" [label="observed-2fe8fa024e7e\\nnew_device\\nuncertain_observation", color="#b42318"];
+  "support-workstation" [label="support-workstation\\nchanged_ip", color="#b42318"];
+}

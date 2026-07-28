@@ -1,0 +1,332 @@
+{
+  "adapters": [
+    {
+      "alias": "Ethernet",
+      "ifIndex": 4,
+      "linkSpeed": "10 Gbps",
+      "status": "Up"
+    }
+  ],
+  "assessment": {
+    "caseLabel": "LAB-ENDPOINT-01",
+    "checks": {
+      "adapterPresent": true,
+      "adapterUp": true,
+      "defaultGatewayPresent": true,
+      "dnsControlsPassed": true,
+      "dnsServerPresent": true,
+      "ipControlsPassed": true,
+      "ipv4Present": true,
+      "tcpControlsPassed": true
+    },
+    "likelyFaultDomain": "Healthy",
+    "schemaVersion": "2.0.0",
+    "status": "Pass",
+    "warnings": []
+  },
+  "collection_attempt_log": [
+    {
+      "assessmentStatus": "Pass",
+      "attempt": 1,
+      "ipCollectionComplete": true,
+      "ipCollectionError": null,
+      "ipControls": [
+        {
+          "collectionComplete": true,
+          "error": null,
+          "label": "lab-gateway",
+          "passed": true,
+          "target": "192.0.2.1"
+        }
+      ],
+      "likelyFaultDomain": "Healthy"
+    }
+  ],
+  "collection_attempts": 1,
+  "collection_status": {
+    "adapters": {
+      "complete": true,
+      "error": null,
+      "required": true
+    },
+    "defaultRoutes": {
+      "complete": true,
+      "error": null,
+      "required": true
+    },
+    "dnsControls": {
+      "complete": true,
+      "error": null,
+      "required": true
+    },
+    "events": {
+      "complete": true,
+      "error": null,
+      "required": false
+    },
+    "ipConfiguration": {
+      "complete": true,
+      "error": null,
+      "required": true
+    },
+    "ipControls": {
+      "complete": true,
+      "error": null,
+      "required": true
+    },
+    "system": {
+      "complete": true,
+      "error": null,
+      "required": true
+    },
+    "tcpControls": {
+      "complete": true,
+      "error": null,
+      "required": true
+    }
+  },
+  "collection_warnings": [],
+  "collector": {
+    "read_only": true,
+    "selected_adapter_alias": "Ethernet",
+    "version": "0.2.0"
+  },
+  "controls": {
+    "dns": [
+      {
+        "collectionComplete": true,
+        "error": null,
+        "label": "lab-service-name",
+        "passed": true,
+        "resolvedAddresses": [
+          "192.0.2.10"
+        ],
+        "target": "service.example.test"
+      }
+    ],
+    "ip": [
+      {
+        "collectionComplete": true,
+        "error": null,
+        "label": "lab-gateway",
+        "passed": true,
+        "target": "192.0.2.1"
+      }
+    ],
+    "tcp": [
+      {
+        "collectionComplete": true,
+        "error": null,
+        "label": "lab-service-port",
+        "passed": true,
+        "port": 8443,
+        "target": "192.0.2.10"
+      }
+    ]
+  },
+  "default_routes": [
+    {
+      "ifIndex": 4,
+      "interfaceAlias": "Ethernet",
+      "nextHop": "192.0.2.1",
+      "routeMetric": 256
+    }
+  ],
+  "ip_configurations": [
+    {
+      "alias": "Ethernet",
+      "dhcpEnabled": false,
+      "dnsServers": [
+        "[link-local-ipv6-redacted]",
+        "192.0.2.10"
+      ],
+      "ifIndex": 4,
+      "ipv4Addresses": [
+        {
+          "address": "192.0.2.20",
+          "prefixLength": 24
+        }
+      ],
+      "ipv4Gateways": [
+        "192.0.2.1"
+      ],
+      "ipv6Addresses": []
+    }
+  ],
+  "negative_controls": {
+    "dns": [
+      {
+        "collectionComplete": true,
+        "errorType": "Win32Exception",
+        "label": "public-dns",
+        "passed": false,
+        "resultStatus": "ResolutionFailed",
+        "target": "example.com"
+      }
+    ],
+    "ip": [
+      {
+        "collectionComplete": true,
+        "errorType": null,
+        "label": "public-ip",
+        "passed": false,
+        "resultStatus": "TimedOut",
+        "target": "[public-ip-address-redacted]"
+      },
+      {
+        "collectionComplete": true,
+        "errorType": null,
+        "label": "mac-host-bridge",
+        "passed": false,
+        "resultStatus": "TimedOut",
+        "target": "[mac-host-bridge-redacted]"
+      }
+    ]
+  },
+  "provenance": {
+    "adapters": {
+      "fallback": {
+        "attempted": false,
+        "error": null,
+        "method": null,
+        "succeeded": null
+      },
+      "method": "Get-NetAdapter complete enumeration; exact configured-alias match in module",
+      "primary": {
+        "attempted": true,
+        "error": null,
+        "method": "Get-NetAdapter complete enumeration; exact configured-alias match in module",
+        "succeeded": true
+      },
+      "source": "Windows NetAdapter cmdlet"
+    },
+    "defaultRoutes": {
+      "fallback": {
+        "attempted": false,
+        "error": null,
+        "method": null,
+        "succeeded": null
+      },
+      "method": "Get-NetRoute IPv4 default route by configured alias",
+      "primary": {
+        "attempted": true,
+        "error": null,
+        "method": "Get-NetRoute IPv4 default route by configured alias",
+        "succeeded": true
+      },
+      "source": "Windows NetTCPIP cmdlet"
+    },
+    "dnsControls": {
+      "fallback": {
+        "attempted": false,
+        "error": null,
+        "method": null,
+        "succeeded": null
+      },
+      "method": "Resolve-DnsName for each configured name",
+      "primary": {
+        "attempted": true,
+        "error": null,
+        "method": "Resolve-DnsName for each configured name",
+        "succeeded": true
+      },
+      "source": "Configured DNS diagnostic probes"
+    },
+    "events": {
+      "fallback": {
+        "attempted": false,
+        "error": null,
+        "method": null,
+        "succeeded": null
+      },
+      "method": "Get-WinEvent using configured bounded filters",
+      "primary": {
+        "attempted": false,
+        "error": null,
+        "method": "Get-WinEvent using configured bounded filters",
+        "succeeded": null
+      },
+      "source": "Windows Event Log"
+    },
+    "ipConfiguration": {
+      "fallback": {
+        "attempted": false,
+        "error": null,
+        "method": null,
+        "succeeded": null
+      },
+      "method": "Get-NetIPConfiguration and Get-NetIPInterface by configured alias",
+      "primary": {
+        "attempted": true,
+        "error": null,
+        "method": "Get-NetIPConfiguration and Get-NetIPInterface by configured alias",
+        "succeeded": true
+      },
+      "source": "Windows NetTCPIP cmdlets"
+    },
+    "ipControls": {
+      "fallback": {
+        "attempted": false,
+        "error": null,
+        "method": null,
+        "succeeded": null
+      },
+      "method": "Test-Connection for each configured IP target",
+      "primary": {
+        "attempted": true,
+        "error": null,
+        "method": "Test-Connection for each configured IP target",
+        "succeeded": true
+      },
+      "source": "Configured ICMP diagnostic probes"
+    },
+    "system": {
+      "fallback": {
+        "attempted": false,
+        "error": null,
+        "method": null,
+        "succeeded": null
+      },
+      "method": "Get-CimInstance Win32_OperatingSystem; RuntimeInformation.OSArchitecture; PSVersionTable.PSVersion",
+      "primary": {
+        "attempted": true,
+        "error": null,
+        "method": "Get-CimInstance Win32_OperatingSystem; RuntimeInformation.OSArchitecture; PSVersionTable.PSVersion",
+        "succeeded": true
+      },
+      "source": "Windows CIM, .NET runtime, and PowerShell runtime"
+    },
+    "tcpControls": {
+      "fallback": {
+        "attempted": false,
+        "error": null,
+        "method": null,
+        "succeeded": null
+      },
+      "method": "Test-NetConnection for each configured host and port",
+      "primary": {
+        "attempted": true,
+        "error": null,
+        "method": "Test-NetConnection for each configured host and port",
+        "succeeded": true
+      },
+      "source": "Configured TCP diagnostic probes"
+    }
+  },
+  "scenario": "wrong-static-network",
+  "schema_version": 1,
+  "source_artifacts": {
+    "private_assessment_sha256": "2d16bfe540eb8917b98c63888501040885519c5f67f87144a3624633de3f2ba2",
+    "private_complete_sha256": "e2dbe0be4b787a09f6a2c62955be1e0b8ed4275d5f08181c18513ed434efd3c0",
+    "private_evidence_sha256": "3067bee9951eb33986d672a8ade0119ba224f96360eda04f00ab91a20658272a",
+    "private_transcript_sha256": "21dd02e04e5350b5dc6a2ec2e9aa1528ca466570fff57ce334dc42debf8fa7b2"
+  },
+  "stage": "post-correction",
+  "system": {
+    "architecture": "Arm64",
+    "osBuild": "26100",
+    "osCaption": "Microsoft Windows 11 Pro",
+    "osVersion": "10.0.26100",
+    "powerShellVersion": "7.6.4"
+  }
+}

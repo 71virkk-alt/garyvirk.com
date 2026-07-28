@@ -1,0 +1,21 @@
+test_all_required_drift_types_and_provenance (test_inventory_drift.InventoryDriftTests.test_all_required_drift_types_and_provenance) ... ok
+test_cli_outputs_and_no_clobber (test_inventory_drift.InventoryDriftTests.test_cli_outputs_and_no_clobber) ... inventory drift error: output path already exists: <temporary-output>, <temporary-output>, <temporary-output>
+ok
+test_deterministic_json_dot_and_svg (test_inventory_drift.InventoryDriftTests.test_deterministic_json_dot_and_svg) ... ok
+test_dot_escaping_and_unsafe_identifiers (test_inventory_drift.InventoryDriftTests.test_dot_escaping_and_unsafe_identifiers) ... ok
+test_expected_inventory_rejects_unknown_fields_and_outside_address (test_inventory_drift.InventoryDriftTests.test_expected_inventory_rejects_unknown_fields_and_outside_address) ... ok
+test_fixture_rejects_malformed_incomplete_and_unallowlisted (test_inventory_drift.InventoryDriftTests.test_fixture_rejects_malformed_incomplete_and_unallowlisted) ... ok
+test_hostile_json_types_fail_controlled (test_inventory_drift.InventoryDriftTests.test_hostile_json_types_fail_controlled) ... ok
+test_missing_device_requires_explicit_successful_complete_scope (test_inventory_drift.InventoryDriftTests.test_missing_device_requires_explicit_successful_complete_scope) ... ok
+test_native_fixture_comes_from_inspect_identity (test_inventory_drift.InventoryDriftTests.test_native_fixture_comes_from_inspect_identity) ... ok
+test_native_nmap_annotation_retains_raw_and_adds_exact_scope (test_inventory_drift.InventoryDriftTests.test_native_nmap_annotation_retains_raw_and_adds_exact_scope) ... ok
+test_nmap_host_identity_manifest_is_one_to_one (test_inventory_drift.InventoryDriftTests.test_nmap_host_identity_manifest_is_one_to_one) ... ok
+test_nmap_rejects_malformed_incomplete_and_unallowlisted (test_inventory_drift.InventoryDriftTests.test_nmap_rejects_malformed_incomplete_and_unallowlisted) ... ok
+test_public_export_safety_rejects_private_path_and_nonlab_ip (test_inventory_drift.InventoryDriftTests.test_public_export_safety_rejects_private_path_and_nonlab_ip) ... ok
+test_public_nmap_sanitizer_removes_command_path_and_times (test_inventory_drift.InventoryDriftTests.test_public_nmap_sanitizer_removes_command_path_and_times) ... ok
+test_repeated_interface_and_link_evidence_is_merged_order_independently (test_inventory_drift.InventoryDriftTests.test_repeated_interface_and_link_evidence_is_merged_order_independently) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.016s
+
+OK

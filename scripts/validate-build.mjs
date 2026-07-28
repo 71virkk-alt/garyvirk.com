@@ -71,6 +71,44 @@ for (const project of projects) {
     for (const claimId of artifact.claimIds) {
       assert(claimIds.has(claimId), `${project.slug} artifact ${artifact.id} has an invalid claim reference: ${claimId}.`);
     }
+    if (artifact.src) {
+      assert(Boolean(artifact.alt), `${project.slug} artifact ${artifact.id} has an image without alternative text.`);
+      assert(
+        Number.isFinite(artifact.width) && Number.isFinite(artifact.height),
+        `${project.slug} artifact ${artifact.id} has no intrinsic image dimensions.`
+      );
+    }
+    if (artifact.download) {
+      assert(
+        artifact.download.startsWith("/work-assets/"),
+        `${project.slug} artifact ${artifact.id} has a download outside the public evidence directory.`
+      );
+      assert(
+        existsSync(join(distRoot, artifact.download.replace(/^\//, ""))),
+        `${project.slug} artifact ${artifact.id} points to a missing download: ${artifact.download}.`
+      );
+    }
+    if (artifact.origin === "generated") {
+      assert(artifact.role === "generated-illustration", `${project.slug} generated artifact ${artifact.id} has the wrong role.`);
+      assert(artifact.proofValue === "explanation", `${project.slug} generated artifact ${artifact.id} is presented as execution proof.`);
+      assert(artifact.claimIds.length === 0, `${project.slug} generated artifact ${artifact.id} supports a public claim.`);
+    }
+  }
+
+  if (project.visualization) {
+    const nodeIds = new Set(project.visualization.nodes.map((node) => node.id));
+    const stateIds = new Set(project.visualization.states.map((state) => state.id));
+    assert(nodeIds.size === project.visualization.nodes.length, `${project.slug} visualization has duplicate node IDs.`);
+    assert(stateIds.size === project.visualization.states.length, `${project.slug} visualization has duplicate state IDs.`);
+    assert(project.visualization.states.length >= 2, `${project.slug} visualization has fewer than two states.`);
+    for (const state of project.visualization.states) {
+      for (const nodeId of Object.keys(state.nodeStates)) {
+        assert(nodeIds.has(nodeId), `${project.slug} visualization state ${state.id} references an unknown node: ${nodeId}.`);
+      }
+      for (const artifactId of state.artifactIds) {
+        assert(evidenceIds.has(artifactId), `${project.slug} visualization state ${state.id} references an unknown artifact: ${artifactId}.`);
+      }
+    }
   }
 
   for (const source of project.sources ?? []) {
@@ -97,7 +135,7 @@ for (const project of projects) {
     assert(project.tier === "technical-note", `${project.slug} has the wrong technical-note tier.`);
     assert(project.status.completion === "Research note", `${project.slug} has an unsupported completion status.`);
     assert(project.status.execution === "Not an executed lab", `${project.slug} implies runtime execution.`);
-    assert(project.status.publication === "Cited sources and deterministic aids", `${project.slug} has the wrong publication status.`);
+    assert(project.status.publication === "Cited sources and labelled aids", `${project.slug} has the wrong publication status.`);
     assert(project.status.evidenceLevel === "source-cited", `${project.slug} must use source-cited evidence.`);
     assert((project.sources ?? []).length >= 2, `${project.slug} must cite at least two primary sources.`);
     for (const claim of project.claims) {
@@ -143,6 +181,7 @@ for (const phrase of [
   "My case studies show how I isolate faults, document changes, and confirm that a fix worked.",
   "View case studies",
   "View résumé",
+  "View every case study",
   "Background",
   "On-site enterprise IT support",
   "Windows endpoints and networks",
@@ -185,20 +224,26 @@ for (const phrase of [
   "Supporting labs",
   "Support notes",
   "Windows endpoint connectivity triage",
-  "Network access-control change validation",
+  "Validating a network access rule change",
   "DHCP failure isolation",
-  "Packet triage notes",
-  "macOS enrollment and FileVault support",
-  "Laptop boot and storage triage",
-  "Enterprise Wi-Fi connection triage",
+  "Four packet captures, four network faults",
+  "Network inventory drift",
+  "TLS certificate and hostname triage",
+  "SMB authentication and share permissions",
+  "Tracing an HTTP 502 through a reverse proxy",
+  "SSH access and private-key permissions",
+  "macOS enrollment and FileVault support guide",
+  "Laptop boot and storage troubleshooting guide",
+  "Enterprise Wi-Fi troubleshooting guide",
   "Technical note",
-  "Not an executed lab"
+  "Not an executed lab",
+  "Generated editorial illustration. Not lab evidence."
 ]) {
   assert(work.includes(phrase), `Work index is missing required content: ${phrase}`);
 }
 assert(
-  !work.includes("Network inventory drift"),
-  "Archived inventory project remains in the selected work index."
+  work.includes("Employer records and generated images are never"),
+  "Work index is missing the generated-image evidence boundary."
 );
 
 for (const phrase of [
@@ -209,7 +254,7 @@ for (const phrase of [
   "April 2023 to May 2023",
   "Print or save as PDF",
   "Windows endpoint connectivity triage",
-  "Network access-control change validation"
+  "Validating a network access rule change"
 ]) {
   assert(resume.includes(phrase), `Résumé is missing required content: ${phrase}`);
 }
@@ -219,20 +264,29 @@ const selectedSlugs = [
   "windows-endpoint-readiness",
   "network-access-control",
   "dhcp-failure-isolation",
-  "packet-triage-library"
+  "packet-triage-library",
+  "network-inventory-drift",
+  "tls-service-trust",
+  "smb-share-access",
+  "reverse-proxy-path",
+  "ssh-access-permissions"
 ];
 
 for (const slug of selectedSlugs) {
   const casePath = `work/${slug}.html`;
   const casePage = read(casePath);
-  assert(casePage.includes("What the public excerpts actually prove"), `${casePath} has no evidence section.`);
-  assert(casePage.includes("What changed, and what remains outside the claim"), `${casePath} has no result boundary.`);
-  assert(casePage.includes("Every public conclusion stays tied to an artifact"), `${casePath} has no claim check.`);
+  assert(casePage.includes("Evidence from the lab"), `${casePath} has no evidence section.`);
+  assert(casePage.includes("What changed, and where this test stops"), `${casePath} has no result boundary.`);
+  assert(casePage.includes("What the evidence supports"), `${casePath} has no claim check.`);
   assert(casePage.includes("Selected evidence on this page"), `${casePath} has no publication label.`);
   assert(
-    (casePage.match(/class="evidence-card/g) || []).length >= (slug.includes("windows") || slug.includes("access-control") ? 3 : 1),
+    (casePage.match(/class="evidence-card/g) || []).length >=
+      (slug === "packet-triage-library" || slug === "dhcp-failure-isolation" ? 1 : 3),
     `${casePath} does not contain enough selected evidence.`
   );
+  if (slug !== "packet-triage-library") {
+    assert(casePage.includes("data-project-visualization"), `${casePath} has no interactive diagnostic view.`);
+  }
   assert(
     sitemap.includes(`https://garyvirk.com/${casePath}`),
     `sitemap.xml has no URL for ${casePath}.`
@@ -256,11 +310,11 @@ for (const slug of technicalNoteSlugs) {
   for (const phrase of [
     "Technical note, not an executed lab",
     "Official vendor documentation",
-    "Deterministic reconstructions",
+    "Clearly labelled diagrams and worksheets",
     "Primary sources",
     "Guidance used for this note",
-    "Every conclusion stays tied to a cited source",
-    "deterministic illustration"
+    "Each conclusion points back to a cited source",
+    "Explanatory aid"
   ]) {
     assert(notePage.includes(phrase), `${notePath} is missing its note boundary: ${phrase}`);
   }
@@ -297,13 +351,13 @@ for (const withheldSlug of ["intune-win32-deployment", "active-directory-recover
   );
 }
 
-const archivePath = "work/network-inventory-drift.html";
-const archivePage = read(archivePath);
-assert(archivePage.includes('name="robots" content="noindex, follow"'), "Archived route must be noindex.");
-assert(archivePage.includes("Unfeatured project"), "Archived route has no archive notice.");
+const inventoryPath = "work/network-inventory-drift.html";
+const inventoryPage = read(inventoryPath);
+assert(!inventoryPage.includes('name="robots" content="noindex, follow"'), "Published inventory route must be indexable.");
+assert(inventoryPage.includes("Evidence from the lab"), "Published inventory route has no evidence section.");
 assert(
-  !sitemap.includes(`https://garyvirk.com/${archivePath}`),
-  "Archived route must not appear in the sitemap."
+  sitemap.includes(`https://garyvirk.com/${inventoryPath}`),
+  "Published inventory route must appear in the sitemap."
 );
 
 assert(robots.includes("Sitemap: https://garyvirk.com/sitemap.xml"), "robots.txt has no sitemap.");
@@ -318,7 +372,7 @@ if (existsSync(distRoot)) {
     .filter((file) => file.endsWith(".js"))
     .reduce((total, file) => total + statSync(file).size, 0);
 
-  assert(totalBytes < 3_500_000, `Build is unexpectedly large: ${totalBytes} bytes.`);
+  assert(totalBytes < 8_000_000, `Build is unexpectedly large: ${totalBytes} bytes.`);
   assert(javascriptBytes < 250_000, `JavaScript is unexpectedly large: ${javascriptBytes} bytes.`);
 
   const htmlFiles = files.filter((file) => file.endsWith(".html"));
@@ -356,7 +410,12 @@ if (existsSync(distRoot)) {
     "_reference/",
     "my info /",
     "71virkk@gmail.com",
-    "+16475109813"
+    "+16475109813",
+    "LabOnly-User-47",
+    "LabOnly-Audit-83",
+    "/Users/noname1/",
+    "BEGIN OPENSSH PRIVATE KEY",
+    "ssh-ed25519 AAAA"
   ];
   for (const token of privateTokens) {
     assert(!combined.includes(token), `Private or internal token leaked into the build: ${token}`);

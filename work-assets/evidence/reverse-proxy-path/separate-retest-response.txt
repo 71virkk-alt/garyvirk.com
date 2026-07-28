@@ -1,0 +1,6 @@
+  HTTP/1.1 200 OK
+  Server: nginx/1.29.8
+  Content-Type: text/plain
+  Content-Length: 37
+Response body:
+service=inventory-api status=healthy

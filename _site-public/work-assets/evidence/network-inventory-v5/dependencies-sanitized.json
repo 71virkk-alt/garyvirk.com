@@ -1,0 +1,10 @@
+{
+  "base_image": "alpine:3.24.1",
+  "derived_image_id": "sha256:386af56cb46f93b3e7ba4b5011b7c3479b05dfb1bcce783833797a27a75e6ec7",
+  "nmap_package": "nmap: network exploration tool and security/port scanner\nnmap: https://nmap.org\nnmap: 13 MiB",
+  "omitted_fields": [
+    "derived_image"
+  ],
+  "sanitized": true,
+  "schema_version": 1
+}

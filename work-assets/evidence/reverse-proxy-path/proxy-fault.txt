@@ -1,0 +1,3 @@
+Connecting to portfolio-proxy-front:8080 ([isolated-lab-address]:8080)
+  HTTP/1.1 502 Bad Gateway
+wget: server returned error: HTTP/1.1 502 Bad Gateway

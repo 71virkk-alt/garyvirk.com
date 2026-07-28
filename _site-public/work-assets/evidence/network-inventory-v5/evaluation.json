@@ -1,0 +1,65 @@
+{
+  "claims": {
+    "native_runner_performed_network_scan": true,
+    "network_scan_invoked_by_analyzer": false,
+    "rollback_action_performed": true
+  },
+  "clean_json_byte_identical": true,
+  "clean_json_sha256": "7db388abc7b2c84277242f32a01a9b54df6bc63c0749383e625dfc314fd2d368",
+  "limitations": [
+    "This is a controlled container lab, not an enterprise network.",
+    "Docker bridge membership is not presented as 802.1Q VLAN evidence.",
+    "The scan proves only the explicit owned target list."
+  ],
+  "required_failure_types": [
+    "changed_ip",
+    "missing_device",
+    "new_device",
+    "uncertain_observation"
+  ],
+  "result": "Passed",
+  "schema_version": 1,
+  "scope": "isolated native Docker/Nmap evidence for presence, address, interface state, identity, correction, rollback, and repeatability",
+  "states": {
+    "baseline": {
+      "drift_count": 0,
+      "drift_types": [],
+      "missing_device_scope_proven": true
+    },
+    "clean-repeat": {
+      "drift_count": 0,
+      "drift_types": [],
+      "missing_device_scope_proven": true
+    },
+    "correction": {
+      "drift_count": 0,
+      "drift_types": [],
+      "missing_device_scope_proven": true
+    },
+    "failure": {
+      "drift_count": 4,
+      "drift_types": [
+        "changed_ip",
+        "missing_device",
+        "new_device",
+        "uncertain_observation"
+      ],
+      "missing_device_scope_proven": true
+    },
+    "rollback": {
+      "drift_count": 0,
+      "drift_types": [],
+      "missing_device_scope_proven": true
+    },
+    "rollback-source": {
+      "drift_count": 4,
+      "drift_types": [
+        "changed_ip",
+        "missing_device",
+        "new_device",
+        "uncertain_observation"
+      ],
+      "missing_device_scope_proven": true
+    }
+  }
+}

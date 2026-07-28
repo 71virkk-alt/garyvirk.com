@@ -1,0 +1,2 @@
+[time omitted] [error] 29#29: *1 connect() failed (111: Connection refused) while connecting to upstream, client: [isolated-lab-address], server: , request: "GET /health HTTP/1.1", upstream: "http://[isolated-lab-address]:9090/health", host: "portfolio-proxy-front:8080"
+[isolated-lab-address] - - [time omitted] "GET /health HTTP/1.1" 502 157 "-" "Wget"

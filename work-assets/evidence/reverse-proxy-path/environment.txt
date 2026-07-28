@@ -1,0 +1,10 @@
+lab=reverse-proxy-path
+runtime=docker-isolated-internal-network
+backend_image=python:3.13-alpine
+proxy_image=nginx:1.29-alpine
+backend_image_id=sha256:399babc8b49529dabfd9c922f2b5eea81d611e4512e3ed250d75bd2e7683f4b0
+proxy_image_id=sha256:5616878291a2eed594aee8db4dade5878cf7edcb475e59193904b198d9b830de
+python_version=Python 3.13.14
+nginx_version=nginx version: nginx/1.29.8
+architecture=arm64
+fault_exit=1

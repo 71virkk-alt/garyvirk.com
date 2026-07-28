@@ -1,0 +1,109 @@
+stage_id=dns-only-healthy-1
+expected_domain=Healthy
+collection_attempts=1
+collection_attempt_record={"attempt":1,"ipCollectionComplete":true,"ipCollectionError":null,"ipControls":[{"label":"lab-gateway","target":"192.0.2.1","passed":true,"collectionComplete":true,"error":null}],"assessmentStatus":"Pass","likelyFaultDomain":"Healthy"}
+command=Get-NetAdapter
+
+Name                 : Ethernet
+InterfaceDescription : Red Hat VirtIO Ethernet Adapter
+Status               : Up
+ifIndex              : 4
+command=Get-NetIPConfiguration -Detailed
+
+ComputerName         : [lab-hostname-redacted]
+InterfaceAlias       : Ethernet
+InterfaceIndex       : 4
+InterfaceDescription : Red Hat VirtIO Ethernet Adapter
+CompartmentId        : 1
+NetAdapter           : MSFT_NetAdapter (CreationClassName = "MSFT_NetAdapter", DeviceID = "{[lab-identifier-redacted]}", SystemCreationClassName = "CIM_NetworkPort", SystemName = "[lab-hostname-redacted]")
+NetCompartment       : MSFT_NetCompartment (InstanceID = ";55;")
+NetIPv6Interface     : MSFT_NetIPInterface (Name = "?55??55;", CreationClassName = "", SystemCreationClassName = "", SystemName = "")
+NetIPv4Interface     : MSFT_NetIPInterface (Name = "?55?55;", CreationClassName = "", SystemCreationClassName = "", SystemName = "")
+NetProfile           : MSFT_NetConnectionProfile (InstanceID = "{[lab-identifier-redacted]}")
+AllIPAddresses       : {192.0.2.20, [link-local-ipv6-redacted]}
+IPv6Address          : {}
+IPv6TemporaryAddress : {}
+IPv6LinkLocalAddress : {[link-local-ipv6-redacted]}
+IPv4Address          : {192.0.2.20}
+IPv6DefaultGateway   : 
+IPv4DefaultGateway   : {MSFT_NetRoute (InstanceID = ":8:8:8:9:55?55;C?8:8?8;55;")}
+DNSServer            : {MSFT_DNSClientServerAddress (Name = "4", CreationClassName = "", SystemCreationClassName = "", SystemName = "23"), MSFT_DNSClientServerAddress (Name = "4", CreationClassName = "", SystemCreationClassName = "", SystemName = "2")}
+Detailed             : True
+command=Get-NetRoute -AddressFamily IPv4
+
+ifIndex DestinationPrefix  NextHop   RouteMetric ifMetric PolicyStore
+------- -----------------  -------   ----------- -------- -----------
+1       127.0.0.0/8        0.0.0.0           256 75       ActiveStore
+1       127.0.0.1/32       0.0.0.0           256 75       ActiveStore
+1       127.255.255.255/32 0.0.0.0           256 75       ActiveStore
+1       [public-ip-address-redacted]/4        0.0.0.0           256 75       ActiveStore
+1       255.255.255.255/32 0.0.0.0           256 75       ActiveStore
+4       0.0.0.0/0          192.0.2.1         256 15       ActiveStore
+4       192.0.2.0/24       0.0.0.0           256 15       ActiveStore
+4       192.0.2.20/32      0.0.0.0           256 15       ActiveStore
+4       192.0.2.255/32     0.0.0.0           256 15       ActiveStore
+4       [public-ip-address-redacted]/4        0.0.0.0           256 15       ActiveStore
+4       255.255.255.255/32 0.0.0.0           256 15       ActiveStore
+command=Get-DnsClientServerAddress -AddressFamily IPv4
+
+InterfaceAlias              InterfaceIndex AddressFamily ServerAddresses
+--------------              -------------- ------------- ---------------
+Ethernet                                 4 IPv4          {192.0.2.10}
+Loopback Pseudo-Interface 1              1 IPv4          {}
+command=Test-Connection 192.0.2.1 -Count 2
+
+   Destination: 192.0.2.1
+
+Ping Source          Address   Latency(ms) BufferSize(B) Status
+---- ------          -------   ----------- ------------- ------
+   1 [lab-hostname-redacted] 192.0.2.1           0            32 Success
+   2 [lab-hostname-redacted] 192.0.2.1           0            32 Success
+command=Resolve-DnsName service.example.test
+
+Name                 Type TTL Section IPAddress
+----                 ---- --- ------- ---------
+service.example.test A    0   Answer  192.0.2.10
+command=Test-NetConnection 192.0.2.10 -Port 8443
+
+ComputerName             : 192.0.2.10
+RemoteAddress            : 192.0.2.10
+ResolvedAddresses        : {192.0.2.10}
+PingSucceeded            : False
+PingReplyDetails         : 
+TcpClientSocket          : 
+TcpTestSucceeded         : True
+RemotePort               : 8443
+TraceRoute               : 
+Detailed                 : True
+InterfaceAlias           : Ethernet
+InterfaceIndex           : 4
+InterfaceDescription     : Red Hat VirtIO Ethernet Adapter
+NetAdapter               : MSFT_NetAdapter (CreationClassName = "MSFT_NetAdapter", DeviceID = "{[lab-identifier-redacted]}", SystemCreationClassName = "CIM_NetworkPort", SystemName = "[lab-hostname-redacted]")
+NetRoute                 : MSFT_NetRoute (InstanceID = ";C?8:8?8:9??55?55:8:8:8:55;")
+SourceAddress            : 192.0.2.20
+NameResolutionSucceeded  : True
+BasicNameResolution      : {}
+LLMNRNetbiosRecords      : {}
+DNSOnlyRecords           : {}
+AllNameResolutionResults : 
+IsAdmin                  : True
+NetworkIsolationContext  : Internet
+MatchingIPsecRules       :
+command=Test-Connection [public-ip-address-redacted] -Count 1
+
+   Destination: [public-ip-address-redacted]
+
+Ping Source          Address Latency(ms) BufferSize(B) Status
+---- ------          ------- ----------- ------------- ------
+   1 [lab-hostname-redacted] *                 *             * TimedOut
+command=Test-Connection [mac-host-bridge-redacted] -Count 1
+
+   Destination: [mac-host-bridge-redacted]
+
+Ping Source          Address Latency(ms) BufferSize(B) Status
+---- ------          ------- ----------- ------------- ------
+   1 [lab-hostname-redacted] *                 *             * TimedOut
+command=Resolve-DnsName example.com
+
+assessment_status=Pass
+assessment_fault_domain=Healthy

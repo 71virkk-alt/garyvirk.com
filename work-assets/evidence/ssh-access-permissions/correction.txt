@@ -1,0 +1,3 @@
+user=labops
+arch=aarch64
+sentinel=controlled remote support access

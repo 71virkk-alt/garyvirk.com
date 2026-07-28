@@ -1,0 +1,11 @@
+lab=smb-share-access
+runtime=docker-isolated-internal-network
+image=portfolio-smb-lab:1
+server_and_client=separate-containers
+samba_version=Version 4.21.9
+client_version=Version 4.21.9
+image_id=sha256:b62778ee4faa9bcb86fbd137c708dc09a000f06f3917317cd7518ea3efba6722
+architecture=arm64
+bad_credentials_exit=1
+authorization_fault_exit=1
+negative_boundary_exit=1

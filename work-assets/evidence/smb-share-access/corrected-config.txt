@@ -1,0 +1,17 @@
+Load smb config files from /etc/samba/smb.conf
+Loaded services file OK.
+Weak crypto is allowed by GnuTLS (e.g. NTLM as a compatibility fallback)
+
+Server role: ROLE_STANDALONE
+
+# Global parameters
+[global]
+	log file = /var/log/samba/log.%m
+	logging = file
+	server role = standalone server
+	idmap config * : backend = tdb
+
+
+[support]
+	path = /srv/support
+	valid users = labuser auditor

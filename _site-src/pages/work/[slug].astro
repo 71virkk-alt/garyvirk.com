@@ -1,5 +1,6 @@
 ---
 import WorkHeader from "../../components/WorkHeader.astro";
+import ProjectVisualization from "../../components/ProjectVisualization.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
   publicProjects,
@@ -7,6 +8,7 @@ import {
   type PortfolioProject
 } from "../../data/projects";
 import "../../styles/work.css";
+import "../../styles/work-visualizations.css";
 
 export function getStaticPaths() {
   return publicProjects.map((project) => ({
@@ -53,7 +55,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             {isTechnicalNote && (
               <aside class="note-disclosure" role="note">
                 Technical note, not an executed lab. Built from cited documentation and
-                deterministic reconstructions.
+                clearly labelled diagrams and worksheets.
               </aside>
             )}
             <p class="work-kicker"><span>{project.number}</span> {project.discipline}</p>
@@ -61,7 +63,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             <p class="case-deck">{project.summary}</p>
 
             <div class="case-value">
-              <span>{isTechnicalNote ? "Useful decision" : "Why this matters at work"}</span>
+              <span>{isTechnicalNote ? "Decision" : "What this shows"}</span>
               <strong>{project.employerValue}</strong>
             </div>
 
@@ -71,7 +73,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
                   <div><dt>Type</dt><dd>Source-cited technical note</dd></div>
                   <div><dt>Basis</dt><dd>Official vendor documentation</dd></div>
                   <div><dt>Review</dt><dd>{project.status.review}</dd></div>
-                  <div><dt>Visuals</dt><dd>Deterministic reconstructions</dd></div>
+                  <div><dt>Visuals</dt><dd>Clearly labelled diagrams and worksheets</dd></div>
                 </>
               ) : (
                 <>
@@ -96,11 +98,19 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             </div>
           </section>
 
+          {project.visualization && (
+            <ProjectVisualization
+              projectSlug={project.slug}
+              visualization={project.visualization}
+            />
+          )}
+
           {project.presentation === "change" && project.matrix && (
             <section class="change-matrix-section" aria-labelledby="change-matrix-heading">
               <p class="section-label">Change boundary</p>
               <div>
                 <h2 id="change-matrix-heading">Required access returned. Closed paths stayed closed.</h2>
+                <p class="matrix-scroll-cue">Scroll to compare <span aria-hidden="true">→</span></p>
                 <div class="evidence-matrix" role="table" tabindex="0" aria-label={`${project.title} result matrix`}>
                   <div class="matrix-row matrix-head" role="row">
                     <span role="columnheader">Check</span>
@@ -172,11 +182,11 @@ const projectBodyClass = `work-page project-page project-page--${project.present
 
           <section class:list={["case-process", `case-process--${project.presentation}`]} aria-labelledby="process-heading">
             <p class="section-label">
-              {isTechnicalNote ? "Support path" : project.presentation === "timeline" ? "Troubleshooting record" : project.presentation === "packet" ? "Packet workflow" : project.presentation === "notes" ? "Method" : "Change sequence"}
+              {project.processLabel ?? (isTechnicalNote ? "Support path" : project.presentation === "timeline" ? "Troubleshooting record" : project.presentation === "packet" ? "Packet workflow" : project.presentation === "notes" ? "Method" : "Change sequence")}
             </p>
             <div>
               <h2 id="process-heading">
-                {project.processHeading ?? (project.presentation === "timeline" ? "The same checks before and after the change." : project.presentation === "packet" ? "Read the exchange before changing the service." : project.presentation === "notes" ? "One symptom, one decisive filter, one post-change capture." : "Intent first, then regression, correction, and rollback.")}
+                {project.processHeading ?? (project.presentation === "timeline" ? "The same checks before and after the change." : project.presentation === "packet" ? "Read the exchange before changing the service." : project.presentation === "notes" ? "One symptom, one relevant filter, one post-change capture." : "Intent first, then regression, correction, and rollback.")}
               </h2>
               <ol class="process-list">
                 {project.approach.map((item, index) => (
@@ -191,6 +201,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
               <p class="section-label">DNS example</p>
               <div>
                 <h2 id="timeline-result-heading">Direct TCP stayed up while the name check failed.</h2>
+                <p class="matrix-scroll-cue">Scroll to compare <span aria-hidden="true">→</span></p>
                 <div class="evidence-matrix" role="table" tabindex="0" aria-label={`${project.title} DNS example`}>
                   <div class="matrix-row matrix-head" role="row">
                     <span role="columnheader">Check</span>
@@ -233,21 +244,30 @@ const projectBodyClass = `work-page project-page project-page--${project.present
 
           <section class="evidence-section" aria-labelledby="evidence-heading">
             <div class="evidence-heading">
-              <p class="section-label">{isTechnicalNote ? "Reconstructed aids" : "Selected evidence"}</p>
+              <p class="section-label">{isTechnicalNote ? "Explanatory aids" : "Evidence from the lab"}</p>
               <div>
-                <h2 id="evidence-heading">{project.evidenceHeading ?? "What the public excerpts actually prove."}</h2>
+                <h2 id="evidence-heading">{project.evidenceHeading ?? "The checks used to reach the conclusion."}</h2>
                 <p>
-                  {project.evidenceDescription ?? "These are allowlisted, sanitized excerpts from the controlled project record. Private repositories and raw supporting files remain private."}
+                  {project.evidenceDescription ?? "Selected outputs from the lab. Sensitive and unnecessary details are omitted."}
                 </p>
               </div>
             </div>
 
             <div class="evidence-grid">
               {project.evidence.map((artifact) => (
-                <figure class:list={["evidence-card", `evidence-card--${artifact.role ?? "execution-proof"}`, { "evidence-card--image": artifact.kind === "diagram" }]}>
+                <figure
+                  class:list={["evidence-card", `evidence-card--${artifact.role ?? "execution-proof"}`, { "evidence-card--image": artifact.kind === "diagram" }]}
+                  data-artifact-id={artifact.id}
+                >
                   {artifact.src ? (
                     <div class="evidence-image">
-                      <img src={artifact.src} alt={artifact.alt ?? ""} loading="lazy" />
+                      <img
+                        src={artifact.src}
+                        alt={artifact.alt ?? ""}
+                        width={artifact.width}
+                        height={artifact.height}
+                        loading="lazy"
+                      />
                     </div>
                   ) : isTechnicalNote && artifact.kind !== "command" && artifact.items ? (
                     <div class="evidence-record">
@@ -261,9 +281,32 @@ const projectBodyClass = `work-page project-page project-page--${project.present
                     <pre><code>{artifact.excerpt}</code></pre>
                   )}
                   <figcaption>
-                    {artifact.role && <small>{artifact.role.replaceAll("-", " ")}</small>}
+                    {(artifact.role || artifact.origin) && (
+                      <small>
+                        {artifact.role === "generated-illustration"
+                          ? "Illustration, not evidence"
+                          : artifact.role === "derived-visual"
+                            ? "Derived from lab evidence"
+                            : artifact.role === "execution-proof"
+                              ? "Captured lab output"
+                              : artifact.role === "deterministic-illustration"
+                                ? "Explanatory aid"
+                                : artifact.proofValue === "execution"
+                                  ? "Captured lab output"
+                                  : "Explanatory aid"}
+                      </small>
+                    )}
                     <strong>{artifact.title}</strong>
                     <span>{artifact.caption}</span>
+                    {artifact.download && (
+                    <a
+                      class="evidence-download"
+                      href={artifact.download}
+                      aria-label={`Open ${artifact.title} artifact`}
+                    >
+                        Open artifact <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
                   </figcaption>
                 </figure>
               ))}
@@ -290,9 +333,9 @@ const projectBodyClass = `work-page project-page project-page--${project.present
           )}
 
           <section class="case-outcome" aria-labelledby="outcome-heading">
-            <p class="section-label">Result and boundary</p>
+            <p class="section-label">Result and limits</p>
             <div>
-              <h2 id="outcome-heading">{isTechnicalNote ? "What this note supports, and what it does not claim." : "What changed, and what remains outside the claim."}</h2>
+              <h2 id="outcome-heading">{isTechnicalNote ? "What this note supports, and what it does not claim." : "What changed, and where this test stops."}</h2>
               <div class="outcome-grid">
                 <article>
                   <h3>{isTechnicalNote ? "Supports" : "Result"}</h3>
@@ -307,9 +350,9 @@ const projectBodyClass = `work-page project-page project-page--${project.present
           </section>
 
           <section class="claim-list" aria-labelledby="claims-heading">
-            <p class="section-label">{isTechnicalNote ? "Source check" : "Claim check"}</p>
+            <p class="section-label">{isTechnicalNote ? "Sources" : "Claims and evidence"}</p>
             <div>
-              <h2 id="claims-heading">{isTechnicalNote ? "Every conclusion stays tied to a cited source." : "Every public conclusion stays tied to an artifact."}</h2>
+              <h2 id="claims-heading">{isTechnicalNote ? "Each conclusion points back to a cited source." : "What the evidence supports."}</h2>
               <div>
                 {project.claims.map((claim) => (
                   <article>
@@ -338,4 +381,5 @@ const projectBodyClass = `work-page project-page project-page--${project.present
       )
     }
   </main>
+  <script src="../../scripts/project-visualizations.ts"></script>
 </BaseLayout>

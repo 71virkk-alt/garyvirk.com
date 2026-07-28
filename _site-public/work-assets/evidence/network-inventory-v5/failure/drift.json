@@ -1,0 +1,486 @@
+{
+  "claims": {
+    "enterprise_deployment": false,
+    "missing_device_coverage_evidence": [
+      {
+        "coverage": "complete",
+        "coverage_evidence_id": "31cd0707d8a24c4b",
+        "declared_targets": [
+          "198.51.100.1",
+          "198.51.100.20",
+          "198.51.100.21",
+          "198.51.100.30",
+          "198.51.100.50",
+          "198.51.100.60"
+        ],
+        "provenance": [
+          {
+            "confidence": "certain",
+            "locator": "/nmaprun/@inventory-targets",
+            "source_id": "nmap-native",
+            "source_type": "nmap_xml"
+          },
+          {
+            "confidence": "certain",
+            "locator": "/nmaprun/runstats/finished",
+            "source_id": "nmap-native",
+            "source_type": "nmap_xml"
+          },
+          {
+            "confidence": "certain",
+            "locator": "/nmaprun/runstats/hosts",
+            "source_id": "nmap-native",
+            "source_type": "nmap_xml"
+          }
+        ],
+        "run_completion": {
+          "down": 2,
+          "exit": "success",
+          "total": 6,
+          "up": 4
+        },
+        "source_id": "nmap-native",
+        "source_type": "nmap_xml"
+      }
+    ],
+    "missing_device_scope_proven": true,
+    "network_scan_invoked_by_analyzer": false,
+    "real_time_monitoring": false
+  },
+  "devices": [
+    {
+      "addresses": [
+        {
+          "address": "198.51.100.30",
+          "family": "ipv4",
+          "provenance": [
+            {
+              "confidence": "certain",
+              "locator": "/interfaces/b3972c68b758f4fc",
+              "source_id": "docker-inspect-native",
+              "source_type": "interface_fixture"
+            },
+            {
+              "confidence": "certain",
+              "locator": "/nmaprun/host[3]",
+              "source_id": "nmap-native",
+              "source_type": "nmap_xml"
+            }
+          ]
+        }
+      ],
+      "classification": "expected",
+      "device_id": "backup-nas",
+      "identity_confidence": "certain",
+      "interfaces": [
+        {
+          "conflicts": [],
+          "field_evidence": {
+            "mac": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/b3972c68b758f4fc",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": "02:00:5e:10:00:30"
+              }
+            ],
+            "state": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/b3972c68b758f4fc",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": "up"
+              }
+            ],
+            "vlan": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/b3972c68b758f4fc",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": null
+              }
+            ]
+          },
+          "mac": "02:00:5e:10:00:30",
+          "name": "eth0",
+          "state": "up",
+          "vlan": null
+        }
+      ],
+      "links": [],
+      "names": [],
+      "provenance": [
+        {
+          "confidence": "certain",
+          "locator": "/interfaces/b3972c68b758f4fc",
+          "source_id": "docker-inspect-native",
+          "source_type": "interface_fixture"
+        },
+        {
+          "confidence": "certain",
+          "locator": "/nmaprun/host[3]",
+          "source_id": "nmap-native",
+          "source_type": "nmap_xml"
+        }
+      ]
+    },
+    {
+      "addresses": [
+        {
+          "address": "198.51.100.1",
+          "family": "ipv4",
+          "provenance": [
+            {
+              "confidence": "certain",
+              "locator": "/interfaces/b7e50069ab2b0b7b",
+              "source_id": "docker-inspect-native",
+              "source_type": "interface_fixture"
+            },
+            {
+              "confidence": "certain",
+              "locator": "/nmaprun/host[1]",
+              "source_id": "nmap-native",
+              "source_type": "nmap_xml"
+            }
+          ]
+        }
+      ],
+      "classification": "expected",
+      "device_id": "edge-router",
+      "identity_confidence": "certain",
+      "interfaces": [
+        {
+          "conflicts": [],
+          "field_evidence": {
+            "mac": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/b7e50069ab2b0b7b",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": "02:00:5e:10:00:01"
+              }
+            ],
+            "state": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/b7e50069ab2b0b7b",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": "up"
+              }
+            ],
+            "vlan": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/b7e50069ab2b0b7b",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": null
+              }
+            ]
+          },
+          "mac": "02:00:5e:10:00:01",
+          "name": "eth0",
+          "state": "up",
+          "vlan": null
+        }
+      ],
+      "links": [],
+      "names": [],
+      "provenance": [
+        {
+          "confidence": "certain",
+          "locator": "/interfaces/b7e50069ab2b0b7b",
+          "source_id": "docker-inspect-native",
+          "source_type": "interface_fixture"
+        },
+        {
+          "confidence": "certain",
+          "locator": "/nmaprun/host[1]",
+          "source_id": "nmap-native",
+          "source_type": "nmap_xml"
+        }
+      ]
+    },
+    {
+      "addresses": [
+        {
+          "address": "198.51.100.60",
+          "family": "ipv4",
+          "provenance": [
+            {
+              "confidence": "certain",
+              "locator": "/interfaces/8839ffe841585371",
+              "source_id": "docker-inspect-native",
+              "source_type": "interface_fixture"
+            },
+            {
+              "confidence": "uncertain",
+              "locator": "/nmaprun/host[4]",
+              "source_id": "nmap-native",
+              "source_type": "nmap_xml"
+            }
+          ]
+        }
+      ],
+      "classification": "unrecognized",
+      "device_id": "observed-2fe8fa024e7e",
+      "identity_confidence": "uncertain",
+      "interfaces": [
+        {
+          "conflicts": [],
+          "field_evidence": {
+            "mac": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/8839ffe841585371",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": "02:00:5e:10:00:60"
+              }
+            ],
+            "state": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/8839ffe841585371",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": "up"
+              }
+            ],
+            "vlan": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/8839ffe841585371",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": null
+              }
+            ]
+          },
+          "mac": "02:00:5e:10:00:60",
+          "name": "eth0",
+          "state": "up",
+          "vlan": null
+        }
+      ],
+      "links": [],
+      "names": [],
+      "provenance": [
+        {
+          "confidence": "certain",
+          "locator": "/interfaces/8839ffe841585371",
+          "source_id": "docker-inspect-native",
+          "source_type": "interface_fixture"
+        },
+        {
+          "confidence": "uncertain",
+          "locator": "/nmaprun/host[4]",
+          "source_id": "nmap-native",
+          "source_type": "nmap_xml"
+        }
+      ]
+    },
+    {
+      "addresses": [
+        {
+          "address": "198.51.100.21",
+          "family": "ipv4",
+          "provenance": [
+            {
+              "confidence": "certain",
+              "locator": "/interfaces/ae45e9ae878f202a",
+              "source_id": "docker-inspect-native",
+              "source_type": "interface_fixture"
+            },
+            {
+              "confidence": "certain",
+              "locator": "/nmaprun/host[2]",
+              "source_id": "nmap-native",
+              "source_type": "nmap_xml"
+            }
+          ]
+        }
+      ],
+      "classification": "expected",
+      "device_id": "support-workstation",
+      "identity_confidence": "certain",
+      "interfaces": [
+        {
+          "conflicts": [],
+          "field_evidence": {
+            "mac": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/ae45e9ae878f202a",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": "02:00:5e:10:00:20"
+              }
+            ],
+            "state": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/ae45e9ae878f202a",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": "up"
+              }
+            ],
+            "vlan": [
+              {
+                "provenance": [
+                  {
+                    "confidence": "certain",
+                    "locator": "/interfaces/ae45e9ae878f202a",
+                    "source_id": "docker-inspect-native",
+                    "source_type": "interface_fixture"
+                  }
+                ],
+                "value": null
+              }
+            ]
+          },
+          "mac": "02:00:5e:10:00:20",
+          "name": "eth0",
+          "state": "up",
+          "vlan": null
+        }
+      ],
+      "links": [],
+      "names": [],
+      "provenance": [
+        {
+          "confidence": "certain",
+          "locator": "/interfaces/ae45e9ae878f202a",
+          "source_id": "docker-inspect-native",
+          "source_type": "interface_fixture"
+        },
+        {
+          "confidence": "certain",
+          "locator": "/nmaprun/host[2]",
+          "source_id": "nmap-native",
+          "source_type": "nmap_xml"
+        }
+      ]
+    }
+  ],
+  "drift": [
+    {
+      "details": {
+        "expected": [
+          "198.51.100.20"
+        ],
+        "observed": [
+          "198.51.100.21"
+        ]
+      },
+      "device_id": "support-workstation",
+      "drift_id": "40b3665e7b7212c7",
+      "type": "changed_ip"
+    },
+    {
+      "details": {
+        "coverage_evidence_ids": [
+          "31cd0707d8a24c4b"
+        ],
+        "declared_targets": [
+          "198.51.100.1",
+          "198.51.100.20",
+          "198.51.100.21",
+          "198.51.100.30",
+          "198.51.100.50",
+          "198.51.100.60"
+        ],
+        "run_completion": [
+          {
+            "down": 2,
+            "exit": "success",
+            "source_id": "nmap-native",
+            "total": 6,
+            "up": 4
+          }
+        ],
+        "sources": [
+          "nmap-native"
+        ]
+      },
+      "device_id": "office-printer",
+      "drift_id": "fbec9008ad93c8e2",
+      "type": "missing_device"
+    },
+    {
+      "details": {
+        "observed_addresses": [
+          "198.51.100.60"
+        ]
+      },
+      "device_id": "observed-2fe8fa024e7e",
+      "drift_id": "7a5229f96cc29f63",
+      "type": "new_device"
+    },
+    {
+      "details": {
+        "conflicts": [],
+        "identity_confidence": "uncertain",
+        "source_ids": [
+          "nmap-native"
+        ]
+      },
+      "device_id": "observed-2fe8fa024e7e",
+      "drift_id": "8640a73092f0d342",
+      "type": "uncertain_observation"
+    }
+  ],
+  "execution_mode": "offline_evidence_analysis",
+  "project_status": "Building",
+  "schema_version": 1
+}

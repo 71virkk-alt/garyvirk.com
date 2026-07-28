@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Four-zone Packet Tracer access-control topology</title>
+  <desc id="desc">A PT8200 router connects by an 802.1Q trunk to a 2960 switch. VLANs 10, 20, 30, and 40 connect users, admin, servers, and guests. Extended ACLs are applied inbound on each router subinterface.</desc>
+  <defs>
+    <style>
+      .bg{fill:#0b0f14}.panel{fill:#121922;stroke:#273546;stroke-width:2}
+      .zone{fill:#151e29;stroke:#33475e;stroke-width:2}.core{fill:#182434;stroke:#78d6c6;stroke-width:3}
+      .line{stroke:#78d6c6;stroke-width:4;fill:none}.trunk{stroke:#f0bd65;stroke-width:5;fill:none}
+      .label{fill:#f5f7fa;font:600 24px system-ui,sans-serif}.small{fill:#b8c4d2;font:18px system-ui,sans-serif}
+      .mono{fill:#dbe7f3;font:17px ui-monospace,SFMono-Regular,monospace}.accent{fill:#78d6c6}
+      .warn{fill:#f0bd65;font:600 17px system-ui,sans-serif}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="760"/>
+  <text x="60" y="65" class="label">Controlled Network Access Lab</text>
+  <text x="60" y="97" class="small">Synthetic RFC 1918 addressing · Packet Tracer 9 · inbound zone ACLs</text>
+
+  <rect x="435" y="135" width="330" height="125" rx="20" class="core"/>
+  <text x="600" y="180" text-anchor="middle" class="label">edge-r1-pt</text>
+  <text x="600" y="212" text-anchor="middle" class="mono">PT8200 · Packet Tracer 9</text>
+  <text x="600" y="240" text-anchor="middle" class="small">Gi0/0/0.10–.40 · ACLs inbound</text>
+
+  <path d="M600 260 V335" class="trunk"/>
+  <text x="618" y="305" class="warn">802.1Q trunk</text>
+
+  <rect x="465" y="335" width="270" height="95" rx="18" class="core"/>
+  <text x="600" y="376" text-anchor="middle" class="label">access-sw1</text>
+  <text x="600" y="405" text-anchor="middle" class="mono">2960 · Fa0/1 trunk</text>
+
+  <path d="M465 380 H275 V500" class="line"/>
+  <path d="M515 430 V500" class="line"/>
+  <path d="M685 430 V500" class="line"/>
+  <path d="M735 380 H925 V500" class="line"/>
+
+  <rect x="60" y="500" width="250" height="180" rx="18" class="zone"/>
+  <text x="85" y="542" class="label">Users</text>
+  <text x="85" y="578" class="mono">VLAN 10</text>
+  <text x="85" y="608" class="mono">10.20.10.0/24</text>
+  <text x="85" y="638" class="small">users-pc · .10</text>
+  <text x="85" y="665" class="small">Gateway · .1</text>
+
+  <rect x="325" y="500" width="250" height="180" rx="18" class="zone"/>
+  <text x="350" y="542" class="label">Admin</text>
+  <text x="350" y="578" class="mono">VLAN 20</text>
+  <text x="350" y="608" class="mono">10.20.20.0/24</text>
+  <text x="350" y="638" class="small">admin-pc · .10</text>
+  <text x="350" y="665" class="small">Gateway · .1</text>
+
+  <rect x="625" y="500" width="250" height="180" rx="18" class="zone"/>
+  <text x="650" y="542" class="label">Servers</text>
+  <text x="650" y="578" class="mono">VLAN 30</text>
+  <text x="650" y="608" class="mono">10.20.30.0/24</text>
+  <text x="650" y="638" class="small">app-server · .80</text>
+  <text x="650" y="665" class="small">HTTPS enabled</text>
+
+  <rect x="890" y="500" width="250" height="180" rx="18" class="zone"/>
+  <text x="915" y="542" class="label">Guests</text>
+  <text x="915" y="578" class="mono">VLAN 40</text>
+  <text x="915" y="608" class="mono">10.20.40.0/24</text>
+  <text x="915" y="638" class="small">guest-pc · .10</text>
+  <text x="915" y="665" class="small">Admin subnet denied</text>
+
+  <circle cx="600" cy="135" r="6" class="accent"/>
+  <text x="795" y="148" class="small">Trust boundary</text>
+  <text x="795" y="176" class="small">ACL enforcement point</text>
+  <path d="M785 160 H765" class="line"/>
+</svg>

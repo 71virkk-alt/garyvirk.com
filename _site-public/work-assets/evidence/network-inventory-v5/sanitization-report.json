@@ -1,0 +1,65 @@
+{
+  "atomic_export": true,
+  "explicitly_excluded_private_files": [
+    "commands.json",
+    "cleanup.json",
+    "docker-inspect-raw.json",
+    "nmap-raw.xml"
+  ],
+  "limitations": [
+    "Sanitization approval is technical only and does not approve publication.",
+    "The private raw Nmap and Docker inspection files remain outside this export."
+  ],
+  "public_allowlist": {
+    "root_files": [
+      "cleanup-verification-sanitized.json",
+      "dependencies-sanitized.json",
+      "environment-sanitized.json",
+      "evaluation.json",
+      "expected-inventory.json",
+      "run-result.json",
+      "rollback-action-sanitized.json",
+      "source-provenance.json",
+      "test-results.txt"
+    ],
+    "state_files": [
+      "drift.json",
+      "interfaces-native.json",
+      "nmap-sanitized.xml",
+      "scan-command.txt",
+      "state-metadata.json",
+      "topology.dot",
+      "topology.svg"
+    ],
+    "states": [
+      "baseline",
+      "failure",
+      "correction",
+      "rollback-source",
+      "rollback",
+      "clean-repeat"
+    ]
+  },
+  "result": "Passed",
+  "runtime_source_binding_verified": {
+    "inventory_drift.py": "76d2c226c255db86f0052dc47d5753632a014735925b9c8a4566e97a55d5c3ab",
+    "native-lab/expected-inventory.json": "6540d04dc9ce41e3407f229ed20c094ea76ac67430bc15db1cb769e0c57d573c",
+    "native-lab/run_native_lab.py": "41776040d7bcd73580e2f0f219b4c9a60174246209fce2a477a9182c78b35f35"
+  },
+  "schema_version": 1,
+  "source_manifest_members_verified": 55,
+  "text_safety_scan": {
+    "allowed_ipv4_scope": "198.51.100.0/24",
+    "checked_files": 51,
+    "observed_ipv4_addresses": [
+      "198.51.100.0",
+      "198.51.100.1",
+      "198.51.100.20",
+      "198.51.100.21",
+      "198.51.100.30",
+      "198.51.100.50",
+      "198.51.100.60",
+      "198.51.100.254"
+    ]
+  }
+}

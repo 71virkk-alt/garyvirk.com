@@ -1,0 +1,126 @@
+{
+  "file_count": 24,
+  "files": [
+    {
+      "bytes": 2260,
+      "path": "policy/intent.csv",
+      "sha256": "7917fcba41584f5cd9bc1106febcb391659ef3d3a5f3a997992134fa9ee50b96"
+    },
+    {
+      "bytes": 908,
+      "path": "lab/zone-locations.json",
+      "sha256": "301fb64f68a640fd6feaca2c7257621d5381b86f4ce54ee5d37e381a497b8ca2"
+    },
+    {
+      "bytes": 213,
+      "path": "lab/scenarios/baseline.json",
+      "sha256": "9e49bcb58cd1b02c2ad137f45069ab691eab1cd7a1778c5036f3ebdc5ba636f3"
+    },
+    {
+      "bytes": 345,
+      "path": "lab/scenarios/broken.json",
+      "sha256": "f6f73749796a12461a52bd383aad1e54033c0a891242444b9c08d00d6d5c367e"
+    },
+    {
+      "bytes": 239,
+      "path": "lab/scenarios/corrected.json",
+      "sha256": "9b79bcadf57169869f8f5979997832d0ccb81011dd8079de89ccb87ddc3a2a26"
+    },
+    {
+      "bytes": 248,
+      "path": "lab/scenarios/rollback.json",
+      "sha256": "8db08c03582eabef8d808f1844d0ca361f452ade8b40db830a6aed5e0e35b465"
+    },
+    {
+      "bytes": 2073,
+      "path": "lab/snapshots/baseline/configs/edge-r1.cfg",
+      "sha256": "28e91b3428864185afd21725aa72f9db3041cbd7a875aaaf522adeb940ff0411"
+    },
+    {
+      "bytes": 304,
+      "path": "lab/snapshots/baseline/snapshot-metadata.json",
+      "sha256": "ce0b609a91648670047a426882394b2f4416ed62186c3171134b7646dd17d585"
+    },
+    {
+      "bytes": 2169,
+      "path": "lab/snapshots/broken/configs/edge-r1.cfg",
+      "sha256": "0dae2dcffa1044ca465815283f6a6771eb535cd95f1311cb035fdeb3a92407f6"
+    },
+    {
+      "bytes": 312,
+      "path": "lab/snapshots/broken/snapshot-metadata.json",
+      "sha256": "9e63dd2bbef9f8a90dbc847c19db716e8f8c96062b2fd2e6ed49a4a8d4743642"
+    },
+    {
+      "bytes": 2073,
+      "path": "lab/snapshots/corrected/configs/edge-r1.cfg",
+      "sha256": "28e91b3428864185afd21725aa72f9db3041cbd7a875aaaf522adeb940ff0411"
+    },
+    {
+      "bytes": 332,
+      "path": "lab/snapshots/corrected/snapshot-metadata.json",
+      "sha256": "07ba3600856f2a16fbf069e30b76642b8f19ef3756543bc5fa30cc015fa8b6ef"
+    },
+    {
+      "bytes": 2073,
+      "path": "lab/snapshots/rollback/configs/edge-r1.cfg",
+      "sha256": "28e91b3428864185afd21725aa72f9db3041cbd7a875aaaf522adeb940ff0411"
+    },
+    {
+      "bytes": 315,
+      "path": "lab/snapshots/rollback/snapshot-metadata.json",
+      "sha256": "f4755911ff83648633fd35692b64c7d5e41179ac1a4a83ea87fd71e49c2f0aed"
+    },
+    {
+      "bytes": 334,
+      "path": "lab/requirements-batfish.lock",
+      "sha256": "55c38506e81e0d4aaee79e271e1ec03585b7afaa63a0d360a503ae639f0a5704"
+    },
+    {
+      "bytes": 33254,
+      "path": "src/run_batfish.py",
+      "sha256": "b834b0383d7e2b5e38d23208b116b9837d82adce05f066fc89657c30600b0cc5"
+    },
+    {
+      "bytes": 30655,
+      "path": "src/evaluate_results.py",
+      "sha256": "55193d72978143859dc05ca993c1de96e139ade6f2f257365b7a2ed362d90afa"
+    },
+    {
+      "bytes": 4298,
+      "path": "src/evaluate_run_sequence.py",
+      "sha256": "d600b0b867850008468f8a7190814edd36fbf943c9c4e0cb606ff76d6b9979c4"
+    },
+    {
+      "bytes": 11169,
+      "path": "src/validate_intent.py",
+      "sha256": "2d6c0a00bb2a9fb99e97338e27d093436cef63689a608aa699c357db49651b6c"
+    },
+    {
+      "bytes": 20132,
+      "path": "src/build_public_release.py",
+      "sha256": "f01231f68de56cfd5256c100c660530c2eae0f512f2725ac0c6d37096b3b42e0"
+    },
+    {
+      "bytes": 7222,
+      "path": "tests/test_intent.py",
+      "sha256": "c62373417ab1f3415ed66f7a19bb12a983047e0f433b1edb763ab7544374e70e"
+    },
+    {
+      "bytes": 26443,
+      "path": "tests/test_results.py",
+      "sha256": "2132481dcc84eee02d8c254e11913f9e2ee0fe484a809a0d6b9b321b65e13f80"
+    },
+    {
+      "bytes": 16617,
+      "path": "tests/test_runner.py",
+      "sha256": "4dfd53ca2fb4af3876ee7cb83b4b1b265b5dd9e37e0e3ca69cf7717a904e7234"
+    },
+    {
+      "bytes": 3022,
+      "path": "tests/test_public_release.py",
+      "sha256": "71fef7644daea61125919bffacdfc0ef041d6f33d7cad5a407fc03204f7f0785"
+    }
+  ],
+  "schema_version": 1
+}

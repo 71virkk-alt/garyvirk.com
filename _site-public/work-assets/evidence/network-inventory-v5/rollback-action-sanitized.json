@@ -1,0 +1,13 @@
+{
+  "action": "remove_all_owned_nodes_and_rebuild_from_expected_inventory",
+  "all_expected_node_identities_changed": true,
+  "expected_node_count_recreated": 4,
+  "omitted_fields": [
+    "before_container_ids",
+    "after_container_ids"
+  ],
+  "sanitized": true,
+  "schema_version": 1,
+  "source_inventory_sha256": "6540d04dc9ce41e3407f229ed20c094ea76ac67430bc15db1cb769e0c57d573c",
+  "undeclared_node_absent_after_rebuild": true
+}
