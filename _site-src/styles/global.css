@@ -338,11 +338,10 @@ blockquote {
 }
 
 .brand-discipline {
-  color: currentColor;
+  color: var(--muted);
   font-size: 0.51rem;
   font-weight: 560;
   letter-spacing: 0.13em;
-  opacity: 0.58;
   text-transform: uppercase;
 }
 
