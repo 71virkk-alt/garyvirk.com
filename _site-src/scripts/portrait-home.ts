@@ -1,4 +1,4 @@
-export {};
+import { validateAttachmentMetadata } from "./contact-validation";
 
 const copyButton = document.querySelector<HTMLButtonElement>("[data-copy-email]");
 const copyStatus = document.querySelector<HTMLElement>("[data-copy-status]");
@@ -11,10 +11,12 @@ const contactMessageCount = document.querySelector<HTMLElement>("[data-contact-m
 const contactSubmit = document.querySelector<HTMLButtonElement>("[data-contact-submit]");
 const contactSubmitLabel = document.querySelector<HTMLElement>("[data-contact-submit-label]");
 const contactFormStatus = document.querySelector<HTMLElement>("[data-contact-form-status]");
+const contactFallback = document.querySelector<HTMLAnchorElement>("[data-contact-fallback]");
 const precisePointer = window.matchMedia(
   "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)"
 );
-const maximumAttachmentBytes = 10 * 1024 * 1024;
+const contactServiceProbeTimeout = 5000;
+let contactSubmissionPending = false;
 
 function setCopyStatus(message: string) {
   if (copyStatus) copyStatus.textContent = message;
@@ -57,49 +59,73 @@ function updateMessageCount() {
 
 function validateAttachment() {
   if (!contactFile || !contactFileStatus) return true;
-  const file = contactFile.files?.[0];
-  contactFile.setCustomValidity("");
-
-  if (!file) {
-    contactFileStatus.textContent = "";
-    return true;
-  }
-
-  if (file.size > maximumAttachmentBytes) {
-    contactFile.setCustomValidity("Choose a file smaller than 10 MB.");
-    contactFileStatus.textContent = `${file.name} is larger than 10 MB.`;
-    return false;
-  }
-
-  const sizeLabel =
-    file.size < 1024 * 1024
-      ? `${Math.max(1, Math.ceil(file.size / 1024))} KB`
-      : `${(file.size / 1024 / 1024).toFixed(1)} MB`;
-  contactFileStatus.textContent = `${file.name} · ${sizeLabel}`;
-  return true;
+  const result = validateAttachmentMetadata(contactFile.files?.[0]);
+  contactFile.setCustomValidity(result.validationMessage);
+  contactFileStatus.textContent = result.status;
+  return result.valid;
 }
 
 function resetSubmitState() {
+  contactSubmissionPending = false;
   if (contactSubmit) {
     contactSubmit.disabled = false;
     contactSubmit.removeAttribute("aria-busy");
   }
   if (contactSubmitLabel) contactSubmitLabel.textContent = "Send message";
   if (contactFormStatus) contactFormStatus.textContent = "";
+  if (contactFallback) contactFallback.hidden = true;
+}
+
+async function canReachContactService() {
+  if (!contactForm) return false;
+  if (typeof window.fetch !== "function" || typeof window.AbortController !== "function") {
+    return true;
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), contactServiceProbeTimeout);
+
+    try {
+      await fetch(contactForm.action, {
+        method: "HEAD",
+        mode: "no-cors",
+        cache: "no-store",
+        signal: controller.signal
+      });
+    } finally {
+      window.clearTimeout(timeout);
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function formIsReadyToSend() {
+  if (!contactForm || !validateAttachment() || !contactForm.checkValidity()) {
+    contactForm?.reportValidity();
+    return false;
+  }
+  return true;
 }
 
 contactMessage?.addEventListener("input", updateMessageCount);
 contactFile?.addEventListener("change", validateAttachment);
-contactForm?.addEventListener("submit", (event) => {
-  if (!validateAttachment() || !contactForm.checkValidity()) {
-    event.preventDefault();
-    contactForm.reportValidity();
+contactForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (contactSubmissionPending) return;
+  if (contactFallback) contactFallback.hidden = true;
+
+  if (!formIsReadyToSend()) {
     if (contactFormStatus) {
       contactFormStatus.textContent = "Check the highlighted fields before sending.";
     }
     return;
   }
 
+  contactSubmissionPending = true;
   if (contactSubmit) {
     contactSubmit.disabled = true;
     contactSubmit.setAttribute("aria-busy", "true");
@@ -108,6 +134,26 @@ contactForm?.addEventListener("submit", (event) => {
   if (contactFormStatus) {
     contactFormStatus.textContent = "Sending your message...";
   }
+
+  const serviceAvailable = await canReachContactService();
+  if (!serviceAvailable) {
+    resetSubmitState();
+    if (contactFormStatus) {
+      contactFormStatus.textContent = "Couldn’t send the form right now.";
+    }
+    if (contactFallback) contactFallback.hidden = false;
+    return;
+  }
+
+  if (!formIsReadyToSend()) {
+    resetSubmitState();
+    if (contactFormStatus) {
+      contactFormStatus.textContent = "The form changed before it was sent. Check the fields and try again.";
+    }
+    return;
+  }
+
+  HTMLFormElement.prototype.submit.call(contactForm);
 });
 
 window.addEventListener("pageshow", resetSubmitState);

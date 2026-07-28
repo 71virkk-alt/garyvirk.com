@@ -7,7 +7,11 @@ const repoRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const distRoot = join(repoRoot, ".site-dist");
 const errors = [];
 const { projects } = await import(new URL("../_site-src/data/projects.ts", import.meta.url));
+const { maximumAttachmentBytes, validateAttachmentMetadata } = await import(
+  new URL("../_site-src/scripts/contact-validation.ts", import.meta.url)
+);
 const deployScript = readFileSync(join(repoRoot, "deploy.sh"), "utf8");
+const contactScript = readFileSync(join(repoRoot, "_site-src/scripts/portrait-home.ts"), "utf8");
 
 function assert(condition, message) {
   if (!condition) errors.push(message);
@@ -28,6 +32,19 @@ function walk(directory) {
 
 assert(existsSync(distRoot), "Build directory .site-dist does not exist.");
 assert(existsSync(join(distRoot, ".nojekyll")), "Build output must include .nojekyll.");
+assert(validateAttachmentMetadata(null).valid, "An empty attachment must remain optional.");
+assert(
+  validateAttachmentMetadata({ name: "ticket.txt", size: 1024 }).valid,
+  "An allowlisted attachment must pass validation."
+);
+assert(
+  !validateAttachmentMetadata({ name: "script.ts", size: 1024 }).valid,
+  "An unsupported attachment extension must fail validation."
+);
+assert(
+  !validateAttachmentMetadata({ name: "large.pdf", size: maximumAttachmentBytes + 1 }).valid,
+  "An attachment over 10 MB must fail validation."
+);
 assert(
   /\bwork\.html\b/.test(deployScript) &&
     /\bmessage-sent\.html\b/.test(deployScript) &&
@@ -224,15 +241,34 @@ for (const phrase of [
   'name="attachment"',
   'name="_honey"',
   'name="_next" value="https://garyvirk.com/message-sent.html"',
+  'name="_url" value="https://garyvirk.com/#contact"',
   "Maximum 10 MB",
   "Do not send passwords or sensitive personal records",
   "Privacy details",
   "data-contact-form",
   "data-contact-file",
-  "data-contact-submit"
+  "data-contact-submit",
+  "data-contact-fallback",
+  "Email i@garyvirk.com instead"
 ]) {
   assert(home.includes(phrase), `Homepage contact form is missing required content: ${phrase}`);
 }
+for (const phrase of [
+  "contactServiceProbeTimeout",
+  "validateAttachmentMetadata",
+  'typeof window.AbortController !== "function"',
+  'method: "HEAD"',
+  'mode: "no-cors"',
+  "Couldn’t send the form right now.",
+  "The form changed before it was sent.",
+  "HTMLFormElement.prototype.submit.call(contactForm)"
+]) {
+  assert(contactScript.includes(phrase), `Contact resilience script is missing: ${phrase}`);
+}
+assert(
+  (contactScript.match(/formIsReadyToSend\(\)/g) || []).length >= 3,
+  "Contact form must revalidate immediately before native submission."
+);
 assert(
   messageSent.includes('name="robots" content="noindex, follow"'),
   "Message confirmation page must remain noindex."
