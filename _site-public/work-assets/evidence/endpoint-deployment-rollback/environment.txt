@@ -1,0 +1,8 @@
+lab=endpoint-deployment-rollback
+runtime=macos-native-disposable-endpoint-root
+architecture=arm64
+kernel=Darwin
+shell=GNU bash, version 3.2.57(1)-release (arm64-apple-darwin25)
+archive_tool=bsdtar 3.5.3 - libarchive 3.7.4 zlib/1.2.12 liblzma/5.4.3 bz2lib/1.0.8
+hash_tool=shasum-SHA256
+fault_exit=20

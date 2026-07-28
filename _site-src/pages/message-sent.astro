@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profile } from "../data/site";
+import "../styles/portrait-home.css";
+---
+
+<BaseLayout
+  title={`Message sent | ${profile.name}`}
+  description="Confirmation that a message was submitted to Gary Virk."
+  canonicalPath="/message-sent.html"
+  bodyClass="profile-page message-sent-page"
+  themeColor="#080a0c"
+  colorScheme="dark"
+  noIndex
+>
+  <header class="profile-header message-sent-header">
+    <a class="profile-brand" href="/" aria-label="Gary Virk, homepage">
+      <strong>{profile.name}</strong>
+    </a>
+    <a class="header-email" href="/">Back home <span aria-hidden="true">←</span></a>
+  </header>
+
+  <main id="main" class="message-sent-main">
+    <div>
+      <p class="hero-role">Message submitted</p>
+      <h1>Thanks for reaching out.</h1>
+      <p>
+        Your message was submitted through the contact form. I’ll reply from {profile.email}.
+      </p>
+      <div class="hero-actions">
+        <a class="profile-button profile-button--light" href="/">
+          Return home <span aria-hidden="true">→</span>
+        </a>
+        <a class="profile-button profile-button--quiet" href="/work.html">
+          View case studies <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,15 @@
+package=support-agent-2.0.1.tar.gz
+expected_sha256=d9808807ec884bf8e5c3a183d41091ffcbb45704a12da29cb5db0daa45d6a1f0
+actual_sha256=d9808807ec884bf8e5c3a183d41091ffcbb45704a12da29cb5db0daa45d6a1f0
+declared_version=2.0.1
+installed_before=1.0.0
+action=activate
+activated_version=2.0.1
+version=2.0.1
+config_key=server_url
+endpoint=https://support.lab.test
+state=available
+status=healthy
+health_exit=0
+result=deployed
+installed_after=2.0.1

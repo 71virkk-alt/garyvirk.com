@@ -5,7 +5,16 @@ import { capabilities, credentials, education, experience, profile } from "../da
 import { flagshipProjects, supportingProjects } from "../data/projects";
 import "../styles/portrait-home.css";
 
-const homepageSupportingProjects = supportingProjects.slice(0, 4);
+const homepageSupportingSlugs = [
+  "endpoint-deployment-rollback",
+  "dhcp-failure-isolation",
+  "smb-share-access",
+  "packet-triage-library"
+];
+const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
+  const project = supportingProjects.find((candidate) => candidate.slug === slug);
+  return project ? [project] : [];
+});
 ---
 
 <BaseLayout
@@ -80,9 +89,9 @@ const homepageSupportingProjects = supportingProjects.slice(0, 4);
         <div>
           <h2 id="work-title">How I troubleshoot and verify a fix.</h2>
           <p>
-            Each case records the fault, the check that narrowed it down, the correction,
-            and a separate retest. Selected lab output is included with private details
-            removed.
+            Each case shows the fault, the check that narrowed it down, the correction,
+            and a separate retest. Private details are removed from the published lab
+            output.
           </p>
         </div>
       </div>
@@ -119,7 +128,7 @@ const homepageSupportingProjects = supportingProjects.slice(0, 4);
         }
         <a href="/work.html">
           <span>All</span>
-          <strong>View every case study</strong>
+          <strong>View all work</strong>
           <i aria-hidden="true">→</i>
         </a>
       </div>
@@ -131,8 +140,8 @@ const homepageSupportingProjects = supportingProjects.slice(0, 4);
         <div>
           <h2 id="experience-title">On-site support experience.</h2>
           <p>
-            I have supported Windows devices, hardware, user access, tickets, and
-            connectivity in person.
+            I have handled Windows endpoints, hardware faults, user-access issues,
+            deployments, and connectivity problems in on-site support roles.
           </p>
         </div>
       </div>
@@ -174,8 +183,8 @@ const homepageSupportingProjects = supportingProjects.slice(0, 4);
         <div>
           <h2 id="skills-title">Tools and systems I have worked with.</h2>
           <p>
-            These are tools and topics I can explain from experience. Where a lab provides
-            proof, the project page shows it.
+            This list combines hands-on support work, formal training, and skills
+            demonstrated in the labs on this site.
           </p>
         </div>
       </div>
@@ -206,25 +215,136 @@ const homepageSupportingProjects = supportingProjects.slice(0, 4);
 
     <section class="contact-section" id="contact" aria-labelledby="contact-title">
       <p class="section-index">Contact</p>
-      <div class="contact-copy">
-        <h2 id="contact-title">Tell me about the role.</h2>
-        <p>{profile.shortLocation} · Open to IT support and network support roles.</p>
+      <div class="contact-intro">
+        <div class="contact-copy">
+          <h2 id="contact-title">Have an IT support or networking role in mind?</h2>
+          <p>
+            I’m based in Mississauga, Ontario. Send a message here, email me directly,
+            or open the résumé for my work history and credentials.
+          </p>
+        </div>
+
+        <div class="contact-recipient">
+          <p>To</p>
+          <div class="contact-actions">
+            <a class="contact-email" href={`mailto:${profile.email}`}>
+              <span>Email Gary directly</span>
+              <strong>{profile.email}</strong>
+            </a>
+            <button class="copy-email" type="button" data-copy-email={profile.email}>
+              Copy
+            </button>
+          </div>
+          <span class="copy-status" data-copy-status aria-live="polite"></span>
+        </div>
+
+        <nav class="contact-links" aria-label="Contact links">
+          <a href={profile.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+          <a href="/resume.html">Résumé <span aria-hidden="true">↗</span></a>
+          <a href="/work.html">Selected work <span aria-hidden="true">↗</span></a>
+        </nav>
       </div>
-      <div class="contact-actions">
-        <a class="contact-email" href={`mailto:${profile.email}`}>
-          <span>Email me</span>
-          <strong>{profile.email}</strong>
-        </a>
-        <button class="copy-email" type="button" data-copy-email={profile.email}>
-          Copy
-        </button>
-        <span class="copy-status" data-copy-status aria-live="polite"></span>
-      </div>
-      <nav class="contact-links" aria-label="Contact links">
-        <a href={profile.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a>
-        <a href="/resume.html">Résumé <span aria-hidden="true">↗</span></a>
-        <a href="/work.html">Selected work <span aria-hidden="true">↗</span></a>
-      </nav>
+
+      <form
+        class="contact-form"
+        action={`https://formsubmit.co/${profile.email}`}
+        method="POST"
+        enctype="multipart/form-data"
+        data-contact-form
+      >
+        <input type="hidden" name="_subject" value="New message from garyvirk.com" />
+        <input type="hidden" name="_next" value="https://garyvirk.com/message-sent.html" />
+        <input type="hidden" name="_template" value="table" />
+        <label class="contact-honey" aria-hidden="true">
+          Website
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
+        </label>
+
+        <div class="contact-form-heading">
+          <p>Message</p>
+          <span>All fields marked required must be completed.</span>
+        </div>
+
+        <div class="contact-form-grid">
+          <label class="contact-field">
+            <span>First name <i>Required</i></span>
+            <input
+              type="text"
+              name="first_name"
+              autocomplete="given-name"
+              maxlength="60"
+              required
+            />
+          </label>
+
+          <label class="contact-field">
+            <span>Last name <i>Required</i></span>
+            <input
+              type="text"
+              name="last_name"
+              autocomplete="family-name"
+              maxlength="60"
+              required
+            />
+          </label>
+
+          <label class="contact-field contact-field--full">
+            <span>Your email <i>Required</i></span>
+            <input
+              type="email"
+              name="email"
+              autocomplete="email"
+              inputmode="email"
+              maxlength="160"
+              required
+            />
+          </label>
+
+          <label class="contact-field contact-field--full">
+            <span>Message <i>Required</i></span>
+            <textarea
+              name="message"
+              rows="6"
+              minlength="20"
+              maxlength="2000"
+              aria-describedby="message-count"
+              required
+              data-contact-message
+            ></textarea>
+            <small id="message-count" data-contact-message-count>0 / 2000</small>
+          </label>
+
+          <label class="contact-field contact-field--full contact-file">
+            <span>Attachment <i>Optional</i></span>
+            <input
+              type="file"
+              name="attachment"
+              accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,image/png,image/jpeg"
+              aria-describedby="attachment-help attachment-status"
+              data-contact-file
+            />
+            <small id="attachment-help">PDF, DOC, DOCX, TXT, PNG, or JPG. Maximum 10 MB.</small>
+            <small id="attachment-status" data-contact-file-status aria-live="polite"></small>
+          </label>
+        </div>
+
+        <div class="contact-form-footer">
+          <p class="contact-privacy">
+            Messages and attachments are processed by FormSubmit and delivered to my
+            inbox. Do not send passwords or sensitive personal records.
+            <a href="https://formsubmit.co/privacy.pdf" rel="noopener noreferrer">
+              Privacy details <span aria-hidden="true">↗</span>
+            </a>
+          </p>
+          <button class="contact-submit" type="submit" data-contact-submit>
+            <span data-contact-submit-label>Send message</span>
+            <i aria-hidden="true">↗</i>
+          </button>
+        </div>
+
+        <p class="contact-form-status" data-contact-form-status aria-live="polite"></p>
+      </form>
+
       <p class="contact-signoff">Gary Virk · Mississauga, Ontario, Canada</p>
     </section>
   </main>

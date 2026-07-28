@@ -23,7 +23,7 @@ export const profile = {
   email: "i@garyvirk.com",
   linkedin: "https://www.linkedin.com/in/gary-virk/",
   introduction:
-    "I’m based in Mississauga, Ontario, with more than 3 years of hands-on experience supporting Windows endpoints, hardware, deployments, software, and networks. My case studies show how I isolate faults, document changes, and confirm that a fix worked.",
+    "I’m an IT specialist based in Mississauga, Ontario, with more than three years of hands-on experience supporting Windows endpoints, hardware, software deployments, and network issues. The case studies below show how I narrow down faults, document the work, and retest the fix.",
   summary:
     "IT specialist in Mississauga with hands-on experience supporting Windows and Mac endpoints, deploying devices, diagnosing Dell hardware, and troubleshooting network and server-related issues. Trained in computer networking at St. Clair College and Cisco Networking Academy."
 } as const;
@@ -166,8 +166,8 @@ export const claimRegister: ClaimRecord[] = [
   },
   {
     id: "profile-experience-duration-01",
-    exactClaim: "Gary has more than 3 years of hands-on IT support experience.",
-    publicWording: "More than 3 years of hands-on experience.",
+    exactClaim: "Gary has more than three years of hands-on IT support experience.",
+    publicWording: "More than three years of hands-on experience.",
     evidenceSource: "Portfolio owner wording supplied for this revision.",
     limitation: "The website does not infer employer dates, workload volume, platform scale, or business outcomes from this duration.",
     verification: "owner-attested"

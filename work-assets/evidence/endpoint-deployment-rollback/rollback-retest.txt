@@ -1,0 +1,6 @@
+installed_version=1.0.0
+version=1.0.0
+config_key=server_url
+endpoint=https://support.lab.test
+state=available
+status=healthy

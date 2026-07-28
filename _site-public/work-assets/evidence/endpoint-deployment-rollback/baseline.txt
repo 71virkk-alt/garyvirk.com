@@ -1,0 +1,8 @@
+installed_version=1.0.0
+version=1.0.0
+config_key=server_url
+endpoint=https://support.lab.test
+state=available
+status=healthy
+config_sha256=868f2266e4d7009f516e2787c0523fc666d3b25f9c83f6877670722eb688a1bc
+user_state_sha256=ede5aef1f5d60b5ac8f6c5b255cc7f8d80e3fa8865012951b558fa728ca2d547

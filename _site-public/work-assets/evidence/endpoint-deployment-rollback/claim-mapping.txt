@@ -1,0 +1,14 @@
+Claim 1
+Release 2.0.0 passed hash and version checks, failed its post-activation health check because api_url was missing, and the active release returned to healthy 1.0.0.
+Artifacts: controlled-failure.txt, rollback-retest.txt
+Boundary: the failed release remains staged but inactive.
+
+Claim 2
+Corrected release 2.0.1 passed health checks during deployment and in a separate process. A later rerun detected the same healthy version and made no activation change.
+Artifacts: correction.txt, separate-retest.txt, idempotent-rerun.txt
+Boundary: this is one synthetic application in one disposable endpoint root.
+
+Claim 3
+The configuration and synthetic user-state hashes remained unchanged after the failed deployment, corrected deployment, and idempotent rerun.
+Artifact: data-boundary.txt
+Boundary: this checks two named files, not an entire user profile or filesystem.

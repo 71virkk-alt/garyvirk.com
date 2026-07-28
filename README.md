@@ -18,10 +18,12 @@ remains available without JavaScript.
 - `CNAME`: custom-domain binding; keep unchanged
 
 The homepage uses the supplied black-and-white portrait, a standard scrolling
-layout, a restrained pointer-responsive portrait, and a copy-email interaction.
-Project pages distinguish controlled
-Windows execution, network modeling, simulator checks, packet labs, review
-status, and publication status.
+layout, a restrained pointer-responsive portrait, a copy-email interaction,
+and an accessible contact form. Form submissions and optional attachments are
+routed through FormSubmit because GitHub Pages does not run server-side code.
+Project pages distinguish controlled Windows execution, network modeling,
+simulator checks, packet labs, application-deployment tests, review status,
+and publication status.
 
 Project repositories remain private. The website contains only selected,
 sanitized evidence excerpts that are appropriate for public review.

@@ -14,6 +14,7 @@ const generatedAssets = join(repoRoot, "assets", "build");
 const publicFiles = [
   ".nojekyll",
   "index.html",
+  "message-sent.html",
   "resume.html",
   "work.html",
   "404.html",
