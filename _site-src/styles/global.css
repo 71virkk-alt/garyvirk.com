@@ -29,6 +29,8 @@ html {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  font-synthesis: none;
   scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -43,7 +45,7 @@ body {
   background-size: 100% 9rem;
   color: var(--ink);
   font-size: 16px;
-  letter-spacing: 0;
+  letter-spacing: -0.01em;
   line-height: 1.6;
 }
 

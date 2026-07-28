@@ -2,14 +2,14 @@
 import WorkHeader from "../../components/WorkHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
-  projects,
+  publicProjects,
   selectedProjects,
   type PortfolioProject
 } from "../../data/projects";
 import "../../styles/work.css";
 
 export function getStaticPaths() {
-  return projects.map((project) => ({
+  return publicProjects.map((project) => ({
     params: { slug: project.slug },
     props: { project }
   }));
@@ -20,7 +20,9 @@ const selectedIndex = selectedProjects.findIndex((item) => item.slug === project
 const nextProject =
   selectedIndex >= 0 ? selectedProjects[(selectedIndex + 1) % selectedProjects.length] : undefined;
 const isArchived = project.tier === "archived";
-const projectBodyClass = `work-page project-page project-page--${project.presentation}`;
+const isTechnicalNote = project.kind === "technical-note";
+const sourceTitlesById = new Map((project.sources ?? []).map((source) => [source.id, source.title]));
+const projectBodyClass = `work-page project-page project-page--${project.presentation} project-page--${project.kind}`;
 ---
 
 <BaseLayout
@@ -48,20 +50,37 @@ const projectBodyClass = `work-page project-page project-page--${project.present
         <article class="case-file">
           <header class="case-hero">
             <a class="case-back" href="/work.html">← All work</a>
+            {isTechnicalNote && (
+              <aside class="note-disclosure" role="note">
+                Technical note, not an executed lab. Built from cited documentation and
+                deterministic reconstructions.
+              </aside>
+            )}
             <p class="work-kicker"><span>{project.number}</span> {project.discipline}</p>
             <h1>{project.title}</h1>
             <p class="case-deck">{project.summary}</p>
 
             <div class="case-value">
-              <span>Why this matters at work</span>
+              <span>{isTechnicalNote ? "Useful decision" : "Why this matters at work"}</span>
               <strong>{project.employerValue}</strong>
             </div>
 
             <dl class="case-status">
-              <div><dt>Completion</dt><dd>{project.status.completion}</dd></div>
-              <div><dt>Execution</dt><dd>{project.status.execution}</dd></div>
-              <div><dt>Review</dt><dd>{project.status.review}</dd></div>
-              <div><dt>Evidence</dt><dd>{project.status.publication}</dd></div>
+              {isTechnicalNote ? (
+                <>
+                  <div><dt>Type</dt><dd>Source-cited technical note</dd></div>
+                  <div><dt>Basis</dt><dd>Official vendor documentation</dd></div>
+                  <div><dt>Review</dt><dd>{project.status.review}</dd></div>
+                  <div><dt>Visuals</dt><dd>Deterministic reconstructions</dd></div>
+                </>
+              ) : (
+                <>
+                  <div><dt>Completion</dt><dd>{project.status.completion}</dd></div>
+                  <div><dt>Execution</dt><dd>{project.status.execution}</dd></div>
+                  <div><dt>Review</dt><dd>{project.status.review}</dd></div>
+                  <div><dt>Evidence</dt><dd>{project.status.publication}</dd></div>
+                </>
+              )}
             </dl>
 
             <ul class="case-environment" aria-label="Project environment">
@@ -70,7 +89,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
           </header>
 
           <section class="case-question" aria-labelledby="question-heading">
-            <p class="section-label">The support question</p>
+            <p class="section-label">{isTechnicalNote ? "Support scenario" : "The support question"}</p>
             <div>
               <h2 id="question-heading">{project.question}</h2>
               <p class="ownership"><strong>My role:</strong> {project.ownership}</p>
@@ -100,13 +119,64 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             </section>
           )}
 
+          {isTechnicalNote && project.matrix && (
+            <section class:list={["note-map-section", `note-map-section--${project.presentation}`]} aria-labelledby="note-map-heading">
+              <p class="section-label">
+                {project.presentation === "macos" ? "Enrollment flow" : project.presentation === "hardware" ? "Fault tree" : "Connection ladder"}
+              </p>
+              <div>
+                <h2 id="note-map-heading">
+                  {project.presentation === "macos"
+                    ? "Enrollment and encryption are separate decisions."
+                    : project.presentation === "hardware"
+                      ? "The startup stop point determines the next safe branch."
+                      : "Move down the stack until the first failed layer."}
+                </h2>
+
+                {project.presentation === "macos" && (
+                  <ol class="macos-flow" aria-label="macOS enrollment and encryption decision flow">
+                    {project.matrix.map((row, index) => (
+                      <li>
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <div><h3>{row.check}</h3><p>{row.failure}</p><small>{row.corrected}</small></div>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+
+                {project.presentation === "hardware" && (
+                  <ol class="hardware-tree" aria-label="Laptop startup fault tree">
+                    {project.matrix.map((row, index) => (
+                      <li>
+                        <span class="tree-node">{String(index + 1).padStart(2, "0")}</span>
+                        <div><h3>{row.check}</h3><p>{row.failure}</p><small>Next: {row.corrected}</small></div>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+
+                {project.presentation === "wifi" && (
+                  <ol class="wifi-ladder" aria-label="Enterprise Wi-Fi support layer ladder">
+                    {project.matrix.map((row, index) => (
+                      <li>
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <div><h3>{row.check}</h3><p>{row.failure}</p></div>
+                        <small>{row.corrected}</small>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+              </div>
+            </section>
+          )}
+
           <section class:list={["case-process", `case-process--${project.presentation}`]} aria-labelledby="process-heading">
             <p class="section-label">
-              {project.presentation === "timeline" ? "Troubleshooting record" : project.presentation === "packet" ? "Packet workflow" : project.presentation === "notes" ? "Method" : "Change sequence"}
+              {isTechnicalNote ? "Support path" : project.presentation === "timeline" ? "Troubleshooting record" : project.presentation === "packet" ? "Packet workflow" : project.presentation === "notes" ? "Method" : "Change sequence"}
             </p>
             <div>
               <h2 id="process-heading">
-                {project.presentation === "timeline" ? "The same checks before and after the change." : project.presentation === "packet" ? "Read the exchange before changing the service." : project.presentation === "notes" ? "One symptom, one decisive filter, one post-change capture." : "Intent first, then regression, correction, and rollback."}
+                {project.processHeading ?? (project.presentation === "timeline" ? "The same checks before and after the change." : project.presentation === "packet" ? "Read the exchange before changing the service." : project.presentation === "notes" ? "One symptom, one decisive filter, one post-change capture." : "Intent first, then regression, correction, and rollback.")}
               </h2>
               <ol class="process-list">
                 {project.approach.map((item, index) => (
@@ -163,27 +233,35 @@ const projectBodyClass = `work-page project-page project-page--${project.present
 
           <section class="evidence-section" aria-labelledby="evidence-heading">
             <div class="evidence-heading">
-              <p class="section-label">Selected evidence</p>
+              <p class="section-label">{isTechnicalNote ? "Reconstructed aids" : "Selected evidence"}</p>
               <div>
-                <h2 id="evidence-heading">What the public excerpts actually prove.</h2>
+                <h2 id="evidence-heading">{project.evidenceHeading ?? "What the public excerpts actually prove."}</h2>
                 <p>
-                  These are allowlisted, sanitized excerpts from the controlled project record.
-                  Private repositories and raw supporting files remain private.
+                  {project.evidenceDescription ?? "These are allowlisted, sanitized excerpts from the controlled project record. Private repositories and raw supporting files remain private."}
                 </p>
               </div>
             </div>
 
             <div class="evidence-grid">
               {project.evidence.map((artifact) => (
-                <figure class:list={["evidence-card", { "evidence-card--image": artifact.kind === "diagram" }]}>
+                <figure class:list={["evidence-card", `evidence-card--${artifact.role ?? "execution-proof"}`, { "evidence-card--image": artifact.kind === "diagram" }]}>
                   {artifact.src ? (
                     <div class="evidence-image">
                       <img src={artifact.src} alt={artifact.alt ?? ""} loading="lazy" />
+                    </div>
+                  ) : isTechnicalNote && artifact.kind !== "command" && artifact.items ? (
+                    <div class="evidence-record">
+                      <dl>
+                        {artifact.items.map((item) => (
+                          <div><dt>{item.label}</dt><dd>{item.value}</dd></div>
+                        ))}
+                      </dl>
                     </div>
                   ) : (
                     <pre><code>{artifact.excerpt}</code></pre>
                   )}
                   <figcaption>
+                    {artifact.role && <small>{artifact.role.replaceAll("-", " ")}</small>}
                     <strong>{artifact.title}</strong>
                     <span>{artifact.caption}</span>
                   </figcaption>
@@ -192,13 +270,32 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             </div>
           </section>
 
+          {project.sources && project.sources.length > 0 && (
+            <section class="source-section" aria-labelledby="sources-heading">
+              <p class="section-label">Primary sources</p>
+              <div>
+                <h2 id="sources-heading">Guidance used for this note.</h2>
+                <div class="source-list">
+                  {project.sources.map((source) => (
+                    <a href={source.url} rel="noopener">
+                      <span>{source.publisher}</span>
+                      <strong>{source.title}</strong>
+                      <p>{source.supports}</p>
+                      <i aria-hidden="true">↗</i>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
           <section class="case-outcome" aria-labelledby="outcome-heading">
             <p class="section-label">Result and boundary</p>
             <div>
-              <h2 id="outcome-heading">What changed, and what remains outside the claim.</h2>
+              <h2 id="outcome-heading">{isTechnicalNote ? "What this note supports, and what it does not claim." : "What changed, and what remains outside the claim."}</h2>
               <div class="outcome-grid">
                 <article>
-                  <h3>Result</h3>
+                  <h3>{isTechnicalNote ? "Supports" : "Result"}</h3>
                   <p>{project.outcome}</p>
                 </article>
                 <article>
@@ -210,15 +307,19 @@ const projectBodyClass = `work-page project-page project-page--${project.present
           </section>
 
           <section class="claim-list" aria-labelledby="claims-heading">
-            <p class="section-label">Claim check</p>
+            <p class="section-label">{isTechnicalNote ? "Source check" : "Claim check"}</p>
             <div>
-              <h2 id="claims-heading">Every public conclusion stays tied to an artifact.</h2>
+              <h2 id="claims-heading">{isTechnicalNote ? "Every conclusion stays tied to a cited source." : "Every public conclusion stays tied to an artifact."}</h2>
               <div>
                 {project.claims.map((claim) => (
                   <article>
                     <strong>{claim.publicWording}</strong>
                     <p>{claim.limitation}</p>
-                    <span>Evidence: {claim.evidenceRefs.join(", ")}</span>
+                    <span>
+                      {isTechnicalNote
+                        ? `Sources: ${(claim.sourceRefs ?? []).map((sourceId) => sourceTitlesById.get(sourceId) ?? sourceId).join("; ")}`
+                        : `Evidence: ${claim.evidenceRefs.join(", ")}`}
+                    </span>
                   </article>
                 ))}
               </div>

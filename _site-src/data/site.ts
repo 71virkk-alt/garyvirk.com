@@ -1,4 +1,9 @@
-export type VerificationState = "verified" | "withheld";
+export type VerificationState =
+  | "verified"
+  | "owner-attested"
+  | "lab-demonstrated"
+  | "source-cited"
+  | "withheld";
 
 export type ClaimRecord = {
   id: string;
@@ -12,15 +17,17 @@ export type ClaimRecord = {
 export const profile = {
   name: "Gary Virk",
   role: "IT Specialist",
-  focus: "I help people get back to work.",
+  focus: "Computers have been part of my life since I was a kid.",
   location: "Mississauga, Ontario, Canada",
   shortLocation: "Mississauga, Ontario",
   email: "i@garyvirk.com",
   linkedin: "https://www.linkedin.com/in/gary-virk/",
   introduction:
-    "I got into IT through computer networking at St. Clair College, then moved into on-site support. My work has covered Windows devices, user access, hardware, tickets, and network issues. I understand the problem first, make the smallest sensible change, and document what happened.",
+    "I studied IT Systems & Network Administration at St. Clair College in Windsor and continued my networking training through Cisco Networking Academy.",
+  workIntroduction:
+    "I later moved into hands-on support, working with endpoints, hardware, deployments, networks, and complex technical cases.",
   summary:
-    "IT specialist with on-site experience across Windows endpoints, user access, hardware, ticket handling, and network troubleshooting."
+    "IT specialist in Mississauga with hands-on experience supporting Windows and Mac endpoints, deploying devices, diagnosing Dell hardware, and troubleshooting network and server-related issues. Trained in computer networking at St. Clair College and Cisco Networking Academy."
 } as const;
 
 export const experience = [
@@ -158,5 +165,24 @@ export const claimRegister: ClaimRecord[] = [
     evidenceSource: "Supplied professional profile and résumé export.",
     limitation: "The website does not claim a current expiry or renewal state.",
     verification: "verified"
+  },
+  {
+    id: "profile-story-01",
+    exactClaim: "Computers have been part of Gary's life since he was a kid.",
+    publicWording: profile.focus,
+    evidenceSource: "Portfolio owner wording supplied for this revision.",
+    limitation: "The website does not attach an invented age, device, event, or employment history to this personal statement.",
+    verification: "owner-attested"
+  },
+  {
+    id: "profile-scope-01",
+    exactClaim:
+      "Gary has worked with Mac systems, endpoint setup and deployments, server-related issues, and L3 support cases.",
+    publicWording:
+      "Mac systems, endpoint setup and deployments, server-related issues, and L3 support cases.",
+    evidenceSource: "Portfolio owner attestation supplied for this revision.",
+    limitation:
+      "The website does not infer a platform, formal job title, scale, employer, or business outcome beyond the owner's wording.",
+    verification: "owner-attested"
   }
 ];
