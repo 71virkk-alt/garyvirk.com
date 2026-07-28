@@ -46,10 +46,11 @@ for (const [name, html] of [
 }
 
 for (const phrase of [
-  "IT Support Technician",
-  "Windows support and network troubleshooting.",
-  "I studied computer networking at St. Clair College",
-  "View selected work",
+  "IT Specialist",
+  "IT support and networking",
+  "I help people get back to work.",
+  "I got into IT through computer networking at St. Clair College",
+  "Selected work",
   "i@garyvirk.com",
   "data-copy-email",
   "User Support Technician",
@@ -67,6 +68,8 @@ assert(
   !home.includes("Portrait / 2026") && !home.includes("Move to inspect"),
   "Retired portrait labels remain on the homepage."
 );
+assert(!home.includes("Instrument Sans"), "Retired Instrument Sans remains in the homepage build.");
+assert(!home.includes("Instrument Serif"), "Retired Instrument Serif remains in the homepage build.");
 assert(!home.includes("© 2026"), "A static design year remains on the homepage.");
 assert(!home.includes("data-view-panel"), "The retired hidden-panel homepage is still present.");
 assert(

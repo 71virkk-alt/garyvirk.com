@@ -1,5 +1,4 @@
 ---
-import heroPortrait from "../../assets/gary-virk-hero.webp?url";
 import mobilePortrait from "../../assets/gary-virk-portrait.webp?url";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { capabilities, credentials, education, experience, profile } from "../data/site";
@@ -8,8 +7,8 @@ import "../styles/portrait-home.css";
 ---
 
 <BaseLayout
-  title="Gary Virk | IT Support Technician"
-  description="Gary Virk is an IT support technician in Mississauga focused on Windows endpoints, user support, ticket documentation, and network troubleshooting."
+  title={`Gary Virk | ${profile.role}`}
+  description="Gary Virk is an IT specialist in Mississauga with on-site experience across Windows endpoints, user support, ticket documentation, and network troubleshooting."
   bodyClass="profile-page"
   themeColor="#080a0c"
   colorScheme="dark"
@@ -17,10 +16,8 @@ import "../styles/portrait-home.css";
   <header class="profile-header">
     <a class="profile-brand" href="#about" aria-label="Gary Virk, about">
       <strong>Gary Virk</strong>
-      <span>IT support technician</span>
     </a>
     <nav class="profile-nav" aria-label="Primary navigation">
-      <a href="#about">About</a>
       <a href="/work.html">Work</a>
       <a href="#experience">Experience</a>
       <a href="/resume.html">Résumé</a>
@@ -32,61 +29,60 @@ import "../styles/portrait-home.css";
   <main id="main">
     <section class="profile-hero" id="about" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="section-index"><span>01</span> About</p>
-        <p class="hero-role">{profile.role}</p>
+        <p class="hero-role">IT support and networking</p>
         <h1 id="hero-title">{profile.focus}</h1>
         <p class="hero-story">{profile.introduction}</p>
 
         <div class="hero-actions">
           <a class="profile-button profile-button--light" href="/work.html">
-            View selected work <span aria-hidden="true">↗</span>
+            Selected work <span aria-hidden="true">↗</span>
           </a>
           <a class="profile-button profile-button--quiet" href="/resume.html">
-            View résumé <span aria-hidden="true">→</span>
+            Résumé <span aria-hidden="true">→</span>
           </a>
         </div>
 
         <dl class="hero-facts">
           <div>
-            <dt>Based in</dt>
+            <dt>Location</dt>
             <dd>{profile.shortLocation}</dd>
           </div>
           <div>
-            <dt>Work</dt>
-            <dd>On-site IT support</dd>
+            <dt>Experience</dt>
+            <dd>On-site user support</dd>
           </div>
           <div>
             <dt>Focus</dt>
-            <dd>Windows and networks</dd>
+            <dd>Endpoints and networks</dd>
           </div>
         </dl>
       </div>
 
       <figure class="hero-portrait" data-portrait>
-        <picture>
-          <source media="(max-width: 760px)" srcset={mobilePortrait} />
-          <img
-            src={heroPortrait}
-            alt="Black-and-white portrait of Gary Virk"
-            width="1440"
-            height="960"
-            loading="eager"
-            decoding="async"
-            fetchpriority="high"
-          />
-        </picture>
+        <img
+          src={mobilePortrait}
+          alt="Black-and-white portrait of Gary Virk"
+          width="900"
+          height="1350"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
         <span class="portrait-light" aria-hidden="true"></span>
+        <figcaption class="portrait-cue" aria-hidden="true">
+          <span></span> Move cursor
+        </figcaption>
       </figure>
     </section>
 
     <section class="profile-section selected-work" id="work" aria-labelledby="work-title">
       <div class="section-heading">
-        <p class="section-index"><span>02</span> Selected work</p>
+        <p class="section-index">Selected work</p>
         <div>
-          <h2 id="work-title">The problem, the check, and what happened next.</h2>
+          <h2 id="work-title">See how I work through a problem.</h2>
           <p>
-            These controlled labs show the evidence I used to isolate a fault, the
-            correction I made, and the separate check that confirmed the result.
+            Each case shows the fault, what I checked, what I changed, and how I confirmed
+            the result. The evidence published here is selected and sanitized.
           </p>
         </div>
       </div>
@@ -126,12 +122,12 @@ import "../styles/portrait-home.css";
 
     <section class="profile-section experience-section" id="experience" aria-labelledby="experience-title">
       <div class="section-heading">
-        <p class="section-index"><span>03</span> Experience</p>
+        <p class="section-index">Experience</p>
         <div>
-          <h2 id="experience-title">Support work shaped by the person at the other end.</h2>
+          <h2 id="experience-title">On-site support experience.</h2>
           <p>
-            My background is hands-on and user-facing. I work from the symptom, keep the
-            ticket current, and make the escalation useful when the issue needs another team.
+            I have supported Windows devices, hardware, user access, tickets, and
+            connectivity in person.
           </p>
         </div>
       </div>
@@ -169,12 +165,12 @@ import "../styles/portrait-home.css";
 
     <section class="profile-section skills-section" id="credentials" aria-labelledby="skills-title">
       <div class="section-heading">
-        <p class="section-index"><span>04</span> Skills and credentials</p>
+        <p class="section-index">Skills and credentials</p>
         <div>
-          <h2 id="skills-title">Useful range, tied to recognizable support work.</h2>
+          <h2 id="skills-title">Tools and systems I have worked with.</h2>
           <p>
-            The categories below describe work I can discuss in an interview. The project
-            pages show where a lab provides direct evidence.
+            These are tools and topics I can explain from experience. Where a lab provides
+            proof, the project page shows it.
           </p>
         </div>
       </div>
@@ -204,10 +200,10 @@ import "../styles/portrait-home.css";
     </section>
 
     <section class="contact-section" id="contact" aria-labelledby="contact-title">
-      <p class="section-index"><span>05</span> Contact</p>
+      <p class="section-index">Contact</p>
       <div class="contact-copy">
-        <h2 id="contact-title">If the role needs careful support work, I would like to hear about it.</h2>
-        <p>{profile.shortLocation} · Open to IT support and network-support opportunities.</p>
+        <h2 id="contact-title">Tell me about the role.</h2>
+        <p>{profile.shortLocation} · Open to IT support and network support roles.</p>
       </div>
       <div class="contact-actions">
         <a class="contact-email" href={`mailto:${profile.email}`}>

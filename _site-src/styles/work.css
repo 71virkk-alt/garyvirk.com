@@ -1128,3 +1128,224 @@ body.work-page {
     transition: none !important;
   }
 }
+
+/* Compact editorial typography */
+
+.work-header {
+  min-height: 64px;
+}
+
+.work-brand strong {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.work-brand span,
+.work-header nav a,
+.work-kicker,
+.work-group-heading > p,
+.project-number,
+.project-row-copy > p,
+.case-value span,
+.case-status dt,
+.section-label,
+.matrix-head > *,
+.notes-list dt,
+.outcome-grid h3,
+.next-case p {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.work-brand span,
+.work-header nav a,
+.work-kicker,
+.section-label {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.work-header nav a {
+  font-weight: 500;
+}
+
+.work-intro {
+  min-height: min(660px, calc(100svh - 64px));
+  padding-top: clamp(72px, 8vw, 112px);
+  padding-bottom: clamp(72px, 8vw, 112px);
+}
+
+.work-intro h1 {
+  max-width: 840px;
+  font-size: clamp(2.5rem, 3.9vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+}
+
+.work-intro-copy > p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.work-group-heading h2 {
+  font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+}
+
+.project-row {
+  min-height: 164px;
+}
+
+.project-row-copy h3 {
+  font-size: clamp(1.5rem, 2.2vw, 2.125rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.16;
+}
+
+.project-row-copy > p,
+.project-row-copy > span,
+.project-row-result p,
+.case-environment li,
+.process-list span,
+.matrix-head > *,
+.evidence-card figcaption span,
+.notes-list dt,
+.notes-list dd,
+.outcome-grid h3,
+.claim-list article p,
+.claim-list article span,
+.next-case p {
+  font-size: 0.75rem;
+}
+
+.case-hero {
+  min-height: min(720px, calc(100svh - 64px));
+}
+
+.case-hero h1 {
+  max-width: 960px;
+  font-size: clamp(2.75rem, 4.5vw, 4rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+.case-deck {
+  max-width: 760px;
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: 1.6;
+}
+
+.case-value span,
+.case-status dt,
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.case-question h2,
+.case-process h2,
+.compact-matrix h2,
+.change-matrix-section h2,
+.packet-notes h2,
+.case-outcome h2,
+.claim-list h2,
+.evidence-heading h2 {
+  font-size: clamp(1.875rem, 2.8vw, 2.75rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+}
+
+.outcome-grid h3 {
+  font-weight: 600;
+}
+
+.next-case a {
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.archive-page {
+  min-height: calc(100svh - 64px);
+}
+
+.archive-page h1 {
+  max-width: 720px;
+  font-size: clamp(2.5rem, 4vw, 3.75rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+}
+
+@media (max-width: 700px) {
+  .work-header {
+    min-height: 88px;
+    padding: 0 16px;
+  }
+
+  .work-header nav {
+    min-height: 44px;
+    justify-content: flex-start;
+    overflow: visible;
+  }
+
+  .work-header nav a {
+    min-height: 44px;
+    padding-inline: 8px;
+    font-size: 0.75rem;
+  }
+
+  .work-intro {
+    padding-top: 52px;
+    padding-bottom: 64px;
+  }
+
+  .work-intro h1 {
+    font-size: clamp(2.25rem, 9.5vw, 2.8rem);
+  }
+
+  .work-group-heading h2 {
+    font-size: clamp(1.625rem, 7.5vw, 2.125rem);
+  }
+
+  .project-row-copy h3 {
+    font-size: 1.625rem;
+  }
+
+  .case-hero {
+    padding-top: 44px;
+    padding-bottom: 60px;
+  }
+
+  .case-hero h1 {
+    font-size: clamp(2.25rem, 9.5vw, 2.9rem);
+    line-height: 1.04;
+  }
+
+  .case-question h2,
+  .case-process h2,
+  .compact-matrix h2,
+  .change-matrix-section h2,
+  .packet-notes h2,
+  .case-outcome h2,
+  .claim-list h2,
+  .evidence-heading h2 {
+    font-size: clamp(1.75rem, 7.5vw, 2.25rem);
+    line-height: 1.12;
+  }
+
+  .next-case a {
+    font-size: clamp(1.625rem, 7vw, 2.125rem);
+  }
+
+  .archive-page h1 {
+    font-size: clamp(2.25rem, 9vw, 2.8rem);
+  }
+}

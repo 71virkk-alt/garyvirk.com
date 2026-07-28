@@ -18,7 +18,8 @@ remains available without JavaScript.
 - `CNAME`: custom-domain binding; keep unchanged
 
 The homepage uses the supplied black-and-white portrait, a standard scrolling
-layout, and a small copy-email interaction. Project pages distinguish controlled
+layout, a restrained pointer-responsive portrait, and a copy-email interaction.
+Project pages distinguish controlled
 Windows execution, network modeling, simulator checks, packet labs, review
 status, and publication status.
 
