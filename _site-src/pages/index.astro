@@ -255,6 +255,7 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
         <input type="hidden" name="_subject" value="New message from garyvirk.com" />
         <input type="hidden" name="_next" value="https://garyvirk.com/message-sent.html" />
         <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_url" value="https://garyvirk.com/#contact" />
         <label class="contact-honey" aria-hidden="true">
           Website
           <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
@@ -343,6 +344,14 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
         </div>
 
         <p class="contact-form-status" data-contact-form-status aria-live="polite"></p>
+        <a
+          class="contact-form-fallback"
+          href={`mailto:${profile.email}`}
+          data-contact-fallback
+          hidden
+        >
+          Email {profile.email} instead <span aria-hidden="true">↗</span>
+        </a>
       </form>
 
       <p class="contact-signoff">Gary Virk · Mississauga, Ontario, Canada</p>

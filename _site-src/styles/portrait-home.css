@@ -1014,6 +1014,23 @@ body.profile-page {
   font-size: 0.72rem;
 }
 
+.contact-form-fallback {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  color: var(--profile-text);
+  font-size: 0.72rem;
+  text-decoration: underline;
+  text-decoration-color: rgba(244, 244, 239, 0.36);
+  text-underline-offset: 3px;
+}
+
+.contact-form-fallback[hidden] {
+  display: none;
+}
+
 .contact-signoff {
   grid-column: 1 / -1;
   margin: clamp(64px, 8vw, 112px) 0 0;
