@@ -1,82 +1,109 @@
+export type VerificationState = "verified" | "withheld";
+
+export type ClaimRecord = {
+  id: string;
+  exactClaim: string;
+  publicWording: string;
+  evidenceSource: string;
+  limitation: string;
+  verification: VerificationState;
+};
+
 export const profile = {
   name: "Gary Virk",
-  role: "IT Support & Network Infrastructure Specialist",
+  role: "IT Support Technician",
+  focus: "Windows support and network troubleshooting.",
   location: "Mississauga, Ontario, Canada",
+  shortLocation: "Mississauga, Ontario",
   email: "i@garyvirk.com",
   linkedin: "https://www.linkedin.com/in/gary-virk/",
-  statement: "IT support that gets to the why.",
   introduction:
-    "I troubleshoot endpoints, networks, identity, and connectivity—then document the fix so the next incident is faster to resolve.",
+    "I studied computer networking at St. Clair College and moved into on-site support. The work taught me to test before I change, explain the fix clearly, and leave notes another technician can use.",
   summary:
-    "IT specialist with nearly three years of hands-on experience across enterprise endpoint deployment, escalated support, network troubleshooting, and technical documentation."
+    "IT support technician with on-site experience across Windows endpoints, user access, hardware, ticket handling, and network troubleshooting."
 } as const;
 
 export const experience = [
   {
-    company: "Cummins Inc.",
-    role: "IT Specialist",
+    company: "Experis / Manpower",
+    assignment: "Assigned to Cummins",
+    role: "User Support Technician",
     location: "Mississauga, Ontario",
-    period: "May 2023 — December 2025",
-    duration: "2 years 8 months",
+    period: "May 2023 to December 2025",
     summary:
-      "Enterprise endpoint deployment, escalated technical support, infrastructure troubleshooting, and documentation.",
+      "Supported workplace technology on site, including Windows endpoints, imaging and rebuilds, account and device tasks, Dell client hardware, and ServiceNow ticket records.",
     highlights: [
-      "Deployed and configured Dell client and server hardware for enterprise rollouts, including imaging, hardware configuration, deployment, and post-deployment support.",
-      "Handled escalations involving endpoints, network connectivity, and identity.",
-      "Supported VLAN and switch changes, DHCP and DNS troubleshooting, and connectivity triage.",
-      "Created runbooks and incident notes that made repeat issues easier to resolve and escalate."
+      "Imaged, rebuilt, configured, and supported Windows endpoints used by employees on site.",
+      "Completed approved account and device tasks, diagnosed Dell client hardware, and set up peripherals.",
+      "Recorded troubleshooting steps in ServiceNow and handed off unresolved issues with the evidence already collected."
     ]
   },
   {
     company: "Bluum",
+    assignment: "",
     role: "User Support Technician",
     location: "Markham, Ontario",
-    period: "April 2023 — May 2023",
-    duration: "2 months · on-site",
+    period: "April 2023 to May 2023",
     summary:
-      "Hands-on hardware support, user assistance, ticket documentation, and evidence-ready escalation.",
+      "Provided on-site hardware support, user assistance, peripheral setup, ticket documentation, and escalation handoffs.",
     highlights: [
-      "Diagnosed hardware issues, replaced components, configured peripherals, and supported users on site.",
-      "Maintained clear ticket records and escalated unresolved issues with the troubleshooting evidence already collected."
+      "Diagnosed client hardware, replaced approved components, configured peripherals, and assisted users on site.",
+      "Kept ticket records current and escalated unresolved issues with concise troubleshooting notes."
     ]
+  }
+] as const;
+
+export const education = [
+  {
+    school: "St. Clair College",
+    location: "Windsor, Ontario",
+    program: "IT Systems & Network Administration",
+    detail:
+      "Coursework included routing and switching, Windows administration, Linux, network services, virtualization, packet analysis, and support fundamentals."
+  },
+  {
+    school: "Cisco Networking Academy",
+    location: "Windsor, Ontario",
+    program: "Systems, Networking, and LAN/WAN Management",
+    detail: "Applied networking study covering addressing, routing, switching, and LAN/WAN operations."
   }
 ] as const;
 
 export const capabilities = [
   {
     number: "01",
-    title: "Endpoint & user support",
+    title: "Endpoint and user support",
     description:
-      "Windows endpoints, imaging and deployment, hardware diagnosis, peripheral setup, ticket handling, remote support, and escalation."
+      "Windows imaging and rebuilds, hardware diagnosis, peripherals, account and device tasks, remote support, and escalation."
   },
   {
     number: "02",
-    title: "Windows Server & identity",
+    title: "Ticket and knowledge work",
     description:
-      "Active Directory, Group Policy, DNS, DHCP, authentication issues, Event Viewer, and Windows Server lab administration."
+      "ServiceNow records, incident notes, troubleshooting evidence, handoffs, and practical support documentation."
   },
   {
     number: "03",
-    title: "Networks & connectivity",
+    title: "Networks and connectivity",
     description:
-      "TCP/IP, VLANs, routing and switching, subnetting, Wi-Fi, access-control fundamentals, Wireshark, and SNMP."
+      "TCP/IP, DHCP, DNS, VLAN concepts, routing and switching, Wi-Fi, access-control fundamentals, and packet analysis."
   },
   {
     number: "04",
-    title: "Documentation & scripting",
+    title: "Support scripting",
     description:
-      "Incident notes, runbooks, knowledge-base writing, PowerShell and shell scripting fundamentals, inventory reporting, and clean handoffs."
+      "PowerShell and Python tools for bounded data collection, repeatable checks, and readable support output."
   }
 ] as const;
 
 export const credentials = [
   {
     name: "Cisco CCNA",
-    detail: "Routing, switching, IP connectivity, network access, security, and scripting foundations."
+    detail: "Routing, switching, IP connectivity, network access, security, and automation foundations."
   },
   {
     name: "CompTIA A+",
-    detail: "Endpoint hardware, operating systems, troubleshooting, security, and operational procedures."
+    detail: "Endpoint hardware, operating systems, troubleshooting, security, and support operations."
   },
   {
     name: "CompTIA Network+",
@@ -84,14 +111,52 @@ export const credentials = [
   },
   {
     name: "CompTIA CIOS",
-    detail: "IT Operations Specialist stackable credential combining A+ and Network+."
+    detail: "IT Operations Specialist stackable credential earned through A+ and Network+."
   }
 ] as const;
 
-export const method = [
-  ["Understand", "Turn the user’s symptom into a precise, testable problem."],
-  ["Isolate", "Identify the layer most likely to explain the failure."],
-  ["Test", "Run the smallest useful checks and record what they prove."],
-  ["Verify", "Confirm the fix from the user and system perspective."],
-  ["Document", "Leave a concise resolution and a clean escalation path."]
-] as const;
+export const claimRegister: ClaimRecord[] = [
+  {
+    id: "profile-role-01",
+    exactClaim: "Gary is targeting IT support technician roles.",
+    publicWording: profile.role,
+    evidenceSource: "Current portfolio positioning and supplied professional profile.",
+    limitation: "This headline does not replace the official title used in each employment record.",
+    verification: "verified"
+  },
+  {
+    id: "experience-cummins-01",
+    exactClaim:
+      "Gary worked as a User Support Technician through Experis / Manpower on a Cummins assignment from May 2023 to December 2025.",
+    publicWording:
+      "User Support Technician, Experis / Manpower, assigned to Cummins, May 2023 to December 2025.",
+    evidenceSource: "Supplied professional profile and résumé export.",
+    limitation: "The client assignment and employer of record are shown separately.",
+    verification: "verified"
+  },
+  {
+    id: "experience-bluum-01",
+    exactClaim:
+      "Gary worked as a User Support Technician at Bluum from April 2023 to May 2023.",
+    publicWording: "User Support Technician, Bluum, April 2023 to May 2023.",
+    evidenceSource: "Supplied professional profile and résumé export.",
+    limitation: "No unsupported volume, SLA, or outcome metric is attached.",
+    verification: "verified"
+  },
+  {
+    id: "education-01",
+    exactClaim: "Gary studied IT Systems & Network Administration at St. Clair College.",
+    publicWording: "IT Systems & Network Administration, St. Clair College.",
+    evidenceSource: "Supplied professional profile and résumé export.",
+    limitation: "The website does not restate an unverified credential type.",
+    verification: "verified"
+  },
+  {
+    id: "credential-01",
+    exactClaim: "Gary earned CCNA, CompTIA A+, Network+, and CIOS credentials.",
+    publicWording: "CCNA, CompTIA A+, Network+, and CIOS.",
+    evidenceSource: "Supplied professional profile and résumé export.",
+    limitation: "The website does not claim a current expiry or renewal state.",
+    verification: "verified"
+  }
+];

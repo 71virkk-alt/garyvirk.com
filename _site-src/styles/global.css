@@ -19,31 +19,6 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@view-transition {
-  navigation: auto;
-}
-
-::view-transition-old(root) {
-  animation: 180ms ease both page-out;
-}
-
-::view-transition-new(root) {
-  animation: 360ms var(--ease) both page-in;
-}
-
-@keyframes page-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes page-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-}
-
 *,
 *::before,
 *::after {
@@ -184,7 +159,7 @@ blockquote {
 }
 
 .button--small {
-  min-height: 42px;
+  min-height: 44px;
   gap: 12px;
   padding-inline: 16px;
   font-size: 0.8rem;
@@ -1351,6 +1326,9 @@ blockquote {
 }
 
 .resume-toolbar button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
   border: 0;
   padding: 0;
   background: transparent;
@@ -1397,6 +1375,9 @@ blockquote {
 }
 
 .resume-hero address a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
   text-decoration: underline;
   text-decoration-color: var(--line);
   text-underline-offset: 3px;
@@ -1505,6 +1486,12 @@ blockquote {
 .resume-education {
   display: grid;
   gap: 22px;
+}
+
+.resume-projects a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
 }
 
 /* 404 */
@@ -2115,11 +2102,6 @@ blockquote {
   .reveal-ready [data-reveal] {
     opacity: 1;
     transform: none;
-  }
-
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
   }
 }
 

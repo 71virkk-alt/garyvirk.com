@@ -10,57 +10,15 @@ const { compact = false } = Astro.props;
 
 <header class:list={["site-header", { "site-header--compact": compact }]} data-site-header>
   <a class="brand" href="/" aria-label="Gary Virk, home">
-    <span class="brand-route" aria-hidden="true">
-      <svg viewBox="0 0 44 32" role="presentation">
-        <path d="M3 23h10l6-13h10l5 7h7" />
-        <circle cx="3" cy="23" r="2.2" />
-        <circle cx="19" cy="10" r="2.2" />
-        <circle cx="34" cy="17" r="2.2" />
-        <circle cx="41" cy="17" r="2.2" />
-      </svg>
-    </span>
     <span class="brand-copy">
       <span class="brand-name">{profile.name}</span>
-      <span class="brand-discipline">Systems / support</span>
+      <span class="brand-discipline">{profile.role}</span>
     </span>
   </a>
 
-  {
-    compact ? (
-      <nav class="header-actions" aria-label="Resume navigation">
-        <a class="nav-link" href="/">Home</a>
-        <a class="button button--small button--ink" href={`mailto:${profile.email}`}>Email Gary</a>
-      </nav>
-    ) : (
-      <>
-        <button
-          class="menu-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="primary-navigation"
-          data-menu-toggle
-        >
-          <span>Menu</span>
-          <span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
-        </button>
-        <nav class="primary-nav" id="primary-navigation" aria-label="Primary navigation" data-menu>
-          <a href="#experience">Experience</a>
-          <a href="#lab">Lab work</a>
-          <a href="#credentials">Credentials</a>
-          <a href="#about">About</a>
-          <a href="/resume.html">Résumé</a>
-          <a class="button button--small button--ink" href="#contact">Contact</a>
-        </nav>
-        <noscript>
-          <nav class="nojs-nav" aria-label="Primary navigation without JavaScript">
-            <a href="#experience">Experience</a>
-            <a href="#lab">Lab work</a>
-            <a href="#credentials">Credentials</a>
-            <a href="#contact">Contact</a>
-            <a href="/resume.html">Résumé</a>
-          </nav>
-        </noscript>
-      </>
-    )
-  }
+  <nav class="header-actions" aria-label={compact ? "Résumé navigation" : "Primary navigation"}>
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/work.html">Work</a>
+    <a class="button button--small button--ink" href={`mailto:${profile.email}`}>Email Gary</a>
+  </nav>
 </header>

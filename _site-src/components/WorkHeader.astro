@@ -4,12 +4,13 @@ import { profile } from "../data/site";
 
 <header class="work-header">
   <a class="work-brand" href="/" aria-label="Gary Virk, homepage">
-    <span>Gary Virk</span>
-    <small>IT support / infrastructure</small>
+    <strong>{profile.name}</strong>
+    <span>{profile.role}</span>
   </a>
   <nav aria-label="Work navigation">
-    <a href="/work.html">Work index</a>
+    <a href="/#about">About</a>
+    <a href="/work.html">Work</a>
     <a href="/resume.html">Résumé</a>
-    <a href={`mailto:${profile.email}`}>Email <span aria-hidden="true">↗</span></a>
+    <a href={`mailto:${profile.email}`}>Email me <span aria-hidden="true">↗</span></a>
   </nav>
 </header>

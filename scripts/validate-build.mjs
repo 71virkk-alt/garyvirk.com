@@ -43,53 +43,102 @@ for (const [name, html] of [
   assert((html.match(/<h1[\s>]/g) || []).length === 1, `${name} must contain exactly one h1.`);
   assert(html.includes('lang="en"'), `${name} must declare lang="en".`);
   assert(html.includes("Skip to content"), `${name} must include a skip link.`);
-  assert(!html.includes("Operator Index"), `${name} contains retired operator-console language.`);
-  assert(!html.includes("Open a ticket"), `${name} contains retired ticket-console language.`);
 }
 
 for (const phrase of [
-  "Gary Virk",
-  "Hello, I’m Gary",
-  "Start a conversation",
-  "Show the checks",
-  "Support work in",
-  "Cummins Inc.",
+  "IT Support Technician",
+  "Windows support and network troubleshooting.",
+  "I studied computer networking at St. Clair College",
+  "View selected work",
+  "i@garyvirk.com",
+  "data-copy-email",
+  "User Support Technician",
+  "Experis / Manpower",
+  "Assigned to Cummins",
   "Bluum",
-  "Windows endpoint readiness",
-  "Network access-control change",
-  "CompTIA Network+",
-  "Mississauga"
+  "IT Systems &amp; Network Administration",
+  "Cisco CCNA",
+  "CompTIA Network+"
 ]) {
   assert(home.includes(phrase), `Homepage is missing required content: ${phrase}`);
 }
 
 assert(
-  !home.includes("This case remains a draft"),
-  "Draft case-study body leaked into the homepage."
+  !home.includes("Portrait / 2026") && !home.includes("Move to inspect"),
+  "Retired portrait labels remain on the homepage."
 );
+assert(!home.includes("© 2026"), "A static design year remains on the homepage.");
+assert(!home.includes("data-view-panel"), "The retired hidden-panel homepage is still present.");
 assert(
-  !existsSync(join(distRoot, "work", "windows-server-identity.html")),
-  "Draft work page was emitted."
+  home.includes('href="/work.html"') && home.includes('href="/resume.html"'),
+  "Homepage primary routes are missing."
 );
-assert(robots.includes("Sitemap: https://garyvirk.com/sitemap.xml"), "robots.txt has no sitemap.");
-assert(sitemap.includes("https://garyvirk.com/resume.html"), "sitemap.xml has no resume URL.");
-assert(sitemap.includes("https://garyvirk.com/work.html"), "sitemap.xml has no work index URL.");
-for (const slug of [
+
+for (const phrase of [
+  "Flagship cases",
+  "Supporting labs",
+  "Windows endpoint connectivity triage",
+  "Network access-control change validation",
+  "DHCP failure isolation",
+  "Packet triage notes"
+]) {
+  assert(work.includes(phrase), `Work index is missing required content: ${phrase}`);
+}
+assert(
+  !work.includes("Network inventory drift"),
+  "Archived inventory project remains in the selected work index."
+);
+
+for (const phrase of [
+  "Experis / Manpower",
+  "Assigned to Cummins",
+  "May 2023 to December 2025",
+  "Bluum",
+  "April 2023 to May 2023",
+  "Print or save as PDF",
+  "Windows endpoint connectivity triage",
+  "Network access-control change validation"
+]) {
+  assert(resume.includes(phrase), `Résumé is missing required content: ${phrase}`);
+}
+assert(!resume.includes(".pdf"), "Résumé page still links to a stale PDF.");
+
+const selectedSlugs = [
   "windows-endpoint-readiness",
   "network-access-control",
-  "network-inventory-drift",
   "dhcp-failure-isolation",
   "packet-triage-library"
-]) {
+];
+
+for (const slug of selectedSlugs) {
   const casePath = `work/${slug}.html`;
   const casePage = read(casePath);
-  assert(casePage.includes("Validated result"), `${casePath} has no validated result.`);
-  assert(casePage.includes("What this does not claim"), `${casePath} has no claim boundary.`);
+  assert(casePage.includes("What the public excerpts actually prove"), `${casePath} has no evidence section.`);
+  assert(casePage.includes("What changed, and what remains outside the claim"), `${casePath} has no result boundary.`);
+  assert(casePage.includes("Every public conclusion stays tied to an artifact"), `${casePath} has no claim check.`);
+  assert(casePage.includes("Selected evidence on this page"), `${casePath} has no publication label.`);
+  assert(
+    (casePage.match(/class="evidence-card/g) || []).length >= (slug.includes("windows") || slug.includes("access-control") ? 3 : 1),
+    `${casePath} does not contain enough selected evidence.`
+  );
   assert(
     sitemap.includes(`https://garyvirk.com/${casePath}`),
     `sitemap.xml has no URL for ${casePath}.`
   );
 }
+
+const archivePath = "work/network-inventory-drift.html";
+const archivePage = read(archivePath);
+assert(archivePage.includes('name="robots" content="noindex, follow"'), "Archived route must be noindex.");
+assert(archivePage.includes("Unfeatured project"), "Archived route has no archive notice.");
+assert(
+  !sitemap.includes(`https://garyvirk.com/${archivePath}`),
+  "Archived route must not appear in the sitemap."
+);
+
+assert(robots.includes("Sitemap: https://garyvirk.com/sitemap.xml"), "robots.txt has no sitemap.");
+assert(sitemap.includes("https://garyvirk.com/resume.html"), "sitemap.xml has no résumé URL.");
+assert(sitemap.includes("https://garyvirk.com/work.html"), "sitemap.xml has no work index URL.");
 assert(cname === "garyvirk.com", "CNAME must remain exactly garyvirk.com.");
 
 if (existsSync(distRoot)) {
@@ -100,16 +149,46 @@ if (existsSync(distRoot)) {
     .reduce((total, file) => total + statSync(file).size, 0);
 
   assert(totalBytes < 3_500_000, `Build is unexpectedly large: ${totalBytes} bytes.`);
-  assert(javascriptBytes < 1_100_000, `JavaScript is unexpectedly large: ${javascriptBytes} bytes.`);
+  assert(javascriptBytes < 250_000, `JavaScript is unexpectedly large: ${javascriptBytes} bytes.`);
+
+  const htmlFiles = files.filter((file) => file.endsWith(".html"));
+  const combinedHtml = htmlFiles.map((file) => readFileSync(file, "utf8")).join("\n");
+  const forbiddenCopy = [
+    "—",
+    "[VERIFY]",
+    "Systems work, with receipts",
+    "Five controlled labs",
+    "Validated result",
+    "Published artifacts",
+    "published artifacts",
+    "Independent review",
+    "independently reviewed",
+    "byte-identical",
+    "hash-bound",
+    "fail-closed",
+    "production-ready",
+    "enterprise-grade",
+    "robust",
+    "seamless",
+    "cutting-edge"
+  ];
+  for (const phrase of forbiddenCopy) {
+    assert(!combinedHtml.includes(phrase), `Public copy contains a blocked phrase: ${phrase}`);
+  }
 
   const textFiles = files.filter((file) => /\.(html|js|css|xml|txt|json|svg)$/i.test(file));
   const combined = textFiles.map((file) => readFileSync(file, "utf8")).join("\n");
-  const forbidden = ["20-elite-projects", "_reference/", "my info /"];
-  for (const token of forbidden) {
+  const privateTokens = [
+    "20-elite-projects",
+    "_reference/",
+    "my info /",
+    "71virkk@gmail.com",
+    "+16475109813"
+  ];
+  for (const token of privateTokens) {
     assert(!combined.includes(token), `Private or internal token leaked into the build: ${token}`);
   }
 
-  const htmlFiles = files.filter((file) => file.endsWith(".html"));
   for (const file of htmlFiles) {
     const html = readFileSync(file, "utf8");
     const references = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)].map((match) => match[1]);

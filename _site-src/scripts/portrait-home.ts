@@ -1,102 +1,38 @@
 export {};
 
-const shell = document.querySelector<HTMLElement>("[data-portfolio-shell]");
-const navigation = document.querySelector<HTMLElement>("[data-view-navigation]");
-const viewButtons = Array.from(
-  document.querySelectorAll<HTMLButtonElement>("[data-view-target]")
-);
-const viewPanels = Array.from(
-  document.querySelectorAll<HTMLElement>("[data-view-panel]")
-);
-const currentView = document.querySelector<HTMLElement>("[data-current-view]");
-const portrait = document.querySelector<HTMLElement>("[data-portrait-frame]");
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const precisePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-const viewOrder = ["about", "work", "experience", "credentials"] as const;
+const copyButton = document.querySelector<HTMLButtonElement>("[data-copy-email]");
+const copyStatus = document.querySelector<HTMLElement>("[data-copy-status]");
 
-type ViewName = (typeof viewOrder)[number];
-
-function isViewName(value: string | null): value is ViewName {
-  return viewOrder.includes(value as ViewName);
+function setCopyStatus(message: string) {
+  if (copyStatus) copyStatus.textContent = message;
 }
 
-function setView(view: ViewName, updateHistory = true) {
-  if (!shell) return;
+async function copyEmail() {
+  const email = copyButton?.dataset.copyEmail;
+  if (!copyButton || !email) return;
 
-  shell.dataset.activeView = view;
+  try {
+    await navigator.clipboard.writeText(email);
+    copyButton.textContent = "Copied";
+    setCopyStatus(`${email} copied to clipboard.`);
+    window.setTimeout(() => {
+      copyButton.textContent = "Copy";
+    }, 2200);
+  } catch {
+    const selection = window.getSelection();
+    const emailNode = document.querySelector<HTMLElement>(".contact-email strong");
 
-  viewButtons.forEach((button) => {
-    const active = button.dataset.viewTarget === view;
-    if (active) button.setAttribute("aria-current", "page");
-    else button.removeAttribute("aria-current");
-  });
-
-  viewPanels.forEach((panel) => {
-    const active = panel.dataset.viewPanel === view;
-    panel.toggleAttribute("data-active", active);
-    panel.setAttribute("aria-hidden", String(!active));
-    panel.inert = !active;
-  });
-
-  const index = viewOrder.indexOf(view) + 1;
-  if (currentView) currentView.textContent = String(index).padStart(2, "0");
-
-  if (updateHistory) {
-    const nextUrl = view === "about" ? window.location.pathname : `#${view}`;
-    window.history.replaceState(null, "", nextUrl);
+    if (selection && emailNode) {
+      const range = document.createRange();
+      range.selectNodeContents(emailNode);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      emailNode.focus?.();
+      setCopyStatus(`Copy unavailable. ${email} is selected.`);
+    } else {
+      setCopyStatus(`Copy unavailable. Email ${email}.`);
+    }
   }
 }
 
-viewButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const view = button.dataset.viewTarget ?? null;
-    if (isViewName(view)) setView(view);
-  });
-});
-
-navigation?.addEventListener("keydown", (event) => {
-  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-
-  const activeIndex = viewButtons.findIndex(
-    (button) => button.getAttribute("aria-current") === "page"
-  );
-  const direction = event.key === "ArrowRight" ? 1 : -1;
-  const nextIndex = (activeIndex + direction + viewButtons.length) % viewButtons.length;
-  const nextButton = viewButtons[nextIndex];
-  const view = nextButton?.dataset.viewTarget ?? null;
-
-  if (isViewName(view)) {
-    event.preventDefault();
-    setView(view);
-    nextButton.focus();
-  }
-});
-
-const initialView = window.location.hash.slice(1);
-setView(isViewName(initialView) ? initialView : "about", false);
-
-if (portrait && precisePointer && !reduceMotion) {
-  portrait.addEventListener("pointerenter", () => {
-    portrait.setAttribute("data-engaged", "");
-  });
-
-  portrait.addEventListener("pointermove", (event) => {
-    portrait.setAttribute("data-engaged", "");
-    const bounds = portrait.getBoundingClientRect();
-    const x = Math.max(0, Math.min(bounds.width, event.clientX - bounds.left));
-    const y = Math.max(0, Math.min(bounds.height, event.clientY - bounds.top));
-    const normalizedX = x / bounds.width - 0.5;
-    const normalizedY = y / bounds.height - 0.5;
-
-    portrait.style.setProperty("--pointer-x", `${x}px`);
-    portrait.style.setProperty("--pointer-y", `${y}px`);
-    portrait.style.setProperty("--shift-x", `${normalizedX * -7}px`);
-    portrait.style.setProperty("--shift-y", `${normalizedY * -5}px`);
-  });
-
-  portrait.addEventListener("pointerleave", () => {
-    portrait.removeAttribute("data-engaged");
-    portrait.style.setProperty("--shift-x", "0px");
-    portrait.style.setProperty("--shift-y", "0px");
-  });
-}
+copyButton?.addEventListener("click", copyEmail);

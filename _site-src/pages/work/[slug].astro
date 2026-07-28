@@ -1,7 +1,11 @@
 ---
 import WorkHeader from "../../components/WorkHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { projects, type Project } from "../../data/projects";
+import {
+  projects,
+  selectedProjects,
+  type PortfolioProject
+} from "../../data/projects";
 import "../../styles/work.css";
 
 export function getStaticPaths() {
@@ -11,133 +15,226 @@ export function getStaticPaths() {
   }));
 }
 
-const { project } = Astro.props as { project: Project };
-const currentIndex = projects.findIndex((item) => item.slug === project.slug);
-const nextProject = projects[(currentIndex + 1) % projects.length];
+const { project } = Astro.props as { project: PortfolioProject };
+const selectedIndex = selectedProjects.findIndex((item) => item.slug === project.slug);
+const nextProject =
+  selectedIndex >= 0 ? selectedProjects[(selectedIndex + 1) % selectedProjects.length] : undefined;
+const isArchived = project.tier === "archived";
+const projectBodyClass = `work-page project-page project-page--${project.presentation}`;
 ---
 
 <BaseLayout
-  title={`${project.title} — Gary Virk`}
+  title={`${project.title} | Gary Virk`}
   description={project.summary}
   canonicalPath={`/work/${project.slug}.html`}
-  bodyClass="work-page project-page"
+  bodyClass={projectBodyClass}
   themeColor="#080a0c"
   colorScheme="dark"
+  noIndex={isArchived}
 >
   <main id="main" class="work-shell">
     <WorkHeader />
 
-    <article class="case-file">
-      <header class="case-hero">
-        <a class="case-back" href="/work.html">← All work</a>
-        <p class="work-kicker"><span>{project.number}</span> {project.discipline}</p>
-        <h1>{project.title}</h1>
-        <p class="case-deck">{project.summary}</p>
+    {
+      isArchived ? (
+        <article class="archive-page">
+          <p class="work-kicker"><span>Archive</span> Unfeatured project</p>
+          <h1>{project.title}</h1>
+          <p>{project.summary}</p>
+          <p>{project.limitation}</p>
+          <a href="/work.html">Return to selected work <span aria-hidden="true">→</span></a>
+        </article>
+      ) : (
+        <article class="case-file">
+          <header class="case-hero">
+            <a class="case-back" href="/work.html">← All work</a>
+            <p class="work-kicker"><span>{project.number}</span> {project.discipline}</p>
+            <h1>{project.title}</h1>
+            <p class="case-deck">{project.summary}</p>
 
-        <div class="case-result">
-          <p><i aria-hidden="true"></i> Validated result</p>
-          <strong>{project.result}</strong>
-        </div>
-
-        <ul class="case-environment" aria-label="Project environment">
-          {project.environment.map((item) => <li>{item}</li>)}
-        </ul>
-      </header>
-
-      <section class="metric-rail" aria-label="Project measures">
-        {
-          project.metrics.map((metric) => (
-            <div>
-              <strong>{metric.value}</strong>
-              <span>{metric.label}</span>
+            <div class="case-value">
+              <span>Why this matters at work</span>
+              <strong>{project.employerValue}</strong>
             </div>
-          ))
-        }
-      </section>
 
-      <section class="case-section case-situation" aria-labelledby="situation-heading">
-        <p class="section-label">01 · The support question</p>
-        <div>
-          <h2 id="situation-heading">What needed to be known?</h2>
-          <p>{project.situation}</p>
-        </div>
-      </section>
+            <dl class="case-status">
+              <div><dt>Completion</dt><dd>{project.status.completion}</dd></div>
+              <div><dt>Execution</dt><dd>{project.status.execution}</dd></div>
+              <div><dt>Review</dt><dd>{project.status.review}</dd></div>
+              <div><dt>Evidence</dt><dd>{project.status.publication}</dd></div>
+            </dl>
 
-      <section class="case-section" aria-labelledby="build-heading">
-        <p class="section-label">02 · The build</p>
-        <div>
-          <h2 id="build-heading">A controlled path from fault to retest.</h2>
-          <ol class="build-list">
-            {project.build.map((item, index) => (
-              <li><span>0{index + 1}</span><p>{item}</p></li>
-            ))}
-          </ol>
-        </div>
-      </section>
+            <ul class="case-environment" aria-label="Project environment">
+              {project.environment.map((item) => <li>{item}</li>)}
+            </ul>
+          </header>
 
-      <figure class="evidence-visual">
-        {
-          project.visual.kind === "image" ? (
-            <>
-              <div class="evidence-image">
-                <img src={project.visual.src} alt={project.visual.alt} loading="lazy" />
-              </div>
-              <figcaption>{project.visual.caption}</figcaption>
-            </>
-          ) : (
-            <>
-              <div class="evidence-matrix" role="table" aria-label={`${project.title} evidence matrix`}>
-                <div class="matrix-row matrix-head" role="row">
-                  <span role="columnheader">Check</span>
-                  <span role="columnheader">Failure evidence</span>
-                  <span role="columnheader">Post-change</span>
-                </div>
-                {project.visual.rows.map((row) => (
-                  <div class="matrix-row" role="row">
-                    <strong role="cell">{row.check}</strong>
-                    <span role="cell">{row.failure}</span>
-                    <span role="cell" class="matrix-pass">{row.corrected}</span>
+          <section class="case-question" aria-labelledby="question-heading">
+            <p class="section-label">The support question</p>
+            <div>
+              <h2 id="question-heading">{project.question}</h2>
+              <p class="ownership"><strong>My role:</strong> {project.ownership}</p>
+            </div>
+          </section>
+
+          {project.presentation === "change" && project.matrix && (
+            <section class="change-matrix-section" aria-labelledby="change-matrix-heading">
+              <p class="section-label">Change boundary</p>
+              <div>
+                <h2 id="change-matrix-heading">Required access returned. Closed paths stayed closed.</h2>
+                <div class="evidence-matrix" role="table" aria-label={`${project.title} result matrix`}>
+                  <div class="matrix-row matrix-head" role="row">
+                    <span role="columnheader">Check</span>
+                    <span role="columnheader">Inserted fault</span>
+                    <span role="columnheader">After correction</span>
                   </div>
+                  {project.matrix.map((row) => (
+                    <div class="matrix-row" role="row">
+                      <strong role="cell">{row.check}</strong>
+                      <span role="cell">{row.failure}</span>
+                      <span role="cell" class="matrix-pass">{row.corrected}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          <section class:list={["case-process", `case-process--${project.presentation}`]} aria-labelledby="process-heading">
+            <p class="section-label">
+              {project.presentation === "timeline" ? "Troubleshooting record" : project.presentation === "packet" ? "Packet workflow" : project.presentation === "notes" ? "Method" : "Change sequence"}
+            </p>
+            <div>
+              <h2 id="process-heading">
+                {project.presentation === "timeline" ? "The same checks before and after the change." : project.presentation === "packet" ? "Read the exchange before changing the service." : project.presentation === "notes" ? "One symptom, one decisive filter, one post-change capture." : "Intent first, then regression, correction, and rollback."}
+              </h2>
+              <ol class="process-list">
+                {project.approach.map((item, index) => (
+                  <li><span>{String(index + 1).padStart(2, "0")}</span><p>{item}</p></li>
+                ))}
+              </ol>
+            </div>
+          </section>
+
+          {project.presentation === "timeline" && project.matrix && (
+            <section class="compact-matrix" aria-labelledby="timeline-result-heading">
+              <p class="section-label">DNS example</p>
+              <div>
+                <h2 id="timeline-result-heading">Direct TCP stayed up while the name check failed.</h2>
+                <div class="evidence-matrix" role="table" aria-label={`${project.title} DNS example`}>
+                  <div class="matrix-row matrix-head" role="row">
+                    <span role="columnheader">Check</span>
+                    <span role="columnheader">Fault</span>
+                    <span role="columnheader">Retest</span>
+                  </div>
+                  {project.matrix.map((row) => (
+                    <div class="matrix-row" role="row">
+                      <strong role="cell">{row.check}</strong>
+                      <span role="cell">{row.failure}</span>
+                      <span role="cell" class="matrix-pass">{row.corrected}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {project.presentation === "notes" && project.notes && (
+            <section class="packet-notes" aria-labelledby="packet-notes-heading">
+              <p class="section-label">Four notes</p>
+              <div>
+                <h2 id="packet-notes-heading">Short records for four different symptoms.</h2>
+                <div class="notes-list">
+                  {project.notes.map((note) => (
+                    <details>
+                      <summary>{note.title}<span aria-hidden="true">+</span></summary>
+                      <dl>
+                        <div><dt>Symptom</dt><dd>{note.symptom}</dd></div>
+                        <div><dt>Evidence</dt><dd>{note.evidence}</dd></div>
+                        <div><dt>Post-change</dt><dd>{note.result}</dd></div>
+                        <div><dt>Limit</dt><dd>{note.limitation}</dd></div>
+                      </dl>
+                    </details>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          <section class="evidence-section" aria-labelledby="evidence-heading">
+            <div class="evidence-heading">
+              <p class="section-label">Selected evidence</p>
+              <div>
+                <h2 id="evidence-heading">What the public excerpts actually prove.</h2>
+                <p>
+                  These are allowlisted, sanitized excerpts from the controlled project record.
+                  Private repositories and raw supporting files remain private.
+                </p>
+              </div>
+            </div>
+
+            <div class="evidence-grid">
+              {project.evidence.map((artifact) => (
+                <figure class:list={["evidence-card", { "evidence-card--image": artifact.kind === "diagram" }]}>
+                  {artifact.src ? (
+                    <div class="evidence-image">
+                      <img src={artifact.src} alt={artifact.alt ?? ""} loading="lazy" />
+                    </div>
+                  ) : (
+                    <pre><code>{artifact.excerpt}</code></pre>
+                  )}
+                  <figcaption>
+                    <strong>{artifact.title}</strong>
+                    <span>{artifact.caption}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+
+          <section class="case-outcome" aria-labelledby="outcome-heading">
+            <p class="section-label">Result and boundary</p>
+            <div>
+              <h2 id="outcome-heading">What changed, and what remains outside the claim.</h2>
+              <div class="outcome-grid">
+                <article>
+                  <h3>Result</h3>
+                  <p>{project.outcome}</p>
+                </article>
+                <article>
+                  <h3>Limit</h3>
+                  <p>{project.limitation}</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="claim-list" aria-labelledby="claims-heading">
+            <p class="section-label">Claim check</p>
+            <div>
+              <h2 id="claims-heading">Every public conclusion stays tied to an artifact.</h2>
+              <div>
+                {project.claims.map((claim) => (
+                  <article>
+                    <strong>{claim.publicWording}</strong>
+                    <p>{claim.limitation}</p>
+                    <span>Evidence: {claim.evidenceRefs.join(", ")}</span>
+                  </article>
                 ))}
               </div>
-              <figcaption>Selected evidence summary · full claims remain bounded below</figcaption>
-            </>
-          )
-        }
-      </figure>
+            </div>
+          </section>
 
-      <section class="case-section" aria-labelledby="proof-heading">
-        <p class="section-label">03 · What proves it</p>
-        <div>
-          <h2 id="proof-heading">Evidence tied to the claim.</h2>
-          <div class="proof-list">
-            {
-              project.proof.map((item, index) => (
-                <article>
-                  <span>0{index + 1}</span>
-                  <h3>{item.label}</h3>
-                  <p>{item.detail}</p>
-                </article>
-              ))
-            }
-          </div>
-        </div>
-      </section>
-
-      <aside class="claim-boundary" aria-labelledby="boundary-heading">
-        <p class="section-label">Claim boundary</p>
-        <div>
-          <h2 id="boundary-heading">What this does not claim.</h2>
-          <p>{project.boundary}</p>
-        </div>
-      </aside>
-
-      <nav class="next-case" aria-label="Next case study">
-        <p>Next case · {nextProject.number}</p>
-        <a href={`/work/${nextProject.slug}.html`}>
-          {nextProject.title} <span aria-hidden="true">→</span>
-        </a>
-      </nav>
-    </article>
+          {nextProject && (
+            <nav class="next-case" aria-label="Next case study">
+              <p>Next case · {nextProject.number}</p>
+              <a href={`/work/${nextProject.slug}.html`}>
+                {nextProject.title} <span aria-hidden="true">→</span>
+              </a>
+            </nav>
+          )}
+        </article>
+      )
+    }
   </main>
 </BaseLayout>

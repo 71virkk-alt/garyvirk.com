@@ -1,189 +1,68 @@
 ---
 import heroPortrait from "../../assets/gary-virk-hero.webp?url";
 import mobilePortrait from "../../assets/gary-virk-portrait.webp?url";
-import resumePdf from "../../assets/Gary-Virk-Resume.pdf?url";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { capabilities, credentials, experience, profile } from "../data/site";
-import { featuredProjects } from "../data/projects";
+import { capabilities, credentials, education, experience, profile } from "../data/site";
+import { flagshipProjects, supportingProjects } from "../data/projects";
 import "../styles/portrait-home.css";
-
-const primaryCredentials = credentials.slice(0, 3);
 ---
 
 <BaseLayout
-  title="Gary Virk — IT Support & Network Infrastructure"
-  description="Gary Virk is an IT support and network infrastructure specialist in Mississauga, Ontario, with hands-on enterprise experience across endpoints, identity, networks, and documentation."
-  bodyClass="portrait-site"
+  title="Gary Virk | IT Support Technician"
+  description="Gary Virk is an IT support technician in Mississauga focused on Windows endpoints, user support, ticket documentation, and network troubleshooting."
+  bodyClass="profile-page"
   themeColor="#080a0c"
   colorScheme="dark"
 >
-  <main class="portfolio-shell" id="main" data-portfolio-shell data-active-view="about">
-    <header class="portrait-header">
-      <a class="portrait-brand" href="/" aria-label="Gary Virk, homepage">
-        <span>Gary Virk</span>
-        <small>IT support / infrastructure</small>
-      </a>
+  <header class="profile-header">
+    <a class="profile-brand" href="#about" aria-label="Gary Virk, about">
+      <strong>Gary Virk</strong>
+      <span>IT support technician</span>
+    </a>
+    <nav class="profile-nav" aria-label="Primary navigation">
+      <a href="#about">About</a>
+      <a href="/work.html">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="/resume.html">Résumé</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="header-email" href={`mailto:${profile.email}`}>Email me <span aria-hidden="true">↗</span></a>
+  </header>
 
-      <nav class="portrait-nav" aria-label="Portfolio sections" data-view-navigation>
-        <button type="button" data-view-target="about" aria-current="page">
-          <span>01</span> About
-        </button>
-        <button type="button" data-view-target="work">
-          <span>02</span> Work / lab
-        </button>
-        <button type="button" data-view-target="experience">
-          <span>03</span> Experience
-        </button>
-        <button type="button" data-view-target="credentials">
-          <span>04</span> Credentials
-        </button>
-        <a href="/resume.html"><span>05</span> Résumé</a>
-      </nav>
+  <main id="main">
+    <section class="profile-hero" id="about" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="section-index"><span>01</span> About</p>
+        <p class="hero-role">{profile.role}</p>
+        <h1 id="hero-title">{profile.focus}</h1>
+        <p class="hero-story">{profile.introduction}</p>
 
-      <a
-        class="portrait-email"
-        href={`mailto:${profile.email}`}
-        aria-label={`Email ${profile.email}`}
-      >
-        <span>Email</span>
-        <strong>{profile.email}</strong>
-        <i aria-hidden="true">↗</i>
-      </a>
-    </header>
-    <noscript>
-      <nav class="portrait-noscript" aria-label="Portfolio navigation without JavaScript">
-        <a href="/work.html">Work</a>
-        <a href="/resume.html">Résumé</a>
-        <a href={`mailto:${profile.email}`}>Email</a>
-      </nav>
-    </noscript>
-
-    <div class="portrait-stage">
-      <section class="view-stage" aria-label="Portfolio introduction" aria-live="polite">
-        <article class="view-panel view-panel--about" data-view-panel="about" data-active>
-          <p class="view-index"><span>01</span> About</p>
-          <h1>Hello, I’m Gary.</h1>
-          <p class="view-intro">
-            I support the systems people rely on—endpoints, identity, networks, and the
-            documentation that makes the next issue easier to solve.
-          </p>
-
-          <div class="about-facts">
-            <p><span>Based in</span>Mississauga, Ontario</p>
-            <p><span>Experience</span>Nearly 3 years</p>
-            <p><span>Focus</span>Support & infrastructure</p>
-          </div>
-
-          <div class="view-actions">
-            <a class="primary-action" href={`mailto:${profile.email}`}>
-              Start a conversation <span aria-hidden="true">↗</span>
-            </a>
-            <a class="quiet-action" href={resumePdf} download="Gary-Virk-Resume.pdf">
-              Download résumé
-            </a>
-          </div>
-        </article>
-
-        <article class="view-panel view-panel--work" data-view-panel="work" aria-hidden="true" inert>
-          <p class="view-index"><span>02</span> Work / lab</p>
-          <h2>Show the checks.<br />Not just the claim.</h2>
-          <p class="view-intro">
-            My lab work turns a troubleshooting story into inspectable evidence: topology,
-            commands, system output, resolution, and validation.
-          </p>
-
-          <div class="featured-record">
-            <div>
-              <p><i aria-hidden="true"></i> Five controlled labs · validated</p>
-              <h3>Failure, evidence, correction, retest.</h3>
-            </div>
-            <ul class="featured-project-list" aria-label="Featured case studies">
-              {
-                featuredProjects.map((project) => (
-                  <li>
-                    <a href={`/work/${project.slug}.html`}>
-                      <span>{project.number}</span>
-                      {project.title}
-                      <i aria-hidden="true">↗</i>
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-
-          <a class="view-note view-note-link" href="/work.html">
-            Open all five evidence files <span aria-hidden="true">→</span>
+        <div class="hero-actions">
+          <a class="profile-button profile-button--light" href="/work.html">
+            View selected work <span aria-hidden="true">↗</span>
           </a>
-        </article>
-
-        <article
-          class="view-panel view-panel--experience"
-          data-view-panel="experience"
-          aria-hidden="true"
-          inert
-        >
-          <p class="view-index"><span>03</span> Experience</p>
-          <h2>Support work in<br />live environments.</h2>
-
-          <div class="role-list">
-            {
-              experience.map((job, index) => (
-                <article>
-                  <p class="role-number">0{index + 1}</p>
-                  <div>
-                    <h3>{job.role}</h3>
-                    <p>{job.company} · {job.location}</p>
-                  </div>
-                  <p class="role-period">{job.period}</p>
-                </article>
-              ))
-            }
-          </div>
-
-          <a class="quiet-action quiet-action--standalone" href="/resume.html">
-            Read the complete résumé <span aria-hidden="true">↗</span>
+          <a class="profile-button profile-button--quiet" href="/resume.html">
+            View résumé <span aria-hidden="true">→</span>
           </a>
-        </article>
+        </div>
 
-        <article
-          class="view-panel view-panel--credentials"
-          data-view-panel="credentials"
-          aria-hidden="true"
-          inert
-        >
-          <p class="view-index"><span>04</span> Credentials & skills</p>
-          <h2>Technical range,<br />kept practical.</h2>
-
-          <div class="credential-strip" aria-label="Primary certifications">
-            {
-              primaryCredentials.map((credential, index) => (
-                <div>
-                  <span>0{index + 1}</span>
-                  <strong>{credential.name}</strong>
-                </div>
-              ))
-            }
+        <dl class="hero-facts">
+          <div>
+            <dt>Based in</dt>
+            <dd>{profile.shortLocation}</dd>
           </div>
-
-          <div class="skill-index">
-            {
-              capabilities.map((capability) => (
-                <p>
-                  <span>{capability.number}</span>
-                  {capability.title}
-                </p>
-              ))
-            }
+          <div>
+            <dt>Work</dt>
+            <dd>On-site IT support</dd>
           </div>
-        </article>
-      </section>
+          <div>
+            <dt>Focus</dt>
+            <dd>Windows and networks</dd>
+          </div>
+        </dl>
+      </div>
 
-      <figure
-        class="portrait-frame"
-        data-portrait-frame
-        style={`--hero-image: url("${heroPortrait}")`}
-      >
+      <figure class="hero-portrait" data-portrait>
         <picture>
           <source media="(max-width: 760px)" srcset={mobilePortrait} />
           <img
@@ -196,35 +75,157 @@ const primaryCredentials = credentials.slice(0, 3);
             fetchpriority="high"
           />
         </picture>
-        <span class="portrait-detail" aria-hidden="true"></span>
-        <span class="portrait-wash" aria-hidden="true"></span>
-        <span class="portrait-cursor" aria-hidden="true"><i></i></span>
-        <figcaption>
-          <span>Portrait / 2026</span>
-          <span>Move to inspect</span>
-        </figcaption>
+        <span class="portrait-light" aria-hidden="true"></span>
       </figure>
+    </section>
 
-      <div class="stage-status" aria-label="Current professional details">
-        <p><span>Location</span>{profile.location}</p>
-        <p><span>Credentials</span>CCNA · A+ · Network+</p>
+    <section class="profile-section selected-work" id="work" aria-labelledby="work-title">
+      <div class="section-heading">
+        <p class="section-index"><span>02</span> Selected work</p>
+        <div>
+          <h2 id="work-title">The problem, the check, and what happened next.</h2>
+          <p>
+            These controlled labs show the evidence I used to isolate a fault, the
+            correction I made, and the separate check that confirmed the result.
+          </p>
+        </div>
       </div>
 
-      <p class="view-counter" aria-hidden="true">
-        <span data-current-view>01</span>
-        <i></i>
-        <span>04</span>
-      </p>
-    </div>
+      <div class="flagship-grid">
+        {
+          flagshipProjects.map((project) => (
+            <article class="project-card">
+              <div class="project-card-meta">
+                <span>{project.number}</span>
+                <p>{project.status.execution}</p>
+              </div>
+              <h3>{project.title}</h3>
+              <p>{project.summary}</p>
+              <strong>{project.employerValue}</strong>
+              <a href={`/work/${project.slug}.html`}>
+                Read the case <span aria-hidden="true">↗</span>
+              </a>
+            </article>
+          ))
+        }
+      </div>
 
-    <footer class="portrait-footer">
-      <p>© 2026 Gary Virk</p>
-      <div>
+      <div class="supporting-row">
+        <p>Supporting labs</p>
+        {
+          supportingProjects.map((project) => (
+            <a href={`/work/${project.slug}.html`}>
+              <span>{project.number}</span>
+              <strong>{project.title}</strong>
+              <i aria-hidden="true">↗</i>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="profile-section experience-section" id="experience" aria-labelledby="experience-title">
+      <div class="section-heading">
+        <p class="section-index"><span>03</span> Experience</p>
+        <div>
+          <h2 id="experience-title">Support work shaped by the person at the other end.</h2>
+          <p>
+            My background is hands-on and user-facing. I work from the symptom, keep the
+            ticket current, and make the escalation useful when the issue needs another team.
+          </p>
+        </div>
+      </div>
+
+      <div class="experience-list">
+        {
+          experience.map((job) => (
+            <article>
+              <div class="experience-title">
+                <h3>{job.role}</h3>
+                <p>
+                  {job.company}
+                  {job.assignment && <span> · {job.assignment}</span>}
+                </p>
+              </div>
+              <p class="experience-period">{job.period}<br />{job.location}</p>
+              <p>{job.summary}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="education-strip">
+        <p>Education</p>
+        {
+          education.map((item) => (
+            <div>
+              <strong>{item.program}</strong>
+              <span>{item.school} · {item.location}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="profile-section skills-section" id="credentials" aria-labelledby="skills-title">
+      <div class="section-heading">
+        <p class="section-index"><span>04</span> Skills and credentials</p>
+        <div>
+          <h2 id="skills-title">Useful range, tied to recognizable support work.</h2>
+          <p>
+            The categories below describe work I can discuss in an interview. The project
+            pages show where a lab provides direct evidence.
+          </p>
+        </div>
+      </div>
+
+      <div class="skills-grid">
+        {
+          capabilities.map((capability) => (
+            <article>
+              <span>{capability.number}</span>
+              <h3>{capability.title}</h3>
+              <p>{capability.description}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="credential-row">
+        {
+          credentials.map((credential) => (
+            <div>
+              <strong>{credential.name}</strong>
+              <span>{credential.detail}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <p class="section-index"><span>05</span> Contact</p>
+      <div class="contact-copy">
+        <h2 id="contact-title">If the role needs careful support work, I would like to hear about it.</h2>
+        <p>{profile.shortLocation} · Open to IT support and network-support opportunities.</p>
+      </div>
+      <div class="contact-actions">
+        <a class="contact-email" href={`mailto:${profile.email}`}>
+          <span>Email me</span>
+          <strong>{profile.email}</strong>
+        </a>
+        <button class="copy-email" type="button" data-copy-email={profile.email}>
+          Copy
+        </button>
+        <span class="copy-status" data-copy-status aria-live="polite"></span>
+      </div>
+      <nav class="contact-links" aria-label="Contact links">
         <a href={profile.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a>
-        <a href={`mailto:${profile.email}`}>Email <span aria-hidden="true">↗</span></a>
-      </div>
-      <p>Mississauga · Ontario · Canada</p>
-    </footer>
+        <a href="/resume.html">Résumé <span aria-hidden="true">↗</span></a>
+        <a href="/work.html">Selected work <span aria-hidden="true">↗</span></a>
+      </nav>
+      <p class="contact-signoff">Gary Virk · Mississauga, Ontario, Canada</p>
+    </section>
   </main>
 
   <script src="../scripts/portrait-home.ts"></script>
