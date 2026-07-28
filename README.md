@@ -5,24 +5,25 @@ Personal technical portfolio for Gary Virk, hosted at
 
 ## Architecture
 
-The authored source is an Astro static site with TypeScript content validation,
-native CSS, and one isolated React/Three.js experience. Essential content is
-rendered as HTML and remains available without JavaScript.
+The authored source is a static Astro site with typed content, native CSS, and
+small TypeScript interactions. Essential content is rendered as HTML and
+remains available without JavaScript.
 
-- `_site-src/` — pages, components, styles, content, and typed site data
-- `_site-public/` — root-level static files copied into the build
-- `assets/` — public portrait, résumé PDF, social image, and generated assets
-- `scripts/` — build validation and allowlisted root publishing
-- `.site-dist/` — temporary local build, ignored by Git
-- `index.html`, `resume.html`, and `404.html` — generated GitHub Pages output
-- `CNAME` — custom-domain binding; keep unchanged
+- `_site-src/`: pages, components, styles, scripts, and typed portfolio data
+- `_site-public/`: root-level static files copied into the build
+- `assets/`: portrait and social-preview assets
+- `scripts/`: build validation and allowlisted root publishing
+- `.site-dist/`: temporary local build, ignored by Git
+- `index.html`, `resume.html`, `work.html`, and `work/`: generated Pages output
+- `CNAME`: custom-domain binding; keep unchanged
 
-The Living Signal introduction uses a portrait-derived point field, scroll-linked
-scene changes, and an original opt-in Web Audio score. Reduced-motion, data-saving,
-and WebGL fallbacks keep the portfolio readable without the enhanced experience.
-Draft case studies are validated during the build but are not given public routes.
-A project should be marked as published only when its evidence is complete,
-sanitized, and safe to share.
+The homepage uses the supplied black-and-white portrait, a standard scrolling
+layout, and a small copy-email interaction. Project pages distinguish controlled
+Windows execution, network modeling, simulator checks, packet labs, review
+status, and publication status.
+
+Project repositories remain private. The website contains only selected,
+sanitized evidence excerpts that are appropriate for public review.
 
 ## Local development
 
@@ -43,20 +44,19 @@ pnpm validate
 ## Deployment
 
 GitHub Pages serves the repository root from `main`. The deployment helper
-pulls current changes, installs the locked dependencies, builds and validates
-the site, copies only approved generated files into the root, stages an
-explicit allowlist, commits, and pushes:
+pulls current changes, installs locked dependencies, builds and validates the
+site, copies only approved generated files into the root, stages an explicit
+allowlist, commits, and pushes:
 
 ```bash
-./deploy.sh "Update portfolio"
+./deploy.sh "Refine portfolio content and structure"
 ```
 
-The script refuses to deploy from a non-`main` branch. GitHub Pages normally
-publishes a successful push within about one minute.
+The script refuses to deploy from a branch other than `main`.
 
 ## Public content rules
 
-Use synthetic lab data, sanitized diagrams, and clean evidence. Do not publish
-private screenshots, identifiers, phone numbers, home addresses,
-employer-confidential material, credentials, internal reference files, or
-unfinished work described as complete.
+Use synthetic lab data, sanitized diagrams, selected command output, and clear
+scope boundaries. Do not publish private screenshots, identifiers, phone
+numbers, home addresses, employer records, credentials, internal reference
+files, or unfinished work described as complete.

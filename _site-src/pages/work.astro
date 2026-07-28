@@ -1,13 +1,13 @@
 ---
 import WorkHeader from "../components/WorkHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { projects } from "../data/projects";
+import { flagshipProjects, supportingProjects } from "../data/projects";
 import "../styles/work.css";
 ---
 
 <BaseLayout
-  title="Selected IT & Networking Work — Gary Virk"
-  description="Five evidence-backed IT support and networking projects covering Windows endpoint diagnostics, access control, inventory drift, DHCP, and packet analysis."
+  title="Selected IT Support and Networking Work | Gary Virk"
+  description="Controlled IT support and networking case studies showing the fault, evidence, correction, retest, and limitation."
   canonicalPath="/work.html"
   bodyClass="work-page"
   themeColor="#080a0c"
@@ -17,44 +17,81 @@ import "../styles/work.css";
     <WorkHeader />
 
     <header class="work-intro">
-      <p class="work-kicker"><span>05</span> Controlled labs · independent review</p>
-      <h1>Systems work,<br /><em>with receipts.</em></h1>
+      <p class="work-kicker"><span>Work</span> Controlled labs · selected evidence</p>
+      <h1>Selected IT support and networking work.</h1>
       <div class="work-intro-copy">
         <p>
-          These are small, controlled systems built to answer practical support questions.
-          Each one includes a failure, the evidence used to isolate it, a bounded change,
-          and a separate check that proves what happened next.
+          Each case begins with a practical support question. The page then shows what I
+          checked, what changed, how I tested the result, and where the evidence stops.
         </p>
         <p class="work-disclosure">
-          All environments are owned labs. Production, enterprise, and Windows claims are
-          stated only where the evidence supports them.
+          These are owned labs using synthetic data. Employment work and employer records
+          are not used as project evidence.
         </p>
       </div>
     </header>
 
-    <section class="project-index" aria-labelledby="project-index-heading">
-      <h2 id="project-index-heading" class="sr-only">Project index</h2>
-      {
-        projects.map((project) => (
-          <a class="project-row" href={`/work/${project.slug}.html`}>
-            <p class="project-number">{project.number}</p>
-            <div class="project-row-copy">
-              <p>{project.discipline}</p>
-              <h3>{project.title}</h3>
-              <span>{project.summary}</span>
-            </div>
-            <div class="project-row-result">
-              <p><i aria-hidden="true"></i> Validated</p>
-              <span aria-hidden="true">↗</span>
-            </div>
-          </a>
-        ))
-      }
+    <section class="work-group" aria-labelledby="flagship-heading">
+      <div class="work-group-heading">
+        <p>01</p>
+        <div>
+          <h2 id="flagship-heading">Flagship cases</h2>
+          <span>Detailed troubleshooting and change records with selected public evidence.</span>
+        </div>
+      </div>
+      <div class="project-index project-index--flagship">
+        {
+          flagshipProjects.map((project) => (
+            <a class="project-row" href={`/work/${project.slug}.html`}>
+              <p class="project-number">{project.number}</p>
+              <div class="project-row-copy">
+                <p>{project.discipline}</p>
+                <h3>{project.title}</h3>
+                <span>{project.summary}</span>
+              </div>
+              <div class="project-row-result">
+                <p>{project.status.execution}</p>
+                <span aria-hidden="true">↗</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="work-group work-group--supporting" aria-labelledby="supporting-heading">
+      <div class="work-group-heading">
+        <p>02</p>
+        <div>
+          <h2 id="supporting-heading">Supporting labs</h2>
+          <span>Shorter records focused on packet evidence and a bounded support conclusion.</span>
+        </div>
+      </div>
+      <div class="project-index">
+        {
+          supportingProjects.map((project) => (
+            <a class="project-row" href={`/work/${project.slug}.html`}>
+              <p class="project-number">{project.number}</p>
+              <div class="project-row-copy">
+                <p>{project.discipline}</p>
+                <h3>{project.title}</h3>
+                <span>{project.summary}</span>
+              </div>
+              <div class="project-row-result">
+                <p>{project.status.execution}</p>
+                <span aria-hidden="true">↗</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
     </section>
 
     <footer class="work-footer">
-      <p>Need the short version?</p>
-      <a href="/resume.html">Read the résumé <span aria-hidden="true">↗</span></a>
+      <div>
+        <p>Looking for the employment summary?</p>
+        <a href="/resume.html">Read the résumé <span aria-hidden="true">↗</span></a>
+      </div>
       <a href="mailto:i@garyvirk.com">i@garyvirk.com</a>
     </footer>
   </main>

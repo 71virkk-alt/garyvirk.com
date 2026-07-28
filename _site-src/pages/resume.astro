@@ -1,13 +1,19 @@
 ---
-import resumePdf from "../../assets/Gary-Virk-Resume.pdf?url";
 import SiteHeader from "../components/SiteHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { capabilities, credentials, experience, profile } from "../data/site";
+import {
+  capabilities,
+  credentials,
+  education,
+  experience,
+  profile
+} from "../data/site";
+import { flagshipProjects } from "../data/projects";
 ---
 
 <BaseLayout
-  title={`Résumé — ${profile.name} | ${profile.role}`}
-  description={`${profile.name}'s résumé: enterprise IT support, network infrastructure, Windows Server, Active Directory, and technical documentation.`}
+  title={`Résumé | ${profile.name} | ${profile.role}`}
+  description={`${profile.name}'s print-friendly web résumé covering on-site IT support, Windows endpoints, ticket handling, and network troubleshooting.`}
   canonicalPath="/resume.html"
   bodyClass="resume-page"
 >
@@ -17,9 +23,9 @@ import { capabilities, credentials, experience, profile } from "../data/site";
     <div class="resume-toolbar shell">
       <p>Web résumé · print-friendly</p>
       <div>
-        <button class="text-link" type="button" data-print>Print</button>
-        <a class="button button--ink button--small" href={resumePdf} download="Gary-Virk-Resume.pdf">
-          Download PDF <span aria-hidden="true">↓</span>
+        <button class="text-link" type="button" data-print>Print or save as PDF</button>
+        <a class="button button--ink button--small" href={`mailto:${profile.email}`}>
+          Email Gary <span aria-hidden="true">↗</span>
         </a>
       </div>
     </div>
@@ -41,7 +47,7 @@ import { capabilities, credentials, experience, profile } from "../data/site";
 
       <section class="resume-section" aria-labelledby="resume-summary">
         <h2 id="resume-summary">Summary</h2>
-        <p>{profile.summary} Certified: CCNA, CompTIA A+, Network+, and CIOS.</p>
+        <p>{profile.summary} Credentials earned: CCNA, CompTIA A+, Network+, and CIOS.</p>
       </section>
 
       <section class="resume-section" aria-labelledby="resume-experience">
@@ -53,7 +59,11 @@ import { capabilities, credentials, experience, profile } from "../data/site";
                 <header>
                   <div>
                     <h3>{job.role}</h3>
-                    <p>{job.company} · {job.location}</p>
+                    <p>
+                      {job.company}
+                      {job.assignment && <span> · {job.assignment}</span>}
+                      {" · "}{job.location}
+                    </p>
                   </div>
                   <p>{job.period}</p>
                 </header>
@@ -90,27 +100,29 @@ import { capabilities, credentials, experience, profile } from "../data/site";
       <section class="resume-section" aria-labelledby="resume-education">
         <h2 id="resume-education">Education</h2>
         <div class="resume-section-content resume-education">
-          <div>
-            <h3>St. Clair College · Windsor, Ontario</h3>
-            <p>IT Systems & Network Administration</p>
-          </div>
-          <div>
-            <h3>Cisco Networking Academy · Windsor, Ontario</h3>
-            <p>Systems, networking, and LAN/WAN management</p>
-          </div>
+          {
+            education.map((item) => (
+              <div>
+                <h3>{item.school} · {item.location}</h3>
+                <p>{item.program}</p>
+              </div>
+            ))
+          }
         </div>
       </section>
 
       <section class="resume-section" aria-labelledby="resume-projects">
         <h2 id="resume-projects">Selected projects</h2>
-        <div class="resume-section-content">
-          <h3>Five evidence-backed IT and networking labs</h3>
-          <p>
-            Windows endpoint diagnostics, network access control, inventory drift,
-            DHCP failure isolation, and packet triage. Each case shows the fault,
-            evidence, correction, retest, and claim boundary.
-          </p>
-          <p><a href="/work.html">Review the project case studies</a></p>
+        <div class="resume-section-content resume-projects">
+          {
+            flagshipProjects.map((project) => (
+              <article>
+                <h3>{project.title}</h3>
+                <p>{project.employerValue}</p>
+                <a href={`/work/${project.slug}.html`}>Read the case</a>
+              </article>
+            ))
+          }
         </div>
       </section>
     </article>
