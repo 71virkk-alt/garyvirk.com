@@ -11,16 +11,16 @@ export type ClaimRecord = {
 
 export const profile = {
   name: "Gary Virk",
-  role: "IT Support Technician",
-  focus: "Windows support and network troubleshooting.",
+  role: "IT Specialist",
+  focus: "I help people get back to work.",
   location: "Mississauga, Ontario, Canada",
   shortLocation: "Mississauga, Ontario",
   email: "i@garyvirk.com",
   linkedin: "https://www.linkedin.com/in/gary-virk/",
   introduction:
-    "I studied computer networking at St. Clair College and moved into on-site support. The work taught me to test before I change, explain the fix clearly, and leave notes another technician can use.",
+    "I got into IT through computer networking at St. Clair College, then moved into on-site support. My work has covered Windows devices, user access, hardware, tickets, and network issues. I understand the problem first, make the smallest sensible change, and document what happened.",
   summary:
-    "IT support technician with on-site experience across Windows endpoints, user access, hardware, ticket handling, and network troubleshooting."
+    "IT specialist with on-site experience across Windows endpoints, user access, hardware, ticket handling, and network troubleshooting."
 } as const;
 
 export const experience = [
@@ -92,7 +92,7 @@ export const capabilities = [
     number: "04",
     title: "Support scripting",
     description:
-      "PowerShell and Python tools for bounded data collection, repeatable checks, and readable support output."
+      "PowerShell and Python tools for focused data collection, repeatable checks, and clear support output."
   }
 ] as const;
 
@@ -118,7 +118,7 @@ export const credentials = [
 export const claimRegister: ClaimRecord[] = [
   {
     id: "profile-role-01",
-    exactClaim: "Gary is targeting IT support technician roles.",
+    exactClaim: "Gary is targeting IT support and networking roles.",
     publicWording: profile.role,
     evidenceSource: "Current portfolio positioning and supplied professional profile.",
     limitation: "This headline does not replace the official title used in each employment record.",

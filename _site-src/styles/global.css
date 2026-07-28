@@ -12,8 +12,8 @@
   --blue-deep: #1839c6;
   --blue-pale: #dfe5ff;
   --signal: #ffb84d;
-  --font-sans: "Instrument Sans Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-sans: "Inter Variable", Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: "Inter Variable", Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --shell: min(1440px, calc(100% - 72px));
   --header-height: 84px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -43,7 +43,8 @@ body {
   background-size: 100% 9rem;
   color: var(--ink);
   font-size: 16px;
-  line-height: 1.55;
+  letter-spacing: 0;
+  line-height: 1.6;
 }
 
 body.menu-open {
@@ -2102,6 +2103,98 @@ blockquote {
   .reveal-ready [data-reveal] {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Compact editorial typography for shared pages */
+
+:root {
+  --header-height: 72px;
+}
+
+.site-header[data-scrolled] {
+  height: 64px;
+}
+
+.brand {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.brand-discipline {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.primary-nav > a:not(.button),
+.header-actions .nav-link,
+.button,
+.text-link {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.resume-main {
+  padding-top: calc(var(--header-height) + 36px);
+}
+
+.resume-toolbar > p {
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.resume-hero h1 {
+  font-size: clamp(2.75rem, 4.2vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.resume-role {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.resume-hero .eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.resume-section > h2 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.resume-job h3,
+.resume-skills h3,
+.resume-education h3,
+.resume-section-content > h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.not-found h1 {
+  font-family: var(--font-sans);
+  font-size: clamp(2.75rem, 5vw, 4rem);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  .resume-hero h1 {
+    font-size: clamp(2.5rem, 11vw, 3.25rem);
   }
 }
 
