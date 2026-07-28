@@ -1,0 +1,143 @@
+---
+import WorkHeader from "../../components/WorkHeader.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { projects, type Project } from "../../data/projects";
+import "../../styles/work.css";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props as { project: Project };
+const currentIndex = projects.findIndex((item) => item.slug === project.slug);
+const nextProject = projects[(currentIndex + 1) % projects.length];
+---
+
+<BaseLayout
+  title={`${project.title} — Gary Virk`}
+  description={project.summary}
+  canonicalPath={`/work/${project.slug}.html`}
+  bodyClass="work-page project-page"
+  themeColor="#080a0c"
+  colorScheme="dark"
+>
+  <main id="main" class="work-shell">
+    <WorkHeader />
+
+    <article class="case-file">
+      <header class="case-hero">
+        <a class="case-back" href="/work.html">← All work</a>
+        <p class="work-kicker"><span>{project.number}</span> {project.discipline}</p>
+        <h1>{project.title}</h1>
+        <p class="case-deck">{project.summary}</p>
+
+        <div class="case-result">
+          <p><i aria-hidden="true"></i> Validated result</p>
+          <strong>{project.result}</strong>
+        </div>
+
+        <ul class="case-environment" aria-label="Project environment">
+          {project.environment.map((item) => <li>{item}</li>)}
+        </ul>
+      </header>
+
+      <section class="metric-rail" aria-label="Project measures">
+        {
+          project.metrics.map((metric) => (
+            <div>
+              <strong>{metric.value}</strong>
+              <span>{metric.label}</span>
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="case-section case-situation" aria-labelledby="situation-heading">
+        <p class="section-label">01 · The support question</p>
+        <div>
+          <h2 id="situation-heading">What needed to be known?</h2>
+          <p>{project.situation}</p>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="build-heading">
+        <p class="section-label">02 · The build</p>
+        <div>
+          <h2 id="build-heading">A controlled path from fault to retest.</h2>
+          <ol class="build-list">
+            {project.build.map((item, index) => (
+              <li><span>0{index + 1}</span><p>{item}</p></li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <figure class="evidence-visual">
+        {
+          project.visual.kind === "image" ? (
+            <>
+              <div class="evidence-image">
+                <img src={project.visual.src} alt={project.visual.alt} loading="lazy" />
+              </div>
+              <figcaption>{project.visual.caption}</figcaption>
+            </>
+          ) : (
+            <>
+              <div class="evidence-matrix" role="table" aria-label={`${project.title} evidence matrix`}>
+                <div class="matrix-row matrix-head" role="row">
+                  <span role="columnheader">Check</span>
+                  <span role="columnheader">Failure evidence</span>
+                  <span role="columnheader">Post-change</span>
+                </div>
+                {project.visual.rows.map((row) => (
+                  <div class="matrix-row" role="row">
+                    <strong role="cell">{row.check}</strong>
+                    <span role="cell">{row.failure}</span>
+                    <span role="cell" class="matrix-pass">{row.corrected}</span>
+                  </div>
+                ))}
+              </div>
+              <figcaption>Selected evidence summary · full claims remain bounded below</figcaption>
+            </>
+          )
+        }
+      </figure>
+
+      <section class="case-section" aria-labelledby="proof-heading">
+        <p class="section-label">03 · What proves it</p>
+        <div>
+          <h2 id="proof-heading">Evidence tied to the claim.</h2>
+          <div class="proof-list">
+            {
+              project.proof.map((item, index) => (
+                <article>
+                  <span>0{index + 1}</span>
+                  <h3>{item.label}</h3>
+                  <p>{item.detail}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <aside class="claim-boundary" aria-labelledby="boundary-heading">
+        <p class="section-label">Claim boundary</p>
+        <div>
+          <h2 id="boundary-heading">What this does not claim.</h2>
+          <p>{project.boundary}</p>
+        </div>
+      </aside>
+
+      <nav class="next-case" aria-label="Next case study">
+        <p>Next case · {nextProject.number}</p>
+        <a href={`/work/${nextProject.slug}.html`}>
+          {nextProject.title} <span aria-hidden="true">→</span>
+        </a>
+      </nav>
+    </article>
+  </main>
+</BaseLayout>

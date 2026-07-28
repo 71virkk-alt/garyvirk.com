@@ -63,7 +63,7 @@ export const capabilities = [
   },
   {
     number: "04",
-    title: "Documentation & automation",
+    title: "Documentation & scripting",
     description:
       "Incident notes, runbooks, knowledge-base writing, PowerShell and shell scripting fundamentals, inventory reporting, and clean handoffs."
   }
@@ -72,7 +72,7 @@ export const capabilities = [
 export const credentials = [
   {
     name: "Cisco CCNA",
-    detail: "Routing, switching, IP connectivity, network access, security, and automation foundations."
+    detail: "Routing, switching, IP connectivity, network access, security, and scripting foundations."
   },
   {
     name: "CompTIA A+",
@@ -95,17 +95,3 @@ export const method = [
   ["Verify", "Confirm the fix from the user and system perspective."],
   ["Document", "Leave a concise resolution and a clean escalation path."]
 ] as const;
-
-export const activeLab = {
-  eyebrow: "In progress · Lab environment",
-  title: "Windows Server identity troubleshooting",
-  description:
-    "A Windows Server 2022 environment with AD DS, DNS, DHCP, Group Policy, and Windows 11 clients. The first case will document an account-lockout incident from the initial symptom through evidence collection, resolution, and validation.",
-  evidence: [
-    "Sanitized topology",
-    "Server-role checklist",
-    "Event Viewer checks",
-    "PowerShell commands",
-    "Escalation handoff"
-  ]
-} as const;

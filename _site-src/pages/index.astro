@@ -4,6 +4,7 @@ import mobilePortrait from "../../assets/gary-virk-portrait.webp?url";
 import resumePdf from "../../assets/Gary-Virk-Resume.pdf?url";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { capabilities, credentials, experience, profile } from "../data/site";
+import { featuredProjects } from "../data/projects";
 import "../styles/portrait-home.css";
 
 const primaryCredentials = credentials.slice(0, 3);
@@ -39,12 +40,23 @@ const primaryCredentials = credentials.slice(0, 3);
         <a href="/resume.html"><span>05</span> Résumé</a>
       </nav>
 
-      <a class="portrait-email" href={`mailto:${profile.email}`}>
+      <a
+        class="portrait-email"
+        href={`mailto:${profile.email}`}
+        aria-label={`Email ${profile.email}`}
+      >
         <span>Email</span>
         <strong>{profile.email}</strong>
         <i aria-hidden="true">↗</i>
       </a>
     </header>
+    <noscript>
+      <nav class="portrait-noscript" aria-label="Portfolio navigation without JavaScript">
+        <a href="/work.html">Work</a>
+        <a href="/resume.html">Résumé</a>
+        <a href={`mailto:${profile.email}`}>Email</a>
+      </nav>
+    </noscript>
 
     <div class="portrait-stage">
       <section class="view-stage" aria-label="Portfolio introduction" aria-live="polite">
@@ -56,7 +68,7 @@ const primaryCredentials = credentials.slice(0, 3);
             documentation that makes the next issue easier to solve.
           </p>
 
-          <div class="about-facts" aria-label="Professional summary">
+          <div class="about-facts">
             <p><span>Based in</span>Mississauga, Ontario</p>
             <p><span>Experience</span>Nearly 3 years</p>
             <p><span>Focus</span>Support & infrastructure</p>
@@ -82,21 +94,27 @@ const primaryCredentials = credentials.slice(0, 3);
 
           <div class="featured-record">
             <div>
-              <p><i aria-hidden="true"></i> Case 001 · In progress</p>
-              <h3>Windows Server identity troubleshooting</h3>
+              <p><i aria-hidden="true"></i> Five controlled labs · validated</p>
+              <h3>Failure, evidence, correction, retest.</h3>
             </div>
-            <ul aria-label="Case study scope">
-              <li>AD DS / DNS / DHCP</li>
-              <li>Group Policy</li>
-              <li>Event logs</li>
-              <li>PowerShell checks</li>
+            <ul class="featured-project-list" aria-label="Featured case studies">
+              {
+                featuredProjects.map((project) => (
+                  <li>
+                    <a href={`/work/${project.slug}.html`}>
+                      <span>{project.number}</span>
+                      {project.title}
+                      <i aria-hidden="true">↗</i>
+                    </a>
+                  </li>
+                ))
+              }
             </ul>
           </div>
 
-          <p class="view-note">
-            The full case opens on its own page only when every artifact is complete and safe to
-            publish.
-          </p>
+          <a class="view-note view-note-link" href="/work.html">
+            Open all five evidence files <span aria-hidden="true">→</span>
+          </a>
         </article>
 
         <article

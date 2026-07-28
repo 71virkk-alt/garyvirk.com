@@ -2,7 +2,7 @@
 import resumePdf from "../../assets/Gary-Virk-Resume.pdf?url";
 import SiteHeader from "../components/SiteHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { activeLab, capabilities, credentials, experience, profile } from "../data/site";
+import { capabilities, credentials, experience, profile } from "../data/site";
 ---
 
 <BaseLayout
@@ -101,11 +101,16 @@ import { activeLab, capabilities, credentials, experience, profile } from "../da
         </div>
       </section>
 
-      <section class="resume-section" aria-labelledby="resume-lab">
-        <h2 id="resume-lab">Current lab</h2>
+      <section class="resume-section" aria-labelledby="resume-projects">
+        <h2 id="resume-projects">Selected projects</h2>
         <div class="resume-section-content">
-          <h3>{activeLab.title}</h3>
-          <p>{activeLab.description}</p>
+          <h3>Five evidence-backed IT and networking labs</h3>
+          <p>
+            Windows endpoint diagnostics, network access control, inventory drift,
+            DHCP failure isolation, and packet triage. Each case shows the fault,
+            evidence, correction, retest, and claim boundary.
+          </p>
+          <p><a href="/work.html">Review the project case studies</a></p>
         </div>
       </section>
     </article>

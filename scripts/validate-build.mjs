@@ -28,6 +28,7 @@ assert(existsSync(join(distRoot, ".nojekyll")), "Build output must include .noje
 
 const home = read("index.html");
 const resume = read("resume.html");
+const work = read("work.html");
 const notFound = read("404.html");
 const robots = read("robots.txt");
 const sitemap = read("sitemap.xml");
@@ -35,6 +36,7 @@ const cname = read("CNAME").trim();
 
 for (const [name, html] of [
   ["index.html", home],
+  ["work.html", work],
   ["resume.html", resume],
   ["404.html", notFound]
 ]) {
@@ -53,7 +55,8 @@ for (const phrase of [
   "Support work in",
   "Cummins Inc.",
   "Bluum",
-  "Windows Server identity troubleshooting",
+  "Windows endpoint readiness",
+  "Network access-control change",
   "CompTIA Network+",
   "Mississauga"
 ]) {
@@ -70,6 +73,23 @@ assert(
 );
 assert(robots.includes("Sitemap: https://garyvirk.com/sitemap.xml"), "robots.txt has no sitemap.");
 assert(sitemap.includes("https://garyvirk.com/resume.html"), "sitemap.xml has no resume URL.");
+assert(sitemap.includes("https://garyvirk.com/work.html"), "sitemap.xml has no work index URL.");
+for (const slug of [
+  "windows-endpoint-readiness",
+  "network-access-control",
+  "network-inventory-drift",
+  "dhcp-failure-isolation",
+  "packet-triage-library"
+]) {
+  const casePath = `work/${slug}.html`;
+  const casePage = read(casePath);
+  assert(casePage.includes("Validated result"), `${casePath} has no validated result.`);
+  assert(casePage.includes("What this does not claim"), `${casePath} has no claim boundary.`);
+  assert(
+    sitemap.includes(`https://garyvirk.com/${casePath}`),
+    `sitemap.xml has no URL for ${casePath}.`
+  );
+}
 assert(cname === "garyvirk.com", "CNAME must remain exactly garyvirk.com.");
 
 if (existsSync(distRoot)) {
@@ -87,6 +107,29 @@ if (existsSync(distRoot)) {
   const forbidden = ["20-elite-projects", "_reference/", "my info /"];
   for (const token of forbidden) {
     assert(!combined.includes(token), `Private or internal token leaked into the build: ${token}`);
+  }
+
+  const htmlFiles = files.filter((file) => file.endsWith(".html"));
+  for (const file of htmlFiles) {
+    const html = readFileSync(file, "utf8");
+    const references = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)].map((match) => match[1]);
+    for (const reference of references) {
+      if (
+        reference.startsWith("#") ||
+        reference.startsWith("mailto:") ||
+        reference.startsWith("tel:") ||
+        reference.startsWith("http://") ||
+        reference.startsWith("https://")
+      ) {
+        continue;
+      }
+      const pathname = reference.split(/[?#]/, 1)[0];
+      const relativePath = pathname === "/" ? "index.html" : pathname.replace(/^\//, "");
+      assert(
+        existsSync(join(distRoot, relativePath)),
+        `${file.slice(distRoot.length + 1)} has a broken local reference: ${reference}`
+      );
+    }
   }
 }
 

@@ -15,11 +15,17 @@ const publicFiles = [
   ".nojekyll",
   "index.html",
   "resume.html",
+  "work.html",
   "404.html",
   "robots.txt",
   "sitemap.xml",
   "favicon.svg",
   "site.webmanifest"
+];
+const publicDirectories = [
+  ["assets/build", generatedAssets],
+  ["work", join(repoRoot, "work")],
+  ["work-assets", join(repoRoot, "work-assets")]
 ];
 
 if (!existsSync(distRoot)) {
@@ -40,8 +46,14 @@ for (const relativePath of publicFiles) {
   cpSync(source, join(repoRoot, basename(relativePath)));
 }
 
-rmSync(generatedAssets, { recursive: true, force: true });
-mkdirSync(generatedAssets, { recursive: true });
-cpSync(join(distRoot, "assets", "build"), generatedAssets, { recursive: true });
+for (const [relativePath, destination] of publicDirectories) {
+  const source = join(distRoot, relativePath);
+  if (!existsSync(source)) {
+    throw new Error(`Expected build output is missing: ${relativePath}`);
+  }
+  rmSync(destination, { recursive: true, force: true });
+  mkdirSync(destination, { recursive: true });
+  cpSync(source, destination, { recursive: true });
+}
 
 console.log("Published allowlisted build output to the GitHub Pages root.");

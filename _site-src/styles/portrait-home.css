@@ -67,6 +67,15 @@ body.portrait-site {
   backdrop-filter: blur(18px);
 }
 
+.portrait-noscript {
+  display: flex;
+  gap: 22px;
+  border-bottom: 1px solid var(--portrait-line);
+  padding: 14px clamp(18px, 3vw, 48px);
+  color: var(--portrait-soft);
+  font-size: 0.75rem;
+}
+
 .portrait-brand {
   display: inline-flex;
   width: fit-content;
@@ -418,6 +427,60 @@ body.portrait-site {
   color: var(--portrait-muted);
   font-size: 0.7rem;
   line-height: 1.5;
+}
+
+.featured-record .featured-project-list {
+  grid-template-columns: 1fr;
+}
+
+.featured-record .featured-project-list li {
+  padding: 0;
+  border-top: 1px solid var(--portrait-line);
+}
+
+.featured-record .featured-project-list li:first-child {
+  border-top: 0;
+}
+
+.featured-record .featured-project-list li:nth-child(even) {
+  border-left: 0;
+}
+
+.featured-record .featured-project-list a {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 22px;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.featured-record .featured-project-list a:hover {
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--portrait-ink);
+}
+
+.featured-record .featured-project-list a span {
+  color: var(--portrait-accent);
+  font-size: 0.58rem;
+}
+
+.featured-record .featured-project-list a i {
+  color: var(--portrait-muted);
+  font-style: normal;
+}
+
+.view-note-link {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 14px;
+  transition: color 180ms ease;
+}
+
+.view-note-link:hover {
+  color: var(--portrait-ink);
 }
 
 .role-list {
@@ -957,6 +1020,12 @@ body.portrait-site {
 
   .featured-record li {
     padding: 9px 16px;
+    font-size: 0.61rem;
+  }
+
+  .featured-record .featured-project-list a {
+    min-height: 36px;
+    padding: 7px 16px;
     font-size: 0.61rem;
   }
 
