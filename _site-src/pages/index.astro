@@ -29,17 +29,16 @@ import "../styles/portrait-home.css";
   <main id="main">
     <section class="profile-hero" id="about" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="hero-role">{profile.role}</p>
+        <p class="hero-role">{profile.name} · {profile.role}</p>
         <h1 id="hero-title">{profile.focus}</h1>
         <p class="hero-story">{profile.introduction}</p>
-        <p class="hero-story hero-story--work">{profile.workIntroduction}</p>
 
         <div class="hero-actions">
           <a class="profile-button profile-button--light" href="/work.html">
-            Selected work <span aria-hidden="true">↗</span>
+            View case studies <span aria-hidden="true">↗</span>
           </a>
           <a class="profile-button profile-button--quiet" href="/resume.html">
-            Résumé <span aria-hidden="true">→</span>
+            View résumé <span aria-hidden="true">→</span>
           </a>
         </div>
 
@@ -49,12 +48,12 @@ import "../styles/portrait-home.css";
             <dd>{profile.shortLocation}</dd>
           </div>
           <div>
-            <dt>Experience</dt>
-            <dd>On-site user support</dd>
+            <dt>Background</dt>
+            <dd>On-site enterprise IT support</dd>
           </div>
           <div>
             <dt>Focus</dt>
-            <dd>Endpoints and networks</dd>
+            <dd>Windows endpoints and networks</dd>
           </div>
         </dl>
       </div>

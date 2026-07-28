@@ -136,13 +136,16 @@ for (const [name, html] of [
 }
 
 for (const phrase of [
-  "IT Specialist",
-  "Computers have been part of my life since I was a kid.",
-  "I studied IT Systems &amp; Network Administration at St. Clair College in Windsor",
-  "continued my networking training through Cisco Networking Academy",
-  "I later moved into hands-on support",
-  "endpoints, hardware, deployments, networks, and complex technical cases",
-  "Selected work",
+  "Gary Virk · IT Specialist",
+  "Introduction",
+  "I’m based in Mississauga, Ontario, with more than 3 years of hands-on experience",
+  "supporting Windows endpoints, hardware, deployments, software, and networks",
+  "My case studies show how I isolate faults, document changes, and confirm that a fix worked.",
+  "View case studies",
+  "View résumé",
+  "Background",
+  "On-site enterprise IT support",
+  "Windows endpoints and networks",
   "i@garyvirk.com",
   "data-copy-email",
   "User Support Technician",
@@ -164,6 +167,10 @@ assert(
   "Retired portrait labels remain on the homepage."
 );
 assert(!home.includes("I help people get back to work."), "Retired homepage headline remains.");
+assert(
+  !home.includes("Computers have been part of my life since I was a kid."),
+  "Retired childhood-story headline remains."
+);
 assert(!home.includes("Instrument Sans"), "Retired Instrument Sans remains in the homepage build.");
 assert(!home.includes("Instrument Serif"), "Retired Instrument Serif remains in the homepage build.");
 assert(!home.includes("© 2026"), "A static design year remains on the homepage.");
