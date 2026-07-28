@@ -1,0 +1,7 @@
+  .                                   D        0  Tue Jul 28 22:14:06 2026
+controlled support share
+getting file \readme.txt of size 25 as - (250000.0 KiloBytes/sec) (average inf KiloBytes/sec)
+  ..                                  D        0  Tue Jul 28 22:14:06 2026
+  readme.txt                          N       25  Tue Jul 28 22:14:06 2026
+
+		40971488 blocks of size 1024. 35972956 blocks available

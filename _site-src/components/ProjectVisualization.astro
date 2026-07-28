@@ -1,0 +1,78 @@
+---
+import type { ProjectVisualization } from "../data/projects";
+
+type Props = {
+  projectSlug: string;
+  visualization: ProjectVisualization;
+};
+
+const { projectSlug, visualization } = Astro.props;
+const controlName = `visualization-${projectSlug}`;
+---
+
+<section
+  class:list={[
+    "project-visualization",
+    { "project-visualization--layered": visualization.depth === "layered" }
+  ]}
+  aria-labelledby={`${projectSlug}-visualization-title`}
+  data-project-visualization
+>
+  <div class="project-visualization__heading">
+    <p class="section-label">Interactive view</p>
+    <div>
+      <h2 id={`${projectSlug}-visualization-title`}>{visualization.title}</h2>
+      <p>{visualization.description}</p>
+    </div>
+  </div>
+
+  <fieldset class="project-visualization__controls">
+    <legend>Choose a view</legend>
+    {
+      visualization.states.map((state, index) => (
+        <label>
+          <input
+            type="radio"
+            name={controlName}
+            value={state.id}
+            checked={index === 0}
+            data-visualization-control
+          />
+          <span>{state.label}</span>
+        </label>
+      ))
+    }
+  </fieldset>
+
+  <div class="project-visualization__states" aria-live="polite">
+    {
+      visualization.states.map((state, index) => (
+        <div
+          class="project-visualization__state"
+          data-visualization-state={state.id}
+          data-artifact-ids={state.artifactIds.join(" ")}
+          hidden={index !== 0}
+        >
+          <p>{state.summary}</p>
+          <ol class="project-visualization__scene" aria-label={`${state.label} diagnostic path`}>
+            {visualization.nodes.map((node, nodeIndex) => {
+              const status = state.nodeStates[node.id] ?? "unknown";
+              return (
+                <li data-node-status={status}>
+                  <span class="project-visualization__index">
+                    {String(nodeIndex + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <strong>{node.label}</strong>
+                    <small>{node.detail}</small>
+                  </div>
+                  <i aria-hidden="true">{status}</i>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      ))
+    }
+  </div>
+</section>

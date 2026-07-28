@@ -1,0 +1,10 @@
+lab=ssh-access-permissions
+runtime=docker-isolated-internal-network
+server_image=portfolio-ssh-server:1
+client_image=portfolio-ssh-client:1
+architecture=arm64
+wrong_key_exit=255
+unsafe_mode_exit=255
+correction_exit=0
+retest_exit=0
+negative_exit=255

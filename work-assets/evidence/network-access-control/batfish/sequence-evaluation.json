@@ -1,0 +1,46 @@
+{
+  "configuration_sha256": {
+    "baseline": "a0eb9fa3bc7c9f79b4f65bc8d484cdf90339de67f4a8560b6f9ffa69f59cafe1",
+    "broken": "f353bb338fc8887863bea615a7259b68dd8129fb5f3435b1c5f6daa47439ac8e",
+    "corrected": "a0eb9fa3bc7c9f79b4f65bc8d484cdf90339de67f4a8560b6f9ffa69f59cafe1",
+    "rollback": "a0eb9fa3bc7c9f79b4f65bc8d484cdf90339de67f4a8560b6f9ffa69f59cafe1"
+  },
+  "cross_run_gate_passed": true,
+  "declared_regressions": [
+    {
+      "expected_observation": "DENIED_IN",
+      "observed": "DENIED_IN",
+      "test_id": "ACL-REQ-001"
+    }
+  ],
+  "policy_sha256": "7917fcba41584f5cd9bc1106febcb391659ef3d3a5f3a997992134fa9ee50b96",
+  "project_status": "Building",
+  "run_identities": {
+    "network_name": [
+      "p2-native-authored-20260727-baseline",
+      "p2-native-authored-20260727-broken",
+      "p2-native-authored-20260727-corrected",
+      "p2-native-authored-20260727-rollback"
+    ],
+    "run_id": [
+      "native-authored-20260727-baseline",
+      "native-authored-20260727-broken",
+      "native-authored-20260727-corrected",
+      "native-authored-20260727-rollback"
+    ],
+    "snapshot_id": [
+      "baseline-1f8740b339fa",
+      "broken-e61a4373ca83",
+      "corrected-93652512aa2c",
+      "rollback-919b806ccc9a"
+    ]
+  },
+  "scenario_order": [
+    "baseline",
+    "broken",
+    "corrected",
+    "rollback"
+  ],
+  "schema_version": 1,
+  "test_only": false
+}

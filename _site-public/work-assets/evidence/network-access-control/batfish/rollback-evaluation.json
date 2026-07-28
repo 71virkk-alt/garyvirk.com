@@ -1,0 +1,227 @@
+{
+  "artifact_consistency_gate_passed": true,
+  "client": {
+    "name": "pybatfish",
+    "version": "2025.07.07.2423"
+  },
+  "native_batfish_executed": true,
+  "network_name": "p2-native-authored-20260727-rollback",
+  "project_status": "Building",
+  "results": [
+    {
+      "artifact": "raw/ACL-PRO-001.json",
+      "classification": "prohibited",
+      "expected": "deny",
+      "expected_observation": "DENIED_IN",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DENIED_IN",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-PRO-001"
+    },
+    {
+      "artifact": "raw/ACL-PRO-002.json",
+      "classification": "prohibited",
+      "expected": "deny",
+      "expected_observation": "DENIED_IN",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DENIED_IN",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-PRO-002"
+    },
+    {
+      "artifact": "raw/ACL-PRO-003.json",
+      "classification": "prohibited",
+      "expected": "deny",
+      "expected_observation": "DENIED_IN",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DENIED_IN",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-PRO-003"
+    },
+    {
+      "artifact": "raw/ACL-PRO-004.json",
+      "classification": "prohibited",
+      "expected": "deny",
+      "expected_observation": "DENIED_IN",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DENIED_IN",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-PRO-004"
+    },
+    {
+      "artifact": "raw/ACL-PRO-005.json",
+      "classification": "prohibited",
+      "expected": "deny",
+      "expected_observation": "DENIED_IN",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DENIED_IN",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-PRO-005"
+    },
+    {
+      "artifact": "raw/ACL-REQ-001.json",
+      "classification": "required",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-REQ-001"
+    },
+    {
+      "artifact": "raw/ACL-REQ-002.json",
+      "classification": "required",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-REQ-002"
+    },
+    {
+      "artifact": "raw/ACL-REQ-003.json",
+      "classification": "required",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-REQ-003"
+    },
+    {
+      "artifact": "raw/ACL-REQ-004.json",
+      "classification": "required",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-REQ-004"
+    },
+    {
+      "artifact": "raw/ACL-REQ-005.json",
+      "classification": "required",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-REQ-005"
+    },
+    {
+      "artifact": "raw/ACL-REQ-006.json",
+      "classification": "required",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-REQ-006"
+    },
+    {
+      "artifact": "raw/ACL-UNA-001.json",
+      "classification": "unaffected",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-UNA-001"
+    },
+    {
+      "artifact": "raw/ACL-UNA-002.json",
+      "classification": "unaffected",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-UNA-002"
+    },
+    {
+      "artifact": "raw/ACL-UNA-003.json",
+      "classification": "unaffected",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-UNA-003"
+    },
+    {
+      "artifact": "raw/ACL-UNA-004.json",
+      "classification": "unaffected",
+      "expected": "permit",
+      "expected_observation": "DELIVERED_TO_SUBNET",
+      "expected_regression": false,
+      "matched_policy": true,
+      "observed": "DELIVERED_TO_SUBNET",
+      "scenario_expected_observation": null,
+      "scenario_passed": true,
+      "test_id": "ACL-UNA-004"
+    }
+  ],
+  "run_id": "native-authored-20260727-rollback",
+  "scenario": "rollback",
+  "schema_version": 1,
+  "server_runtime": {
+    "collected_at_utc": "2026-07-27T21:53:42.288366+00:00",
+    "component_versions": {
+      "Batfish": "2025.07.07.2423",
+      "api_version": "0.0.0"
+    },
+    "container_architecture": "amd64",
+    "container_name": "portfolio-batfish",
+    "host": "127.0.0.1",
+    "image_digest": "sha256:09817554db90e2f2674b72562c2d659427094187de0a3dfc23534ab58bf26207",
+    "image_reference": "batfish/allinone:latest",
+    "inspect_command": "docker inspect portfolio-batfish && docker image inspect batfish/allinone:latest",
+    "inspect_transcript": "{\"commands\":[{\"command\":\"docker inspect portfolio-batfish\",\"returncode\":0},{\"command\":\"docker image inspect batfish/allinone:latest\",\"returncode\":0}],\"container\":{\"image_id\":\"sha256:09817554db90e2f2674b72562c2d659427094187de0a3dfc23534ab58bf26207\",\"image_reference\":\"batfish/allinone:latest\",\"name\":\"portfolio-batfish\",\"published_ports\":{\"8888/tcp\":null,\"9996/tcp\":[{\"HostIp\":\"127.0.0.1\",\"HostPort\":\"9996\"}],\"9997/tcp\":[{\"HostIp\":\"127.0.0.1\",\"HostPort\":\"9997\"}]},\"status\":\"running\"},\"image\":{\"architecture\":\"amd64\",\"id\":\"sha256:09817554db90e2f2674b72562c2d659427094187de0a3dfc23534ab58bf26207\",\"os\":\"linux\",\"repo_digest\":\"batfish/allinone@sha256:09817554db90e2f2674b72562c2d659427094187de0a3dfc23534ab58bf26207\"}}",
+    "inspect_transcript_sha256": "4889655dba6cd12d35d17bc9cb7a93166bac43538d91510e3ffa734c8863ed3a"
+  },
+  "snapshot_id": "rollback-919b806ccc9a",
+  "summary": {
+    "prohibited": 5,
+    "required": 6,
+    "scenario_failed": 0,
+    "scenario_passed": 15,
+    "total": 15,
+    "unaffected": 4
+  },
+  "test_only": false,
+  "verified_input_hashes": {
+    "configuration": "a0eb9fa3bc7c9f79b4f65bc8d484cdf90339de67f4a8560b6f9ffa69f59cafe1",
+    "intent": "7917fcba41584f5cd9bc1106febcb391659ef3d3a5f3a997992134fa9ee50b96",
+    "scenario_spec": "8db08c03582eabef8d808f1844d0ca361f452ade8b40db830a6aed5e0e35b465",
+    "snapshot": "919b806ccc9a053a702de6d358629e186cfa4b7999a82c651a9ed19bdf78eef6",
+    "topology": "301fb64f68a640fd6feaca2c7257621d5381b86f4ce54ee5d37e381a497b8ca2"
+  }
+}

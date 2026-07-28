@@ -1,0 +1,20 @@
+{
+  "annotated_nmap_sha256": "73eec973012bb98d3da303c9cb33b515e27112ed5a2aad5228dfa9b1faf5c145",
+  "fixture_sha256": "cf76b1dc009633a54cfa853df9fcc3af568bde0545193ae2e2beccd0e5c4c333",
+  "raw_nmap_sha256": "23458b1457f0e249575ce356fcb2d14dde37eb7f3bd00f05838c93ea5265dab4",
+  "result_sha256": "7db388abc7b2c84277242f32a01a9b54df6bc63c0749383e625dfc314fd2d368",
+  "running_nodes": [
+    "edge-router",
+    "support-workstation",
+    "backup-nas",
+    "office-printer"
+  ],
+  "schema_version": 1,
+  "state": "baseline",
+  "targets": [
+    "198.51.100.1",
+    "198.51.100.20",
+    "198.51.100.30",
+    "198.51.100.50"
+  ]
+}

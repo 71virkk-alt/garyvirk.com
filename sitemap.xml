@@ -36,6 +36,31 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://garyvirk.com/work/network-inventory-drift.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://garyvirk.com/work/tls-service-trust.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://garyvirk.com/work/smb-share-access.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://garyvirk.com/work/reverse-proxy-path.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://garyvirk.com/work/ssh-access-permissions.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://garyvirk.com/work/macos-enrollment-filevault.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

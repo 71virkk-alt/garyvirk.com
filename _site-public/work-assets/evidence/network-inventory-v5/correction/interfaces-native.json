@@ -1,0 +1,51 @@
+{
+  "interfaces": [
+    {
+      "addresses": [
+        "198.51.100.1"
+      ],
+      "confidence": "certain",
+      "device_hint": "edge-router",
+      "mac": "02:00:5e:10:00:01",
+      "name": "eth0",
+      "state": "up",
+      "vlan": null
+    },
+    {
+      "addresses": [
+        "198.51.100.20"
+      ],
+      "confidence": "certain",
+      "device_hint": "support-workstation",
+      "mac": "02:00:5e:10:00:20",
+      "name": "eth0",
+      "state": "up",
+      "vlan": null
+    },
+    {
+      "addresses": [
+        "198.51.100.30"
+      ],
+      "confidence": "certain",
+      "device_hint": "backup-nas",
+      "mac": "02:00:5e:10:00:30",
+      "name": "eth0",
+      "state": "up",
+      "vlan": null
+    },
+    {
+      "addresses": [
+        "198.51.100.50"
+      ],
+      "confidence": "certain",
+      "device_hint": "office-printer",
+      "mac": "02:00:5e:10:00:50",
+      "name": "eth0",
+      "state": "up",
+      "vlan": null
+    }
+  ],
+  "neighbors": [],
+  "schema_version": 1,
+  "source_id": "docker-inspect-native"
+}

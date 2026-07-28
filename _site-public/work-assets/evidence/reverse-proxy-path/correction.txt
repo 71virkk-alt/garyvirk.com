@@ -1,0 +1,11 @@
+Connecting to portfolio-proxy-front:8080 ([isolated-lab-address]:8080)
+  HTTP/1.1 200 OK
+  Server: nginx/1.29.8
+  Date: [time omitted]
+  Content-Type: text/plain
+  Content-Length: 37
+  Connection: close
+  
+writing to stdout
+-                    100% |********************************|    37  0:00:00 ETA
+written to stdout

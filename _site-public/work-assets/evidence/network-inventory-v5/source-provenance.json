@@ -1,0 +1,24 @@
+{
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "public_transcript_sanitized": true,
+  "raw_transcript_sha256": "9e2756096abd891a5294c0ceb959c940b72c3a777f864a7ce0cdfde7de587de4",
+  "source_sha256": {
+    "inventory_drift.py": "76d2c226c255db86f0052dc47d5753632a014735925b9c8a4566e97a55d5c3ab",
+    "native-lab/expected-inventory.json": "6540d04dc9ce41e3407f229ed20c094ea76ac67430bc15db1cb769e0c57d573c",
+    "native-lab/export_public.py": "c32901ac9a3a26e2a49c1e4b00e2d3f3f6937ca1c8e7fa6bda2d9d3549224fe6",
+    "native-lab/run_native_lab.py": "41776040d7bcd73580e2f0f219b4c9a60174246209fce2a477a9182c78b35f35",
+    "tests/test_inventory_drift.py": "233d2b5f2761da1801b287bf0c02dca8cc32aab982714752f133b5a8864e3eca"
+  },
+  "test_count": 15
+}

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nmaprun scanner="nmap" version="7.99" xmloutputversion="1.05" inventory-coverage="complete" inventory-targets="198.51.100.1/32,198.51.100.20/32,198.51.100.30/32,198.51.100.50/32" inventory-coverage-normalization="explicit-targets-minus-reported-up-hosts">
+  <verbose level="0" />
+  <debugging level="0" />
+  <host>
+    <status state="up" reason="arp-response" reason_ttl="0" />
+    <address addr="198.51.100.1" addrtype="ipv4" />
+    <address addr="02:00:5E:10:00:01" addrtype="mac" />
+    <hostnames>
+</hostnames>
+    <times srtt="4" rttvar="5000" to="100000" />
+  </host>
+  <host>
+    <status state="up" reason="arp-response" reason_ttl="0" />
+    <address addr="198.51.100.20" addrtype="ipv4" />
+    <address addr="02:00:5E:10:00:20" addrtype="mac" />
+    <hostnames>
+</hostnames>
+    <times srtt="33" rttvar="5000" to="100000" />
+  </host>
+  <host>
+    <status state="up" reason="arp-response" reason_ttl="0" />
+    <address addr="198.51.100.30" addrtype="ipv4" />
+    <address addr="02:00:5E:10:00:30" addrtype="mac" />
+    <hostnames>
+</hostnames>
+    <times srtt="6" rttvar="5000" to="100000" />
+  </host>
+  <host>
+    <status state="up" reason="arp-response" reason_ttl="0" />
+    <address addr="198.51.100.50" addrtype="ipv4" />
+    <address addr="02:00:5E:10:00:50" addrtype="mac" />
+    <hostnames>
+</hostnames>
+    <times srtt="5" rttvar="5000" to="100000" />
+  </host>
+  <runstats>
+    <finished exit="success" />
+    <hosts up="4" down="0" total="4" />
+  </runstats>
+</nmaprun>

@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "status": "Building",
+  "allowlist": {
+    "address_cidrs": [
+      "198.51.100.0/24"
+    ],
+    "interfaces": [
+      "eth0"
+    ],
+    "source_ids": [
+      "docker-inspect-native",
+      "nmap-native"
+    ]
+  },
+  "devices": [
+    {
+      "device_id": "edge-router",
+      "names": [
+        "edge-router.lab.example"
+      ],
+      "addresses": [
+        "198.51.100.1"
+      ],
+      "interfaces": [
+        {
+          "name": "eth0",
+          "state": "up",
+          "vlan": null,
+          "mac": "02:00:5e:10:00:01"
+        }
+      ]
+    },
+    {
+      "device_id": "support-workstation",
+      "names": [
+        "support-ws.lab.example"
+      ],
+      "addresses": [
+        "198.51.100.20"
+      ],
+      "interfaces": [
+        {
+          "name": "eth0",
+          "state": "up",
+          "vlan": null,
+          "mac": "02:00:5e:10:00:20"
+        }
+      ]
+    },
+    {
+      "device_id": "backup-nas",
+      "names": [
+        "nas.lab.example"
+      ],
+      "addresses": [
+        "198.51.100.30"
+      ],
+      "interfaces": [
+        {
+          "name": "eth0",
+          "state": "up",
+          "vlan": null,
+          "mac": "02:00:5e:10:00:30"
+        }
+      ]
+    },
+    {
+      "device_id": "office-printer",
+      "names": [
+        "printer.lab.example"
+      ],
+      "addresses": [
+        "198.51.100.50"
+      ],
+      "interfaces": [
+        {
+          "name": "eth0",
+          "state": "up",
+          "vlan": null,
+          "mac": "02:00:5e:10:00:50"
+        }
+      ]
+    }
+  ]
+}
