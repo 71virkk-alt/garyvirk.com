@@ -166,7 +166,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "The deciding point is whether direct service TCP still works when name resolution fails.",
     ownership:
-      "I built the collector, defined the fault classifications, ran the controlled Windows scenarios, reviewed the outputs, and prepared the sanitized excerpts shown here.",
+      "The collector, fault classifications, controlled Windows scenarios, reviewed outputs, and public excerpts shown here.",
     environment: ["Windows 11 ARM64", "PowerShell 7", "Pester", "UTM"],
     status: {
       completion: "Complete within stated scope",
@@ -329,11 +329,11 @@ export const projects: PortfolioProject[] = [
     presentation: "change",
     discipline: "Networking · Cisco ACLs · Batfish",
     summary:
-      "I tested one ACL change against required and blocked traffic, corrected a deliberate regression, and repeated the baseline checks.",
+      "This lab tests one ACL change against required and blocked traffic, corrects a deliberate regression, and repeats the baseline checks.",
     employerValue:
       "The change restores one required HTTPS path while the paths outside its scope keep their original result.",
     ownership:
-      "I wrote the policy intent, prepared the four-zone configurations, ran the Batfish model, executed representative Packet Tracer checks, and compared the failure, correction, and rollback states.",
+      "The policy intent, four-zone configurations, Batfish model, representative Packet Tracer checks, and failure, correction, and rollback comparisons.",
     environment: ["Cisco Packet Tracer 9", "802.1Q", "Cisco ACLs", "Batfish"],
     status: {
       completion: "Complete within stated scope",
@@ -605,7 +605,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "The packet sequence separates no response, incorrect lease options, and two responding servers.",
     ownership:
-      "I prepared the isolated service and client states, captured each exchange, compared the DHCP fields that distinguish the failures, and repeated the capture after correction.",
+      "Isolated service and client states, each packet exchange, the DHCP fields that distinguish the failures, and a post-correction capture.",
     environment: ["Kea DHCP", "BusyBox udhcpc", "TShark", "Linux namespaces"],
     status: {
       completion: "Complete within stated scope",
@@ -727,7 +727,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "Each note identifies the frames that explain the symptom and keeps the post-change capture separate.",
     ownership:
-      "I created the controlled cases, selected the protocol fields that explain each symptom, compared failure and post-change captures, and wrote the support interpretation.",
+      "The synthetic cases, protocol fields that explain each symptom, failure and post-change captures, and the support interpretation.",
     environment: ["TShark", "tcpdump", "Capinfos", "Python"],
     status: {
       completion: "Complete within stated scope",
@@ -926,7 +926,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "The next action depends on where the enrollment or encryption path stopped and whether device-owner or administrator approval is required.",
     ownership:
-      "I used Microsoft and Apple deployment guidance to map the support checkpoints shown here. This is a source-based guide, not a managed-tenant lab.",
+      "Support checkpoints mapped from Microsoft and Apple deployment guidance. This is a source-based guide, not a managed-tenant lab.",
     environment: ["macOS", "Microsoft Intune guidance", "Apple deployment guidance"],
     status: {
       completion: "Research note",
@@ -955,7 +955,7 @@ export const projects: PortfolioProject[] = [
     outcome:
       "The note identifies the next safe check and makes the handoff boundary explicit.",
     limitation:
-      "This is a cited technical note. It does not claim that I enrolled a Mac, administered a tenant, or recovered a live device.",
+      "This is a cited technical note. It does not claim live Mac enrollment, tenant administration, or device recovery.",
     claims: [
       {
         id: "mac-note-01",
@@ -1062,7 +1062,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "The startup stop point determines whether to preserve evidence, obtain an approved recovery key, begin Windows recovery, or hand the device to hardware service.",
     ownership:
-      "I used Dell and Microsoft documentation to map the no-boot decision path. This is a source-based guide, not a repair record.",
+      "A no-boot decision path mapped from Dell and Microsoft documentation. This is a source-based guide, not a repair record.",
     environment: ["Dell diagnostics guidance", "Windows 11", "BitLocker", "Windows Recovery Environment"],
     status: {
       completion: "Research note",
@@ -1210,7 +1210,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "A useful handoff identifies the failed layer and preserves the client evidence for the next owner.",
     ownership:
-      "I used Microsoft wireless documentation to build this client-side checklist. It does not claim access-point, controller, or RADIUS administration.",
+      "A client-side checklist based on Microsoft wireless documentation. It does not claim access-point, controller, or RADIUS administration.",
     environment: ["Windows 11", "WLAN AutoConfig", "802.1X concepts", "TCP/IP"],
     status: {
       completion: "Research note",
@@ -1377,7 +1377,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "The result keeps observed changes separate from uncertain data and returns to zero findings after correction.",
     ownership:
-      "I built the comparison tool, defined the expected inventory and scan boundary, ran the isolated container states, reviewed the output, and prepared the sanitized package.",
+      "The comparison tool, expected inventory, scan scope, isolated container states, reviewed output, and public package.",
     environment: ["Docker internal network", "Nmap", "Python", "Graphviz"],
     status: {
       completion: "Complete within stated scope",
@@ -1551,7 +1551,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "A reachable port is not enough. The client must trust the issuer and the requested hostname must match the certificate.",
     ownership:
-      "I created the local certificate authority and service certificates, ran the two failure states, inspected the handshake, corrected the certificate selection, and repeated the HTTPS check.",
+      "The local certificate authority and service certificates, two failure states, handshake inspection, certificate correction, and repeated HTTPS check.",
     environment: ["macOS ARM64", "OpenSSL 3.6", "curl", "Loopback only"],
     status: {
       completion: "Complete within stated scope",
@@ -1715,7 +1715,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "Two users can reach the same SMB service and fail for different reasons, so connectivity, authentication, and authorization must be checked separately.",
     ownership:
-      "I built the isolated Samba service, created synthetic users and a read-only share, ran the credential and authorization failures, changed only the intended access boundary, and repeated the file read.",
+      "An isolated Samba service, synthetic users, a read-only share, credential and authorization failures, the intended access change, and a repeated file read.",
     environment: ["Samba 4.21", "SMB client", "Docker internal network", "ARM64"],
     status: {
       completion: "Complete within stated scope",
@@ -1906,7 +1906,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "A client-facing 502 does not prove the application is down. Direct upstream health and proxy configuration must be checked separately.",
     ownership:
-      "I built the isolated proxy and backend, inserted the wrong upstream port, captured the 502 and connection-refused log, corrected one configuration line, and repeated the health request.",
+      "An isolated proxy and backend, an incorrect upstream port, the 502 and connection-refused log, a one-line correction, and a repeated health request.",
     environment: ["Nginx 1.29", "Python HTTP server", "Docker internal network", "ARM64"],
     status: {
       completion: "Complete within stated scope",
@@ -2082,7 +2082,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "A reachable SSH port does not prove that the client can use its key or that the server accepts the requested account.",
     ownership:
-      "I built the isolated SSH server and client, created synthetic keys and accounts, ran the two failure states, corrected the private-key mode, and repeated the remote file check.",
+      "An isolated SSH server and client, synthetic keys and accounts, two failure states, the private-key mode correction, and a repeated remote file check.",
     environment: ["OpenSSH", "Alpine Linux", "Docker internal network", "ARM64"],
     status: {
       completion: "Complete within stated scope",
@@ -2294,7 +2294,7 @@ export const projects: PortfolioProject[] = [
     employerValue:
       "A successful package transfer is not a successful deployment. The active version, application health, rollback result, and user-state boundary all need separate checks.",
     ownership:
-      "I prepared the versioned releases, deployment wrapper, inserted failure, separate retests, and sanitized public record for this controlled local lab.",
+      "Versioned releases, the deployment wrapper, an inserted failure, rollback, new-process retests, and the public evidence package.",
     environment: ["macOS ARM64", "POSIX shell", "Versioned tar packages", "Disposable endpoint root"],
     status: {
       completion: "Complete within stated scope",
@@ -2322,7 +2322,7 @@ export const projects: PortfolioProject[] = [
     outcome:
       "Release 2.0.0 passed its package checks, failed health with a missing configuration key, and returned to healthy 1.0.0. Corrected 2.0.1 passed during deployment and in a separate process. A later rerun made no activation change. The two named data-file hashes did not change.",
     limitation:
-      "This is one synthetic application in a disposable macOS endpoint root using tar packages. It does not demonstrate Windows, MSI, Intune, Configuration Manager, MDM, remote fleet deployment, package signing, production execution, or recovery from an interrupted activation. The data boundary covers two named files, not an entire profile or filesystem.",
+      "This local macOS lab uses one synthetic application and tar packages. It does not cover Windows installers, Intune, Configuration Manager, MDM, package signing, fleet deployment, production use, or interrupted activation. The data check covers two named files only.",
     claims: [
       {
         id: "deployment-rollback-01",

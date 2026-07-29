@@ -208,26 +208,32 @@ for (const [name, html] of [
 for (const phrase of [
   "Gary Virk · IT Specialist",
   "Introduction",
-  "I’m an IT specialist based in Mississauga, Ontario, with more than three years of hands-on experience",
-  "supporting Windows endpoints, hardware, software deployments, and network issues",
+  "I’m an IT specialist based in Mississauga, Ontario.",
+  "My work has covered Windows endpoints, Dell hardware, software deployments, and device-level network issues.",
   "The case studies below show how I narrow down faults, document the work, and retest the fix.",
   "View case studies",
   "View résumé",
   "View all work",
   "Background",
-  "On-site enterprise IT support",
+  "Field service and end-user support",
   "Windows endpoints and networks",
   "i@garyvirk.com",
   "data-copy-email",
-  "User Support Technician",
-  "Experis / Manpower",
-  "Assigned to Cummins",
-  "Bluum",
-  "IT Systems &amp; Network Administration",
+  "Field Service / End-User Support Technician",
+  "Experis / Manpower Services Canada Ltd.",
+  "Dell Canada assignment at Cummins",
+  "Computer Systems Technician - Networking",
   "Cisco CCNA",
   "CompTIA Network+"
 ]) {
   assert(home.includes(phrase), `Homepage is missing required content: ${phrase}`);
+}
+for (const phrase of [
+  "more than three years",
+  "Bluum",
+  "IT Systems &amp; Network Administration"
+]) {
+  assert(!home.includes(phrase), `Homepage contains an unverified or retired claim: ${phrase}`);
 }
 
 for (const phrase of [
@@ -322,28 +328,39 @@ for (const phrase of [
   "Laptop boot and storage troubleshooting guide",
   "Enterprise Wi-Fi troubleshooting guide",
   "Technical note",
-  "Not an executed lab",
-  "Generated editorial illustration. Not lab evidence."
+  "Vendor sources and labelled aids",
+  "Sanitized lab evidence",
+  "Fault",
+  "Decisive check",
+  "Retest"
 ]) {
   assert(work.includes(phrase), `Work index is missing required content: ${phrase}`);
 }
+assert(
+  work.includes("broken-users-https-timeout.png") &&
+    work.includes("broken-router-deny-counter.png") &&
+    work.includes("corrected-users-https-pass.png"),
+  "Work index is missing the sanitized fault, check, and retest evidence sequence."
+);
 assert(
   work.includes("Employer records and generated images are never"),
   "Work index is missing the generated-image evidence boundary."
 );
 
 for (const phrase of [
-  "Experis / Manpower",
-  "Assigned to Cummins",
+  "Field Service / End-User Support Technician",
+  "Experis / Manpower Services Canada Ltd.",
+  "Dell Canada assignment at Cummins",
   "May 2023 to December 2025",
-  "Bluum",
-  "April 2023 to May 2023",
+  "Computer Systems Technician - Networking",
   "Print or save as PDF",
   "Windows endpoint connectivity triage",
   "Validating a network access rule change"
 ]) {
   assert(resume.includes(phrase), `Résumé is missing required content: ${phrase}`);
 }
+assert(!resume.includes("Bluum"), "Résumé contains an unverified employment entry.");
+assert(!resume.includes("more than three years"), "Résumé contains an unsupported duration claim.");
 assert(!resume.includes(".pdf"), "Résumé page still links to a stale PDF.");
 
 const selectedSlugs = [
@@ -366,6 +383,15 @@ for (const slug of selectedSlugs) {
   assert(casePage.includes("What changed, and what this lab does not prove"), `${casePath} has no result boundary.`);
   assert(casePage.includes("What the evidence supports"), `${casePath} has no claim check.`);
   assert(casePage.includes("Selected evidence on this page"), `${casePath} has no publication label.`);
+  assert(casePage.includes('aria-label="Case summary"'), `${casePath} has no concise case summary.`);
+  assert(casePage.includes("Project record:"), `${casePath} does not label its project record.`);
+  assert(!casePage.includes("My role:"), `${casePath} contains an unsupported personal-ownership label.`);
+  assert(
+    casePage.includes('id="evidence-') &&
+      casePage.includes('href="#evidence-') &&
+      casePage.includes('id="claim-'),
+    `${casePath} does not link claims to labelled evidence.`
+  );
   assert(
     (casePage.match(/class="evidence-card/g) || []).length >=
       (slug === "packet-triage-library" || slug === "dhcp-failure-isolation" ? 1 : 3),
@@ -389,7 +415,7 @@ for (const phrase of [
   "Already-compliant rerun",
   "Named data boundary",
   "Public evidence manifest",
-  "It does not demonstrate Windows, MSI, Intune"
+  "It does not cover Windows installers, Intune"
 ]) {
   assert(deploymentPage.includes(phrase), `Endpoint deployment case is missing: ${phrase}`);
 }
@@ -434,7 +460,13 @@ for (const slug of technicalNoteSlugs) {
     `${notePath} renders a reconstructed record as terminal output or has an unexpected command block.`
   );
   assert(notePage.includes('class="evidence-record"'), `${notePath} has no semantic reconstructed record.`);
-  assert(notePage.includes("Sources:"), `${notePath} claim footer does not name its cited sources.`);
+  assert(notePage.includes('aria-label="Case summary"'), `${notePath} has no concise case summary.`);
+  assert(
+    notePage.includes('class="claim-reference-list"') &&
+      notePage.includes('href="#source-') &&
+      notePage.includes('id="source-'),
+    `${notePath} claim footer does not link its cited sources.`
+  );
   assert(
     sitemap.includes(`https://garyvirk.com/${notePath}`),
     `sitemap.xml has no URL for ${notePath}.`
@@ -498,7 +530,14 @@ if (existsSync(distRoot)) {
     "cutting-edge",
     "I help people get back to work.",
     "Move cursor",
-    "Shows how I"
+    "Shows how I",
+    "I built the collector",
+    "I wrote the policy intent",
+    "I built the comparison tool",
+    "I created the local certificate authority",
+    "I built the isolated Samba service",
+    "I built the isolated proxy",
+    "I built the isolated SSH server"
   ];
   for (const phrase of forbiddenCopy) {
     assert(!combinedHtml.includes(phrase), `Public copy contains a blocked phrase: ${phrase}`);

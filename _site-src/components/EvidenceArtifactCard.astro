@@ -1,0 +1,91 @@
+---
+import type { EvidenceArtifact } from "../data/projects";
+
+type Props = {
+  artifact: EvidenceArtifact;
+  label: string;
+  isTechnicalNote: boolean;
+  claimHref?: string;
+  claimLabel?: string;
+};
+
+const {
+  artifact,
+  label,
+  isTechnicalNote,
+  claimHref,
+  claimLabel
+} = Astro.props;
+
+const evidenceKind =
+  artifact.role === "generated-illustration"
+    ? "Illustration, not evidence"
+    : artifact.role === "derived-visual"
+      ? "Derived from lab evidence"
+      : artifact.role === "execution-proof"
+        ? "Captured lab output"
+        : artifact.role === "deterministic-illustration"
+          ? "Explanatory aid"
+          : artifact.proofValue === "execution"
+            ? "Captured lab output"
+            : "Explanatory aid";
+---
+
+<figure
+  id={`evidence-${artifact.id}`}
+  class:list={[
+    "evidence-card",
+    `evidence-card--${artifact.role ?? "execution-proof"}`,
+    { "evidence-card--image": artifact.kind === "diagram" }
+  ]}
+  data-artifact-id={artifact.id}
+>
+  {
+    artifact.src ? (
+      <div class="evidence-image">
+        <img
+          src={artifact.src}
+          alt={artifact.alt ?? ""}
+          width={artifact.width}
+          height={artifact.height}
+          loading="lazy"
+        />
+      </div>
+    ) : isTechnicalNote && artifact.kind !== "command" && artifact.items ? (
+      <div class="evidence-record">
+        <dl>
+          {artifact.items.map((item) => (
+            <div><dt>{item.label}</dt><dd>{item.value}</dd></div>
+          ))}
+        </dl>
+      </div>
+    ) : (
+      <pre><code>{artifact.excerpt}</code></pre>
+    )
+  }
+  <figcaption>
+    <small>{label} · {evidenceKind}</small>
+    <strong>{artifact.title}</strong>
+    <span>{artifact.caption}</span>
+    <div class="evidence-card-links">
+      {
+        artifact.download && (
+          <a
+            class="evidence-download"
+            href={artifact.download}
+            aria-label={`Open ${artifact.title} artifact`}
+          >
+            View artifact <span aria-hidden="true">↗</span>
+          </a>
+        )
+      }
+      {
+        claimHref && claimLabel && (
+          <a class="evidence-claim-link" href={claimHref}>
+            Back to {claimLabel} <span aria-hidden="true">↑</span>
+          </a>
+        )
+      }
+    </div>
+  </figcaption>
+</figure>
