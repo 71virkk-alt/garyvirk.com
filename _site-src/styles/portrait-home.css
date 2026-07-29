@@ -828,7 +828,7 @@ body.profile-page {
 
 .contact-form-heading span {
   color: var(--profile-soft);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
 }
 
 .contact-form-grid {
@@ -860,7 +860,7 @@ body.profile-page {
 
 .contact-field > span i {
   color: var(--profile-soft);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 450;
 }
@@ -910,10 +910,15 @@ body.profile-page {
   outline-offset: 2px;
 }
 
+.contact-field input[aria-invalid="true"],
+.contact-field textarea[aria-invalid="true"] {
+  border-color: rgba(255, 177, 158, 0.86);
+}
+
 .contact-field small {
   min-height: 1.35em;
   color: var(--profile-soft);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   line-height: 1.45;
 }
 
@@ -1011,7 +1016,8 @@ body.profile-page {
   min-height: 1.5em;
   margin: 12px 0 0;
   color: var(--profile-muted);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
 }
 
 .contact-form-fallback {
@@ -1021,13 +1027,24 @@ body.profile-page {
   gap: 8px;
   margin-top: 4px;
   color: var(--profile-text);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   text-decoration: underline;
   text-decoration-color: rgba(244, 244, 239, 0.36);
   text-underline-offset: 3px;
 }
 
 .contact-form-fallback[hidden] {
+  display: none;
+}
+
+.contact-fallback-note {
+  margin: 2px 0 0;
+  color: var(--profile-soft);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.contact-fallback-note[hidden] {
   display: none;
 }
 
@@ -1780,6 +1797,11 @@ body.profile-page {
   .contact-form-heading {
     display: grid;
     gap: 5px;
+  }
+
+  .contact-field input,
+  .contact-field textarea {
+    font-size: 1rem;
   }
 
   .contact-form-footer {

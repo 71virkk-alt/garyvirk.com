@@ -7,6 +7,9 @@ const repoRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const distRoot = join(repoRoot, ".site-dist");
 const errors = [];
 const { projects } = await import(new URL("../_site-src/data/projects.ts", import.meta.url));
+const { claimRegister, credentials } = await import(
+  new URL("../_site-src/data/site.ts", import.meta.url)
+);
 const { maximumAttachmentBytes, validateAttachmentMetadata } = await import(
   new URL("../_site-src/scripts/contact-validation.ts", import.meta.url)
 );
@@ -209,7 +212,7 @@ for (const phrase of [
   "Gary Virk · IT Specialist",
   "Introduction",
   "I’m an IT specialist based in Mississauga, Ontario.",
-  "My work has covered Windows endpoints, Dell hardware, software deployments, and device-level network issues.",
+  "My work has covered Windows endpoints, Dell hardware, software support, imaging, device deployments, and device-level network issues.",
   "The case studies below show how I narrow down faults, document the work, and retest the fix.",
   "View case studies",
   "View résumé",
@@ -222,16 +225,19 @@ for (const phrase of [
   "Field Service / End-User Support Technician",
   "Experis / Manpower Services Canada Ltd.",
   "Dell Canada assignment at Cummins",
-  "Computer Systems Technician - Networking",
-  "Cisco CCNA",
-  "CompTIA Network+"
+  "Computer Systems Technician - Networking"
 ]) {
   assert(home.includes(phrase), `Homepage is missing required content: ${phrase}`);
 }
 for (const phrase of [
   "more than three years",
   "Bluum",
-  "IT Systems &amp; Network Administration"
+  "IT Systems &amp; Network Administration",
+  "Cisco Networking Academy",
+  "Cisco CCNA",
+  "CompTIA A+",
+  "CompTIA Network+",
+  "CompTIA CIOS"
 ]) {
   assert(!home.includes(phrase), `Homepage contains an unverified or retired claim: ${phrase}`);
 }
@@ -249,13 +255,14 @@ for (const phrase of [
   'name="_next" value="https://garyvirk.com/message-sent.html"',
   'name="_url" value="https://garyvirk.com/#contact"',
   "Maximum 10 MB",
-  "Do not send passwords or sensitive personal records",
+  "Do not include passwords or sensitive personal information",
   "Privacy details",
   "data-contact-form",
   "data-contact-file",
   "data-contact-submit",
   "data-contact-fallback",
-  "Email i@garyvirk.com instead"
+  "data-contact-fallback-note",
+  "Open this message in your email app"
 ]) {
   assert(home.includes(phrase), `Homepage contact form is missing required content: ${phrase}`);
 }
@@ -267,6 +274,10 @@ for (const phrase of [
   'mode: "no-cors"',
   "Couldn’t send the form right now.",
   "The form changed before it was sent.",
+  "Complete the required fields before sending.",
+  "prepareEmailFallback",
+  'addEventListener("invalid", markInvalidField, true)',
+  "Your message is filled in and ready to review before sending.",
   "HTMLFormElement.prototype.submit.call(contactForm)"
 ]) {
   assert(contactScript.includes(phrase), `Contact resilience script is missing: ${phrase}`);
@@ -281,8 +292,18 @@ assert(
 );
 assert(
   messageSent.includes("Thanks for reaching out.") &&
-    messageSent.includes("Your message was submitted through the contact form."),
-  "Message confirmation page is missing its delivery confirmation."
+    messageSent.includes("The form was submitted through FormSubmit."),
+  "Message confirmation page is missing its submission confirmation."
+);
+assert(
+  messageSent.includes("Message submitted | Gary Virk") &&
+    !messageSent.includes("Message sent | Gary Virk"),
+  "Message confirmation metadata overstates delivery."
+);
+assert(
+  !home.includes("delivered to my inbox") &&
+    !home.includes("All fields marked required must be completed."),
+  "Homepage contact copy still overstates delivery or uses retired instructions."
 );
 assert(
   !sitemap.includes("https://garyvirk.com/message-sent.html"),
@@ -510,6 +531,22 @@ if (existsSync(distRoot)) {
 
   const htmlFiles = files.filter((file) => file.endsWith(".html"));
   const combinedHtml = htmlFiles.map((file) => readFileSync(file, "utf8")).join("\n");
+  for (const claim of claimRegister) {
+    if (claim.verification !== "verified") {
+      assert(
+        !combinedHtml.includes(claim.publicWording),
+        `Public copy contains an unverified profile claim: ${claim.id}.`
+      );
+    }
+  }
+  for (const credential of credentials) {
+    if (credential.verification !== "verified") {
+      assert(
+        !combinedHtml.includes(credential.name),
+        `Public copy contains an unverified credential: ${credential.name}.`
+      );
+    }
+  }
   const forbiddenCopy = [
     "—",
     "[VERIFY]",

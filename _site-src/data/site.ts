@@ -23,9 +23,9 @@ export const profile = {
   email: "i@garyvirk.com",
   linkedin: "https://www.linkedin.com/in/gary-virk/",
   introduction:
-    "I’m an IT specialist based in Mississauga, Ontario. My work has covered Windows endpoints, Dell hardware, software deployments, and device-level network issues. The case studies below show how I narrow down faults, document the work, and retest the fix.",
+    "I’m an IT specialist based in Mississauga, Ontario. My work has covered Windows endpoints, Dell hardware, software support, imaging, device deployments, and device-level network issues. The case studies below show how I narrow down faults, document the work, and retest the fix.",
   summary:
-    "IT specialist in Mississauga with hands-on experience supporting Windows endpoints, deploying devices, diagnosing Dell hardware, and troubleshooting device-level network issues. Ontario College Diploma in Computer Systems Technician - Networking from St. Clair College, with additional networking training through Cisco Networking Academy."
+    "IT specialist in Mississauga with hands-on experience supporting Windows endpoints, imaging and deploying devices, diagnosing Dell hardware, supporting software, and troubleshooting device-level network issues. Ontario College Diploma in Computer Systems Technician - Networking from St. Clair College."
 } as const;
 
 export const experience = [
@@ -52,12 +52,6 @@ export const education = [
     program: "Computer Systems Technician - Networking",
     detail:
       "Ontario College Diploma. Coursework included networking, system configuration, programming, databases, web technologies, and technical communication."
-  },
-  {
-    school: "Cisco Networking Academy",
-    location: "Windsor, Ontario",
-    program: "Networking training",
-    detail: "Additional networking study covering addressing, routing, switching, and LAN/WAN operations."
   }
 ] as const;
 
@@ -91,19 +85,23 @@ export const capabilities = [
 export const credentials = [
   {
     name: "Cisco CCNA",
-    detail: "Routing, switching, IP connectivity, network access, security, and automation foundations."
+    detail: "Routing, switching, IP connectivity, network access, security, and automation foundations.",
+    verification: "owner-attested"
   },
   {
     name: "CompTIA A+",
-    detail: "Endpoint hardware, operating systems, troubleshooting, security, and support operations."
+    detail: "Endpoint hardware, operating systems, troubleshooting, security, and support operations.",
+    verification: "owner-attested"
   },
   {
     name: "CompTIA Network+",
-    detail: "Network concepts, infrastructure, operations, security, and troubleshooting."
+    detail: "Network concepts, infrastructure, operations, security, and troubleshooting.",
+    verification: "owner-attested"
   },
   {
     name: "CompTIA CIOS",
-    detail: "IT Operations Specialist stackable credential earned through A+ and Network+."
+    detail: "IT Operations Specialist stackable credential earned through A+ and Network+.",
+    verification: "owner-attested"
   }
 ] as const;
 

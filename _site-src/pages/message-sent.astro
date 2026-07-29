@@ -5,8 +5,8 @@ import "../styles/portrait-home.css";
 ---
 
 <BaseLayout
-  title={`Message sent | ${profile.name}`}
-  description="Confirmation that a message was submitted to Gary Virk."
+  title={`Message submitted | ${profile.name}`}
+  description="Confirmation that the contact form was submitted."
   canonicalPath="/message-sent.html"
   bodyClass="profile-page message-sent-page"
   themeColor="#080a0c"
@@ -25,7 +25,8 @@ import "../styles/portrait-home.css";
       <p class="hero-role">Message submitted</p>
       <h1>Thanks for reaching out.</h1>
       <p>
-        Your message was submitted through the contact form. I’ll reply from {profile.email}.
+        The form was submitted through FormSubmit. You can also email me directly at
+        {` ${profile.email}`}.
       </p>
       <div class="hero-actions">
         <a class="profile-button profile-button--light" href="/">
