@@ -1,7 +1,7 @@
 ---
 import mobilePortrait from "../../assets/gary-virk-portrait.webp?url";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { capabilities, credentials, education, experience, profile } from "../data/site";
+import { capabilities, education, experience, profile } from "../data/site";
 import { flagshipProjects, supportingProjects } from "../data/projects";
 import "../styles/portrait-home.css";
 
@@ -177,9 +177,9 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
       </div>
     </section>
 
-    <section class="profile-section skills-section" id="credentials" aria-labelledby="skills-title">
+    <section class="profile-section skills-section" id="skills" aria-labelledby="skills-title">
       <div class="section-heading">
-        <p class="section-index">Skills and credentials</p>
+        <p class="section-index">Skills</p>
         <div>
           <h2 id="skills-title">Tools and systems I have worked with.</h2>
           <p>
@@ -200,17 +200,6 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
           ))
         }
       </div>
-
-      <div class="credential-row">
-        {
-          credentials.map((credential) => (
-            <div>
-              <strong>{credential.name}</strong>
-              <span>{credential.detail}</span>
-            </div>
-          ))
-        }
-      </div>
     </section>
 
     <section class="contact-section" id="contact" aria-labelledby="contact-title">
@@ -219,8 +208,8 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
         <div class="contact-copy">
           <h2 id="contact-title">Have an IT support or networking role in mind?</h2>
           <p>
-            I’m based in Mississauga, Ontario. Send a message here, email me directly,
-            or open the résumé for my work history and credentials.
+            I’m based in Mississauga, Ontario. Use the form below or email me directly
+            about IT support and networking roles.
           </p>
         </div>
 
@@ -228,7 +217,7 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
           <p>To</p>
           <div class="contact-actions">
             <a class="contact-email" href={`mailto:${profile.email}`}>
-              <span>Email Gary directly</span>
+              <span>Email me directly</span>
               <strong>{profile.email}</strong>
             </a>
             <button class="copy-email" type="button" data-copy-email={profile.email}>
@@ -263,7 +252,7 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
 
         <div class="contact-form-heading">
           <p>Message</p>
-          <span>All fields marked required must be completed.</span>
+          <span>Required fields are marked.</span>
         </div>
 
         <div class="contact-form-grid">
@@ -331,8 +320,9 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
 
         <div class="contact-form-footer">
           <p class="contact-privacy">
-            Messages and attachments are processed by FormSubmit and delivered to my
-            inbox. Do not send passwords or sensitive personal records.
+            This form is processed by FormSubmit. For a direct message, email
+            {` ${profile.email}`}. Do not include passwords or sensitive personal
+            information.
             <a href="https://formsubmit.co/privacy.pdf" rel="noopener noreferrer">
               Privacy details <span aria-hidden="true">↗</span>
             </a>
@@ -350,8 +340,9 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
           data-contact-fallback
           hidden
         >
-          Email {profile.email} instead <span aria-hidden="true">↗</span>
+          Open this message in your email app <span aria-hidden="true">↗</span>
         </a>
+        <p class="contact-fallback-note" data-contact-fallback-note hidden></p>
       </form>
 
       <p class="contact-signoff">Gary Virk · Mississauga, Ontario, Canada</p>

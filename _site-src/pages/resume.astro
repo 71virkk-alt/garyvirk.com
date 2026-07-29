@@ -3,7 +3,6 @@ import SiteHeader from "../components/SiteHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {
   capabilities,
-  credentials,
   education,
   experience,
   profile
@@ -47,7 +46,7 @@ import { flagshipProjects } from "../data/projects";
 
       <section class="resume-section" aria-labelledby="resume-summary">
         <h2 id="resume-summary">Summary</h2>
-        <p>{profile.summary} Credentials: CCNA, CompTIA A+, Network+, and CIOS.</p>
+        <p>{profile.summary}</p>
       </section>
 
       <section class="resume-section" aria-labelledby="resume-experience">
@@ -84,15 +83,6 @@ import { flagshipProjects } from "../data/projects";
               <h3>{capability.title}</h3>
               <p>{capability.description}</p>
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section class="resume-section" aria-labelledby="resume-credentials">
-        <h2 id="resume-credentials">Credentials</h2>
-        <div class="resume-section-content credential-lines">
-          {credentials.map((credential) => (
-            <p><strong>{credential.name}</strong><span>{credential.detail}</span></p>
           ))}
         </div>
       </section>

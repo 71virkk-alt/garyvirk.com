@@ -12,6 +12,7 @@ const contactSubmit = document.querySelector<HTMLButtonElement>("[data-contact-s
 const contactSubmitLabel = document.querySelector<HTMLElement>("[data-contact-submit-label]");
 const contactFormStatus = document.querySelector<HTMLElement>("[data-contact-form-status]");
 const contactFallback = document.querySelector<HTMLAnchorElement>("[data-contact-fallback]");
+const contactFallbackNote = document.querySelector<HTMLElement>("[data-contact-fallback-note]");
 const precisePointer = window.matchMedia(
   "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)"
 );
@@ -74,6 +75,53 @@ function resetSubmitState() {
   if (contactSubmitLabel) contactSubmitLabel.textContent = "Send message";
   if (contactFormStatus) contactFormStatus.textContent = "";
   if (contactFallback) contactFallback.hidden = true;
+  if (contactFallbackNote) contactFallbackNote.hidden = true;
+}
+
+function prepareEmailFallback() {
+  if (!contactForm || !contactFallback) return;
+
+  const firstName = contactForm.elements.namedItem("first_name");
+  const lastName = contactForm.elements.namedItem("last_name");
+  const senderEmail = contactForm.elements.namedItem("email");
+  const message = contactForm.elements.namedItem("message");
+  const recipient = contactFallback
+    .getAttribute("href")
+    ?.replace(/^mailto:/, "")
+    .split("?")[0];
+
+  if (
+    !(firstName instanceof HTMLInputElement) ||
+    !(lastName instanceof HTMLInputElement) ||
+    !(senderEmail instanceof HTMLInputElement) ||
+    !(message instanceof HTMLTextAreaElement) ||
+    !recipient
+  ) {
+    return;
+  }
+
+  const senderName = `${firstName.value.trim()} ${lastName.value.trim()}`.trim();
+  const query = new URLSearchParams({
+    subject: `Portfolio message from ${senderName}`,
+    body: [
+      "Hello Gary,",
+      "",
+      message.value.trim(),
+      "",
+      `From: ${senderName}`,
+      `Reply to: ${senderEmail.value.trim()}`,
+      "Sent from: garyvirk.com"
+    ].join("\n")
+  });
+
+  contactFallback.href = `mailto:${recipient}?${query.toString()}`;
+
+  if (contactFallbackNote) {
+    const attachmentName = contactFile?.files?.[0]?.name;
+    contactFallbackNote.textContent = attachmentName
+      ? `Your message is filled in. Add ${attachmentName} again in your email app.`
+      : "Your message is filled in and ready to review before sending.";
+  }
 }
 
 async function canReachContactService() {
@@ -110,8 +158,26 @@ function formIsReadyToSend() {
   return true;
 }
 
+function markInvalidField(event: Event) {
+  const field = event.target;
+  if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement)) return;
+  field.setAttribute("aria-invalid", "true");
+  if (contactFormStatus) {
+    contactFormStatus.textContent = "Complete the required fields before sending.";
+  }
+}
+
+function clearResolvedFieldError(event: Event) {
+  const field = event.target;
+  if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement)) return;
+  if (field.validity.valid) field.removeAttribute("aria-invalid");
+}
+
 contactMessage?.addEventListener("input", updateMessageCount);
 contactFile?.addEventListener("change", validateAttachment);
+contactForm?.addEventListener("invalid", markInvalidField, true);
+contactForm?.addEventListener("input", clearResolvedFieldError);
+contactForm?.addEventListener("change", clearResolvedFieldError);
 contactForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -141,7 +207,9 @@ contactForm?.addEventListener("submit", async (event) => {
     if (contactFormStatus) {
       contactFormStatus.textContent = "Couldn’t send the form right now.";
     }
+    prepareEmailFallback();
     if (contactFallback) contactFallback.hidden = false;
+    if (contactFallbackNote) contactFallbackNote.hidden = false;
     return;
   }
 
