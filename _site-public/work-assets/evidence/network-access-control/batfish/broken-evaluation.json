@@ -6,7 +6,6 @@
   },
   "native_batfish_executed": true,
   "network_name": "p2-native-authored-20260727-broken",
-  "project_status": "Building",
   "results": [
     {
       "artifact": "raw/ACL-PRO-001.json",

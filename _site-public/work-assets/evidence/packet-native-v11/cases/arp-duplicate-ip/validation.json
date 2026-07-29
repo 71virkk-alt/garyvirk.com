@@ -1,0 +1,61 @@
+{
+  "failure": {
+    "distinct_owners": 2,
+    "ipv4": "198.51.100.11",
+    "selected_field_names": [
+      "frame.number",
+      "arp.src.hw_mac"
+    ],
+    "selected_fields": [
+      [
+        "2",
+        "c2:cf:25:df:27:a2"
+      ],
+      [
+        "3",
+        "4e:be:f3:ab:66:16"
+      ],
+      [
+        "5",
+        "4e:be:f3:ab:66:16"
+      ],
+      [
+        "7",
+        "4e:be:f3:ab:66:16"
+      ],
+      [
+        "9",
+        "4e:be:f3:ab:66:16"
+      ]
+    ]
+  },
+  "failure_pcap_sha256": "bda1b3e87c1ef272b1f6eaa5007191ff85b67478a4c2ac3b1dae88236d1858b4",
+  "post_change": {
+    "distinct_owners": 1,
+    "ipv4": "198.51.100.11",
+    "reply_count": 4,
+    "selected_field_names": [
+      "frame.number",
+      "arp.src.hw_mac"
+    ],
+    "selected_fields": [
+      [
+        "2",
+        "4e:be:f3:ab:66:16"
+      ],
+      [
+        "4",
+        "4e:be:f3:ab:66:16"
+      ],
+      [
+        "6",
+        "4e:be:f3:ab:66:16"
+      ],
+      [
+        "8",
+        "4e:be:f3:ab:66:16"
+      ]
+    ]
+  },
+  "post_change_pcap_sha256": "5c3d55f81e40d66436d790aff2dc9acdb8c7cac846a752b265427a1f0a887d89"
+}

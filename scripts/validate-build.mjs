@@ -33,6 +33,10 @@ function walk(directory) {
   });
 }
 
+function isDownloadableExecutionArtifact(artifact) {
+  return Boolean(artifact?.download && artifact.proofValue === "execution");
+}
+
 assert(existsSync(distRoot), "Build directory .site-dist does not exist.");
 assert(existsSync(join(distRoot, ".nojekyll")), "Build output must include .nojekyll.");
 assert(validateAttachmentMetadata(null).valid, "An empty attachment must remain optional.");
@@ -69,6 +73,7 @@ for (const project of projects) {
 
   const claimIds = new Set(project.claims.map((claim) => claim.id));
   const evidenceIds = new Set(project.evidence.map((artifact) => artifact.id));
+  const evidenceById = new Map(project.evidence.map((artifact) => [artifact.id, artifact]));
   const sourceIds = new Set((project.sources ?? []).map((source) => source.id));
 
   assert(claimIds.size === project.claims.length, `${project.slug} has duplicate claim IDs.`);
@@ -86,6 +91,14 @@ for (const project of projects) {
       assert(
         (claim.sourceRefs ?? []).length > 0,
         `${project.slug} source-cited claim ${claim.id} has no supporting source reference.`
+      );
+    }
+    if (["verified", "lab-demonstrated"].includes(claim.verification)) {
+      assert(
+        claim.evidenceRefs.some((evidenceRef) =>
+          isDownloadableExecutionArtifact(evidenceById.get(evidenceRef))
+        ),
+        `${project.slug} claim ${claim.id} has no downloadable execution-proof artifact.`
       );
     }
   }
@@ -118,6 +131,18 @@ for (const project of projects) {
         assert(
           actualSha256 === artifact.sha256,
           `${project.slug} artifact ${artifact.id} does not match its declared SHA-256.`
+        );
+      }
+    }
+    if (isDownloadableExecutionArtifact(artifact)) {
+      assert(
+        ["captured", "derived"].includes(artifact.origin),
+        `${project.slug} downloadable execution artifact ${artifact.id} must have captured or derived origin.`
+      );
+      if (["E3", "E4"].includes(project.status.evidenceLevel)) {
+        assert(
+          /^[a-f0-9]{64}$/i.test(artifact.sha256 ?? ""),
+          `${project.slug} downloadable execution artifact ${artifact.id} must declare a valid SHA-256 at ${project.status.evidenceLevel}.`
         );
       }
     }
@@ -184,7 +209,26 @@ for (const project of projects) {
     assert(project.status.completion === "Complete within stated scope", `${project.slug} published lab is not complete within scope.`);
     assert(project.status.publication === "Selected evidence on this page", `${project.slug} published lab has the wrong evidence status.`);
     assert(["E2", "E3", "E4"].includes(project.status.evidenceLevel), `${project.slug} published lab has an unsupported evidence level.`);
+    assert(
+      project.evidence.some(isDownloadableExecutionArtifact),
+      `${project.slug} published lab has no downloadable execution-proof artifact.`
+    );
   }
+}
+
+const dhcpProject = projects.find((project) => project.slug === "dhcp-failure-isolation");
+const dhcpStates = new Map(
+  (dhcpProject?.visualization?.states ?? []).map((state) => [state.id, state.artifactIds])
+);
+for (const [stateId, artifactId] of [
+  ["no-offer", "dhcp-no-offer"],
+  ["wrong-options", "dhcp-wrong-options"],
+  ["two-servers", "dhcp-faults"]
+]) {
+  assert(
+    dhcpStates.get(stateId)?.includes(artifactId),
+    `DHCP visualization state ${stateId} is not mapped to ${artifactId}.`
+  );
 }
 
 const home = read("index.html");
@@ -210,9 +254,9 @@ for (const [name, html] of [
 
 for (const phrase of [
   "Gary Virk · IT Specialist",
-  "Introduction",
+  "Endpoint support and network troubleshooting.",
   "I’m an IT specialist based in Mississauga, Ontario.",
-  "My work has covered Windows endpoints, Dell hardware, software support, imaging, device deployments, and device-level network issues.",
+  "My work has covered Windows endpoints, Dell hardware, software support, imaging and deployment, and endpoint connectivity.",
   "The case studies below show how I narrow down faults, document the work, and retest the fix.",
   "View case studies",
   "View résumé",
@@ -273,7 +317,7 @@ for (const phrase of [
   'method: "HEAD"',
   'mode: "no-cors"',
   "Couldn’t send the form right now.",
-  "The form changed before it was sent.",
+  "Please check the form and try again.",
   "Complete the required fields before sending.",
   "prepareEmailFallback",
   'addEventListener("invalid", markInvalidField, true)',
@@ -350,7 +394,7 @@ for (const phrase of [
   "Enterprise Wi-Fi troubleshooting guide",
   "Technical note",
   "Vendor sources and labelled aids",
-  "Sanitized lab evidence",
+  "View the ACL case study",
   "Fault",
   "Decisive check",
   "Retest"
@@ -364,9 +408,107 @@ assert(
   "Work index is missing the sanitized fault, check, and retest evidence sequence."
 );
 assert(
-  work.includes("Employer records and generated images are never"),
+  work.includes("Employer records are not published.") &&
+    work.includes("Generated images are labelled and used"),
   "Work index is missing the generated-image evidence boundary."
 );
+
+const publishedPacketEvidencePaths = [
+  "work-assets/evidence/dhcp-native-v10/scenarios/baseline.json",
+  "work-assets/evidence/dhcp-native-v10/scenarios/no-offer.json",
+  "work-assets/evidence/dhcp-native-v10/scenarios/incorrect-options.json",
+  "work-assets/evidence/dhcp-native-v10/scenarios/competing-server.json",
+  "work-assets/evidence/dhcp-native-v10/scenarios/clean-repeat.json",
+  "work-assets/evidence/packet-native-v11/cases/dns-failure/validation.json",
+  "work-assets/evidence/packet-native-v11/cases/tcp-reset-retransmission/validation.json",
+  "work-assets/evidence/packet-native-v11/cases/arp-duplicate-ip/validation.json",
+  "work-assets/evidence/packet-native-v11/cases/icmp-path-mtu/validation.json",
+  "work-assets/evidence/packet-native-v11/tool-provenance.json"
+];
+for (const relativePath of publishedPacketEvidencePaths) {
+  assert(existsSync(join(distRoot, relativePath)), `Missing public execution record: ${relativePath}.`);
+}
+const publishedWindowsEvidencePaths = [
+  "work-assets/evidence/windows-native-v6/payload/scenarios/dns-only/failure/transcript.txt",
+  "work-assets/evidence/windows-native-v6/payload/scenarios/dns-only/post-correction/transcript.txt",
+  "work-assets/evidence/windows-native-v6/payload/scenarios/wrong-static-network/failure/transcript.txt",
+  "work-assets/evidence/windows-native-v6/payload/scenarios/wrong-static-network/rollback/transcript.txt",
+  "work-assets/evidence/windows-native-v6/payload/summary.json"
+];
+const publishedAclEvidencePaths = [
+  "work-assets/evidence/network-access-control/batfish/baseline-evaluation.json",
+  "work-assets/evidence/network-access-control/batfish/baseline-repeat-evaluation.json",
+  "work-assets/evidence/network-access-control/batfish/broken-evaluation.json",
+  "work-assets/evidence/network-access-control/batfish/corrected-evaluation.json",
+  "work-assets/evidence/network-access-control/batfish/input-bindings.json",
+  "work-assets/evidence/network-access-control/batfish/rollback-evaluation.json",
+  "work-assets/evidence/network-access-control/batfish/sequence-evaluation.json",
+  "work-assets/evidence/network-access-control/packet-tracer/cli-transcript.md",
+  "work-assets/evidence/network-access-control/packet-tracer/evidence-record.json",
+  "work-assets/evidence/network-access-control/packet-tracer/screenshots/baseline-users-https-pass.png",
+  "work-assets/evidence/network-access-control/packet-tracer/screenshots/broken-router-deny-counter.png",
+  "work-assets/evidence/network-access-control/packet-tracer/screenshots/broken-users-https-timeout.png",
+  "work-assets/evidence/network-access-control/packet-tracer/screenshots/corrected-router-permit-counter.png",
+  "work-assets/evidence/network-access-control/packet-tracer/screenshots/corrected-users-https-pass.png",
+  "work-assets/evidence/network-access-control/packet-tracer/screenshots/rollback-admin-to-server-ping-pass.png",
+  "work-assets/evidence/network-access-control/packet-tracer/screenshots/rollback-guest-to-admin-denied.png",
+  "work-assets/evidence/network-access-control/packet-tracer/screenshots/rollback-users-https-pass.png",
+  "work-assets/evidence/network-access-control/packet-tracer/topology.svg",
+  "work-assets/evidence/network-access-control/release-manifest.json",
+  "work-assets/evidence/network-access-control/source-provenance.json"
+];
+for (const relativePath of [
+  ...publishedWindowsEvidencePaths,
+  ...publishedAclEvidencePaths
+]) {
+  assert(existsSync(join(distRoot, relativePath)), `Missing allowlisted public evidence: ${relativePath}.`);
+}
+for (const [evidenceDirectory, allowlist] of [
+  [
+    "work-assets/evidence/dhcp-native-v10",
+    publishedPacketEvidencePaths.filter((path) => path.includes("/dhcp-native-v10/"))
+  ],
+  [
+    "work-assets/evidence/packet-native-v11",
+    publishedPacketEvidencePaths.filter((path) => path.includes("/packet-native-v11/"))
+  ],
+  ["work-assets/evidence/windows-native-v6", publishedWindowsEvidencePaths],
+  ["work-assets/evidence/network-access-control", publishedAclEvidencePaths]
+]) {
+  const absoluteDirectory = join(distRoot, evidenceDirectory);
+  if (!existsSync(absoluteDirectory)) continue;
+  for (const file of walk(absoluteDirectory)) {
+    const relativePath = file.slice(distRoot.length + 1);
+    assert(
+      allowlist.includes(relativePath),
+      `Public evidence package contains a non-allowlisted file: ${relativePath}.`
+    );
+  }
+}
+
+const aclManifestPath = join(
+  distRoot,
+  "work-assets/evidence/network-access-control/release-manifest.json"
+);
+if (existsSync(aclManifestPath)) {
+  const manifest = JSON.parse(readFileSync(aclManifestPath, "utf8"));
+  assert(manifest.file_count === 19, "ACL public manifest must index exactly 19 files.");
+  assert(manifest.files?.length === 19, "ACL public manifest file list is incomplete.");
+  for (const entry of manifest.files ?? []) {
+    const artifactPath = join(
+      distRoot,
+      "work-assets/evidence/network-access-control",
+      entry.path
+    );
+    assert(existsSync(artifactPath), `ACL public manifest points to a missing file: ${entry.path}.`);
+    if (!existsSync(artifactPath)) continue;
+    assert(statSync(artifactPath).size === entry.bytes, `ACL manifest size mismatch: ${entry.path}.`);
+    const actualSha256 = createHash("sha256")
+      .update(readFileSync(artifactPath))
+      .digest("hex");
+    assert(actualSha256 === entry.sha256, `ACL manifest SHA-256 mismatch: ${entry.path}.`);
+  }
+}
 
 for (const phrase of [
   "Field Service / End-User Support Technician",
@@ -406,6 +548,10 @@ for (const slug of selectedSlugs) {
   assert(casePage.includes("Selected evidence on this page"), `${casePath} has no publication label.`);
   assert(casePage.includes('aria-label="Case summary"'), `${casePath} has no concise case summary.`);
   assert(casePage.includes("Project record:"), `${casePath} does not label its project record.`);
+  assert(
+    casePage.includes("What was built and checked."),
+    `${casePath} repeats or omits the concise project-scope section.`
+  );
   assert(!casePage.includes("My role:"), `${casePath} contains an unsupported personal-ownership label.`);
   assert(
     casePage.includes('id="evidence-') &&
@@ -428,13 +574,17 @@ for (const slug of selectedSlugs) {
 }
 
 const deploymentPage = read("work/endpoint-deployment-rollback.html");
+assert(
+  !deploymentPage.includes("endpoint-deployment-rollback.webp") &&
+    !deploymentPage.includes("generated-illustration"),
+  "Endpoint deployment case still publishes the removed generic illustration."
+);
 for (const phrase of [
-  "Illustration, not evidence",
   "Controlled health failure",
   "Rollback retest",
   "New-process retest",
   "Already-compliant rerun",
-  "Named data boundary",
+  "Configuration and user-state check",
   "Public evidence manifest",
   "It does not cover Windows installers, Intune"
 ]) {
@@ -521,6 +671,37 @@ assert(cname === "garyvirk.com", "CNAME must remain exactly garyvirk.com.");
 
 if (existsSync(distRoot)) {
   const files = walk(distRoot);
+  for (const file of files.filter((candidate) => /\.(?:pcap|pcapng)$/i.test(candidate))) {
+    assert(
+      false,
+      `Build publishes a prohibited packet capture: ${file.slice(distRoot.length + 1)}.`
+    );
+  }
+  const publicEvidenceText = files
+    .filter(
+      (file) =>
+        file.includes("/work-assets/evidence/") &&
+        /\.(?:json|md|txt|svg|dot|xml)$/i.test(file)
+    )
+    .map((file) => readFileSync(file, "utf8"))
+    .join("\n")
+    .toLowerCase();
+  for (const phrase of [
+    "independent review",
+    "independently confirms",
+    "byte-identical",
+    "hash-bound",
+    "fail-closed",
+    "\"project_status\": \"building\"",
+    "publication review pending",
+    "does not approve publication",
+    "\"private_artifacts_verified\""
+  ]) {
+    assert(
+      !publicEvidenceText.includes(phrase),
+      `Public evidence contains blocked wording: ${phrase}.`
+    );
+  }
   const totalBytes = files.reduce((total, file) => total + statSync(file).size, 0);
   const javascriptBytes = files
     .filter((file) => file.endsWith(".js"))
@@ -586,16 +767,20 @@ if (existsSync(distRoot)) {
     "20-elite-projects",
     "_reference/",
     "my info /",
-    "71virkk@gmail.com",
-    "+16475109813",
     "LabOnly-User-47",
     "LabOnly-Audit-83",
-    "/Users/noname1/",
     "BEGIN OPENSSH PRIVATE KEY",
     "ssh-ed25519 AAAA"
   ];
   for (const token of privateTokens) {
     assert(!combined.includes(token), `Private or internal token leaked into the build: ${token}`);
+  }
+  for (const [label, pattern] of [
+    ["local macOS path", /\/Users\//],
+    ["private Gmail address", /[A-Z0-9._%+-]+@gmail\.com/i],
+    ["North American phone number", /\+1\d{10}\b/]
+  ]) {
+    assert(!pattern.test(combined), `${label} leaked into the build.`);
   }
 
   for (const file of htmlFiles) {

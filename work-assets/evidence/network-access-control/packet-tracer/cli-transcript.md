@@ -73,8 +73,8 @@ GigabitEthernet0/0/0.30 10.20.30.1     YES manual up                    up
 GigabitEthernet0/0/0.40 10.20.40.1     YES manual up                    up
 ```
 
-The rollback file is byte-identical to the untouched baseline. After reopening
-it and waiting for the router to finish booting:
+The rollback file matches the untouched baseline. After reopening it and
+waiting for the router to finish booting:
 
 ```text
 C:\>ping 10.20.30.80

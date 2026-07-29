@@ -1,35 +1,25 @@
 {
-  "file_count": 21,
+  "file_count": 19,
   "files": [
     {
-      "bytes": 1720,
-      "path": "README.md",
-      "sha256": "a955b744a04d259ec5aaaf3b76bb656512e74ee8e608d36f06bc411094b976b0"
-    },
-    {
-      "bytes": 1850,
-      "path": "REPORT.md",
-      "sha256": "3ecabf5201a71b1a4152c66b41df1b1f9f58246e56a36ac2788092f111fd25a2"
-    },
-    {
-      "bytes": 8202,
+      "bytes": 8170,
       "path": "batfish/baseline-evaluation.json",
-      "sha256": "247edc951cae5e605b7122d12bf5c89f205231de6c7d2b5152a96a345839a1b2"
+      "sha256": "16a638e5799f2896cf51699f8789a5067028df09c5f23fd4786028bb093bb346"
     },
     {
-      "bytes": 8216,
+      "bytes": 8184,
       "path": "batfish/baseline-repeat-evaluation.json",
-      "sha256": "a8786534cc6befa5d00db74dabc19c93706e42da2c68b5fed99bd5e2193c9d11"
+      "sha256": "f85ad4ef9072b5344fb9db511e57c7acf8734c26207f7c1f1d79a479af5c8208"
     },
     {
-      "bytes": 8191,
+      "bytes": 8159,
       "path": "batfish/broken-evaluation.json",
-      "sha256": "522dc6cdb268c6e30b46655c8ef168ea7ee70c6ae96faa76ccd055f7b1efcefe"
+      "sha256": "da642700df2011e5d79d069bf09a2d7266a39e27575d4f3e15a076b544fe0cf0"
     },
     {
-      "bytes": 8206,
+      "bytes": 8174,
       "path": "batfish/corrected-evaluation.json",
-      "sha256": "1fd4384d2f197515c6a594200cbc8050eb2285a6c29bd640f38510988e7eef3d"
+      "sha256": "64fa092920f0800be479c8a94c8108b625796fcc6465ebc60351a0a22d24ee37"
     },
     {
       "bytes": 3184,
@@ -37,24 +27,24 @@
       "sha256": "60a90ecdca97326d1efcf475419417994ff6e4e448afa2a993e297d6aaf27bd0"
     },
     {
-      "bytes": 8202,
+      "bytes": 8170,
       "path": "batfish/rollback-evaluation.json",
-      "sha256": "87d1ea5be2e0b3d792e1766802061c90df879cbb11eb0845aa6e4bce216b5df6"
+      "sha256": "f280e9d17e946e24ca829ff16ba3509f3341f9d69080a621c29d4fffc825d174"
     },
     {
-      "bytes": 1386,
+      "bytes": 1354,
       "path": "batfish/sequence-evaluation.json",
-      "sha256": "06f351d07cf3f59fb37252293ca07ff79e66d28c4591b07507a84d46cd98a9b2"
+      "sha256": "bfc2355f7e7536ddf7e9fed189a5d2af0aec68912b08e20bbf11e5bc0048d9b9"
     },
     {
-      "bytes": 4288,
+      "bytes": 4275,
       "path": "packet-tracer/cli-transcript.md",
-      "sha256": "d30a50a09ea2561867da1d52eee7bfd8c7d995f7858dd7a8c32273e8c96274d7"
+      "sha256": "6dff04bb5a7a155cd863fa90e17b6d30735bd0f2f6dfe273f4daead65ba65e5b"
     },
     {
-      "bytes": 4220,
+      "bytes": 4210,
       "path": "packet-tracer/evidence-record.json",
-      "sha256": "86503c374ab28883900a6fc7b4250a820dc15a13cc6669004de0b282521eef8a"
+      "sha256": "e0e116835ae89a4ec276bb0ab02c26008909a5d8f6a24fd29398d22ebc00d184"
     },
     {
       "bytes": 111894,
@@ -107,7 +97,5 @@
       "sha256": "3b0cb905711663f3ca47a37e1bdea375ab8ce9b0d3de64efeb769f2e6486695c"
     }
   ],
-  "generator": "src/build_public_release.py",
-  "generator_sha256": "f01231f68de56cfd5256c100c660530c2eae0f512f2725ac0c6d37096b3b42e0",
-  "schema_version": 1
+  "schema_version": 2
 }

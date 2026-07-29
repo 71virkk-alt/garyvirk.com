@@ -164,7 +164,7 @@ export const projects: PortfolioProject[] = [
     summary:
       "A PowerShell diagnostic that distinguishes a DNS failure from a wider connectivity problem, then records the result for handoff.",
     employerValue:
-      "The deciding point is whether direct service TCP still works when name resolution fails.",
+      "Direct TCP still works while name resolution fails, narrowing the fault to DNS.",
     ownership:
       "The collector, fault classifications, controlled Windows scenarios, reviewed outputs, and public excerpts shown here.",
     environment: ["Windows 11 ARM64", "PowerShell 7", "Pester", "UTM"],
@@ -217,6 +217,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/windows-native-v6/payload/scenarios/dns-only/failure/transcript.txt",
+        sha256: "3e77c5a0da7fa34bedf7590c0547983dd414abd0e66a2c55091eefaec1f6c295",
         excerpt:
           "Test-NetConnection 192.0.2.10 -Port 8443\nTcpTestSucceeded : True\n\nResolve-DnsName service.example.test\n[no answer]\n\nAssessment : Fail / DNSOnly"
       },
@@ -231,6 +232,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/windows-native-v6/payload/scenarios/dns-only/post-correction/transcript.txt",
+        sha256: "3e55f9c8babe37abd86641cff55139f1b111f0c00bdac26c350869cacb7959ed",
         excerpt:
           "Resolve-DnsName service.example.test\nA  192.0.2.10\n\nTest-NetConnection 192.0.2.10 -Port 8443\nTcpTestSucceeded : True\n\nAssessment : Pass / Healthy"
       },
@@ -245,6 +247,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/windows-native-v6/payload/scenarios/wrong-static-network/failure/transcript.txt",
+        sha256: "c8212c6e7ef435c7a6b5064be8b82cf3134f453482927725b826a64268ec87c4",
         excerpt:
           "IPv4Address   : 198.51.100.20\nDefaultGateway : 198.51.100.1\nGateway check  : Fail\nTCP 8443       : False\nAssessment     : Fail / NetworkPath"
       },
@@ -259,6 +262,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/windows-native-v6/payload/scenarios/wrong-static-network/rollback/transcript.txt",
+        sha256: "6cbd941513c57507e1ec661e36be1a98ee0c7688f3b0946d9aa884ea4c762f51",
         excerpt:
           "DNS-only rollback pre-check       : fault absent\nWrong-network rollback pre-check   : fault absent\nFinal assessment                   : Pass / Healthy"
       },
@@ -273,6 +277,7 @@ export const projects: PortfolioProject[] = [
         origin: "derived",
         proofValue: "explanation",
         download: "/work-assets/evidence/windows-native-v6/payload/summary.json",
+        sha256: "0ccf1b075c3c238696df20d51a19d54063de2e716f87b202499d8212b5f1945d",
         excerpt:
           "Symptom       : Service unavailable by name\nChecks        : Adapter, IP, route, DNS, direct TCP\nFinding       : TCP available; DNS lookup failed\nCorrection    : Restored reviewed DNS server\nRetest        : Name and direct TCP checks passed\nScope         : Synthetic home-lab record"
       }
@@ -331,7 +336,7 @@ export const projects: PortfolioProject[] = [
     summary:
       "This lab tests one ACL change against required and blocked traffic, corrects a deliberate regression, and repeats the baseline checks.",
     employerValue:
-      "The change restores one required HTTPS path while the paths outside its scope keep their original result.",
+      "Removing the inserted deny restores user HTTPS while guest-to-admin traffic remains blocked.",
     ownership:
       "The policy intent, four-zone configurations, Batfish model, representative Packet Tracer checks, and failure, correction, and rollback comparisons.",
     environment: ["Cisco Packet Tracer 9", "802.1Q", "Cisco ACLs", "Batfish"],
@@ -351,7 +356,7 @@ export const projects: PortfolioProject[] = [
       "Remove the inserted rule, repeat the checks, and reopen the untouched rollback state."
     ],
     outcome:
-      "The inserted deny blocked the users-to-server HTTPS path. Removing it restored that path, while the representative admin and guest checks kept their expected behavior.",
+      "The inserted deny blocked user HTTPS. Removing it restored the intended path while guest-to-admin traffic remained blocked.",
     limitation:
       "Batfish covers the complete policy model. Packet Tracer corroborates representative flows on an adapted router-on-a-stick topology. Automated checks passed, but the project was not reviewed by an external network engineer.",
     claims: [
@@ -401,6 +406,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/network-access-control/packet-tracer/cli-transcript.md",
+        sha256: "6dff04bb5a7a155cd863fa90e17b6d30735bd0f2f6dfe273f4daead65ba65e5b",
         excerpt:
           "5 deny tcp 10.20.10.0 0.0.0.255 host 10.20.30.80 eq 443\n12 match(es)\n\nHTTPS request : Request Timeout"
       },
@@ -415,6 +421,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/network-access-control/packet-tracer/cli-transcript.md",
+        sha256: "6dff04bb5a7a155cd863fa90e17b6d30735bd0f2f6dfe273f4daead65ba65e5b",
         excerpt:
           "ip access-list extended USERS_IN\nno 5\n\npermit tcp 10.20.10.0 0.0.0.255 host 10.20.30.80 eq 443\n6 match(es)\n\nHTTPS request : Pass"
       },
@@ -429,6 +436,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/network-access-control/packet-tracer/evidence-record.json",
+        sha256: "e0e116835ae89a4ec276bb0ab02c26008909a5d8f6a24fd29398d22ebc00d184",
         excerpt:
           "Users to server HTTPS : Pass\nAdmin to server ICMP  : Pass\nGuest to admin ICMP   : Denied\nGUESTS_IN deny matches: 4"
       },
@@ -437,14 +445,15 @@ export const projects: PortfolioProject[] = [
         title: "Public evidence index",
         kind: "record",
         caption:
-          "The manifest records the size and SHA-256 value of 21 published configuration, result, provenance, topology, and screenshot files.",
+          "The manifest records the size and SHA-256 value of 19 published model, result, provenance, topology, and screenshot files.",
         claimIds: ["acl-change-01", "acl-boundary-01"],
         privacyClass: "public-sanitized",
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/network-access-control/release-manifest.json",
+        sha256: "5cf6ad0b8ad5c9c7130ee291312577f04af533f6215bc2a5de057fe6485c28ea",
         excerpt:
-          "Public package\n• 21 indexed files\n• Batfish state evaluations\n• Packet Tracer transcript and screenshots\n• source provenance\n• SHA-256 values"
+          "Public package\n• 19 indexed files\n• Batfish state evaluations\n• Packet Tracer transcript and screenshots\n• source provenance\n• SHA-256 values"
       },
       {
         id: "acl-baseline-screen",
@@ -461,6 +470,7 @@ export const projects: PortfolioProject[] = [
         width: 700,
         height: 708,
         download: "/work-assets/evidence/network-access-control/packet-tracer/screenshots/baseline-users-https-pass.png",
+        sha256: "bf8c7d4729a972c834186e9ea3b4d5c0be8e2ba4edcf95d17cdb12dd8e79c26f",
         alt: "Packet Tracer workstation browser showing the baseline HTTPS page"
       },
       {
@@ -478,6 +488,7 @@ export const projects: PortfolioProject[] = [
         width: 700,
         height: 708,
         download: "/work-assets/evidence/network-access-control/packet-tracer/screenshots/broken-users-https-timeout.png",
+        sha256: "52ea2ac6445dc9c2113dfd08e9deb615547c457085674f663f1d68279d28c338",
         alt: "Packet Tracer workstation browser showing the HTTPS request timeout"
       },
       {
@@ -495,6 +506,7 @@ export const projects: PortfolioProject[] = [
         width: 700,
         height: 708,
         download: "/work-assets/evidence/network-access-control/packet-tracer/screenshots/broken-router-deny-counter.png",
+        sha256: "3c39e3336a03d659a7c7f24dd362cdeade4e1f2d3e314562af75a08a0df92c57",
         alt: "Packet Tracer router command output showing 12 matches on the inserted deny"
       },
       {
@@ -512,6 +524,7 @@ export const projects: PortfolioProject[] = [
         width: 700,
         height: 708,
         download: "/work-assets/evidence/network-access-control/packet-tracer/screenshots/corrected-users-https-pass.png",
+        sha256: "b25b81bc883ce48a1ca871924eb4de7adc084602ac5558edce765ca27856f17c",
         alt: "Packet Tracer workstation browser showing the restored HTTPS page"
       },
       {
@@ -529,6 +542,7 @@ export const projects: PortfolioProject[] = [
         width: 700,
         height: 708,
         download: "/work-assets/evidence/network-access-control/packet-tracer/screenshots/corrected-router-permit-counter.png",
+        sha256: "2dd21e7cbdd74e6fb011d53cac09fd38fea539709d29e9cfef112fe75ba6d4bd",
         alt: "Packet Tracer router command output showing six matches on the intended permit"
       },
       {
@@ -546,6 +560,7 @@ export const projects: PortfolioProject[] = [
         width: 700,
         height: 708,
         download: "/work-assets/evidence/network-access-control/packet-tracer/screenshots/rollback-guest-to-admin-denied.png",
+        sha256: "633cf585b94ab9332b8d071b232f55a2761b75cb451756ad51524ff50e335b7d",
         alt: "Packet Tracer guest workstation showing the admin network test remained denied"
       }
     ],
@@ -601,7 +616,7 @@ export const projects: PortfolioProject[] = [
     presentation: "packet",
     discipline: "IT support · DHCP · Packet evidence",
     summary:
-      "Three packet captures show how a missing offer, incorrect lease options, and a second DHCP server require different next steps.",
+      "A controlled DHCP run separates a missing offer, incorrect lease options, and two servers answering the same transaction.",
     employerValue:
       "The packet sequence separates no response, incorrect lease options, and two responding servers.",
     ownership:
@@ -609,10 +624,10 @@ export const projects: PortfolioProject[] = [
     environment: ["Kea DHCP", "BusyBox udhcpc", "TShark", "Linux namespaces"],
     status: {
       completion: "Complete within stated scope",
-      execution: "Controlled Linux packet lab",
-      review: "Checklist-based technical review",
+      execution: "Isolated ARM64 Linux packet lab",
+      review: "Analyzer replay and manifest review",
       publication: "Selected evidence on this page",
-      evidenceLevel: "E4"
+      evidenceLevel: "E3"
     },
     question:
       "Did the client receive no offer, accept incorrect network options, or choose between two DHCP servers?",
@@ -623,51 +638,111 @@ export const projects: PortfolioProject[] = [
       "Restore the intended service state and capture a new expected four-message exchange."
     ],
     outcome:
-      "The captures separated an absent response, a completed lease with incorrect options, and a transaction with two responding servers.",
+      "The captured exchanges separated an absent response, a completed lease with incorrect options, and a transaction with two responding servers. A clean repeat restored one expected offer with the reviewed router and DNS values.",
     limitation:
-      "This is an isolated Linux service and client lab. It does not claim Windows client behavior, relay testing, or production DHCP administration.",
+      "This is an isolated Linux service and client lab. Public downloads are sanitized analyzer records derived from private captures. It does not claim Windows client behavior, relay testing, or production DHCP administration.",
     claims: [
       {
         id: "dhcp-01",
         publicWording:
           "The captures show three distinct conditions: no offer returned, incorrect router and DNS options, and two servers answering one transaction.",
-        evidenceRefs: ["dhcp-flow", "dhcp-faults", "dhcp-retest"],
-        limitation: "The evidence comes from an isolated Linux lab.",
-        verification: "verified"
+        evidenceRefs: [
+          "dhcp-flow",
+          "dhcp-no-offer",
+          "dhcp-wrong-options",
+          "dhcp-faults",
+          "dhcp-retest"
+        ],
+        limitation:
+          "The evidence comes from an isolated Linux lab; raw packet captures remain private.",
+        verification: "lab-demonstrated"
       }
     ],
     evidence: [
       {
         id: "dhcp-flow",
-        title: "Healthy exchange",
+        title: "Baseline analyzer report",
         kind: "record",
         caption:
-          "A complete Discover, Offer, Request, and Acknowledgment provides the comparison point for every fault.",
+          "A sanitized report derived from the private baseline capture records a complete four-message exchange and the expected router and DNS values.",
         claimIds: ["dhcp-01"],
         privacyClass: "public-sanitized",
-        excerpt: "Discover  →  Offer  →  Request  →  Acknowledgment"
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
+        excerpt:
+          "Finding types : none\nDORA          : complete\nRouter        : 198.51.100.1\nDNS           : 198.51.100.10",
+        download:
+          "/work-assets/evidence/dhcp-native-v10/scenarios/baseline.json",
+        sha256: "f9d32659d6e52b59159b9aa3da9216d14a159e1ea02dd62e59055594424944c3"
+      },
+      {
+        id: "dhcp-no-offer",
+        title: "No-offer analyzer report",
+        kind: "result",
+        caption:
+          "The client Discover is present, the capture closes after the response window, and no Offer is recorded.",
+        claimIds: ["dhcp-01"],
+        privacyClass: "public-sanitized",
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
+        excerpt:
+          "Finding       : no_offer\nDiscover      : present\nOffer         : absent\nCapture state : complete",
+        download:
+          "/work-assets/evidence/dhcp-native-v10/scenarios/no-offer.json",
+        sha256: "852490152803ea1ecb7bd77ebcd4e0d9981557ed7d04f191fa974634a8f507b1"
+      },
+      {
+        id: "dhcp-wrong-options",
+        title: "Incorrect-options analyzer report",
+        kind: "result",
+        caption:
+          "The lease completes, but the Offer and Acknowledgment contain router and DNS values that differ from the declared lab baseline.",
+        claimIds: ["dhcp-01"],
+        privacyClass: "public-sanitized",
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
+        excerpt:
+          "DORA            : complete\nObserved router : 198.51.100.254\nObserved DNS    : 192.0.2.53\nFinding         : incorrect_option",
+        download:
+          "/work-assets/evidence/dhcp-native-v10/scenarios/incorrect-options.json",
+        sha256: "35256ba153a908d72578f76c8bcc23385ec546a0d5c67613d44df869cc83e5b0"
       },
       {
         id: "dhcp-faults",
-        title: "Three different failures",
+        title: "Competing-server analyzer report",
         kind: "result",
         caption:
-          "The message sequence and option fields identify why the same user symptom needs a different next action.",
+          "Two server identifiers answer the same transaction. The client selects the expected server while the second offer carries different router and DNS values.",
         claimIds: ["dhcp-01"],
         privacyClass: "public-sanitized",
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
         excerpt:
-          "No offer         : Discover observed, no Offer returned\nIncorrect options : Lease completed, router and DNS differed\nCompeting server  : Two Offers answered one transaction"
+          "Offer servers : 198.51.100.2, 198.51.100.3\nSelected       : 198.51.100.2\nFindings       : competing_offers, incorrect_option",
+        download:
+          "/work-assets/evidence/dhcp-native-v10/scenarios/competing-server.json",
+        sha256: "28faa7bae104a5ea5db6a56fb6f3fa05c01b914e1ba772a2ca640123564f33fb"
       },
       {
         id: "dhcp-retest",
-        title: "Post-change capture",
+        title: "Clean repeat analyzer report",
         kind: "record",
         caption:
-          "After restoring the intended service state, the client completed the expected exchange with the reviewed router and DNS values.",
+          "A separate captured exchange returns one selected server, a complete four-message sequence, and the expected router and DNS values.",
         claimIds: ["dhcp-01"],
         privacyClass: "public-sanitized",
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
         excerpt:
-          "Offer count : 1\nRouter      : expected lab gateway\nDNS server  : expected lab resolver\nResult      : expected four-message exchange"
+          "Finding types : none\nDORA          : complete\nSelected      : 198.51.100.2\nRouter / DNS  : expected",
+        download:
+          "/work-assets/evidence/dhcp-native-v10/scenarios/clean-repeat.json",
+        sha256: "0c5b743b66e7d76e31d3c04a3438f407fbefc8741c8b7374abb51c2fdc914e18"
       }
     ],
     visualization: {
@@ -693,14 +768,14 @@ export const projects: PortfolioProject[] = [
           id: "no-offer",
           label: "No offer",
           summary: "The Discover leaves the client, but no server Offer returns.",
-          artifactIds: ["dhcp-faults"],
+          artifactIds: ["dhcp-no-offer"],
           nodeStates: { discover: "normal", offer: "failed", request: "unknown", ack: "unknown" }
         },
         {
           id: "wrong-options",
           label: "Wrong options",
           summary: "The exchange completes, but the router and DNS fields differ from the expected service state.",
-          artifactIds: ["dhcp-faults"],
+          artifactIds: ["dhcp-wrong-options"],
           nodeStates: { discover: "normal", offer: "changed", request: "normal", ack: "changed" }
         },
         {
@@ -723,7 +798,7 @@ export const projects: PortfolioProject[] = [
     presentation: "notes",
     discipline: "Networking · TShark · Troubleshooting",
     summary:
-      "DNS, TCP reset, duplicate-IP, and path-MTU cases, each paired with a separate post-change capture.",
+      "Four short cases cover DNS failure, a TCP reset, duplicate-IP ARP, and path MTU, each with a post-change capture.",
     employerValue:
       "Each note identifies the frames that explain the symptom and keeps the post-change capture separate.",
     ownership:
@@ -731,8 +806,8 @@ export const projects: PortfolioProject[] = [
     environment: ["TShark", "tcpdump", "Capinfos", "Python"],
     status: {
       completion: "Complete within stated scope",
-      execution: "Controlled packet fixtures",
-      review: "Automated consistency checks",
+      execution: "Isolated ARM64 packet lab",
+      review: "Field extraction and manifest review",
       publication: "Selected evidence on this page",
       evidenceLevel: "E3"
     },
@@ -745,30 +820,105 @@ export const projects: PortfolioProject[] = [
       "Use a separate post-change capture to confirm the new result."
     ],
     outcome:
-      "The notes isolate DNS name failure, a TCP reset, duplicate-IP ARP ownership, and path-MTU failure without repeating the DHCP project.",
+      "The packet fields distinguish name-resolution failure, a refused TCP connection, duplicate-IP ownership, and path-MTU failure. Each case includes a separate post-change capture.",
     limitation:
-      "These are controlled, synthetic packet cases. They do not claim production monitoring or broad incident response.",
+      "These are controlled packet cases in an isolated ARM64 lab. Public downloads are sanitized validation records derived from private captures. They do not claim production monitoring or broad incident response.",
     claims: [
       {
         id: "packet-notes-01",
         publicWording:
           "Each case links the user’s symptom to the relevant packet fields and a new capture taken after the change.",
-        evidenceRefs: ["packet-notes"],
-        limitation: "The cases use owned fixtures and documentation addresses.",
-        verification: "verified"
+        evidenceRefs: ["packet-dns", "packet-tcp", "packet-arp", "packet-mtu"],
+        limitation:
+          "The cases use owned lab endpoints and documentation addresses; raw packet captures remain private.",
+        verification: "lab-demonstrated"
       }
     ],
     evidence: [
       {
-        id: "packet-notes",
-        title: "Four focused packet cases",
+        id: "packet-dns",
+        title: "DNS failure and retest",
         kind: "record",
         caption:
-          "Each note keeps the symptom, relevant packet fields, post-change result, and limitation together.",
+          "The failure response returns NXDOMAIN. A separate post-change capture returns a successful response and the expected documentation address.",
         claimIds: ["packet-notes-01"],
         privacyClass: "public-sanitized",
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
         excerpt:
-          "DNS       : NXDOMAIN → A record\nTCP       : Reset → completed handshake\nARP       : Two owners → one owner\nPath MTU  : ICMP fragmentation-needed → payload delivered"
+          "Failure     : rcode 3, NXDOMAIN\nPost-change : rcode 0, A 198.51.100.11",
+        download:
+          "/work-assets/evidence/packet-native-v11/cases/dns-failure/validation.json",
+        sha256: "a987daff75b093ff06f9f1b89b1d8f142a08028a3648d9ca70d393516292c92a"
+      },
+      {
+        id: "packet-tcp",
+        title: "TCP reset and retest",
+        kind: "record",
+        caption:
+          "The failure capture contains a server-side reset. The post-change capture has no reset and carries the test payload in both directions.",
+        claimIds: ["packet-notes-01"],
+        privacyClass: "public-sanitized",
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
+        excerpt:
+          "Failure     : reset frame present\nPost-change : zero resets, echo verified",
+        download:
+          "/work-assets/evidence/packet-native-v11/cases/tcp-reset-retransmission/validation.json",
+        sha256: "c190edb4bc5817a30ad78293a3b7515cfcb23b2cb9d5159e087859ef2fa2f547"
+      },
+      {
+        id: "packet-arp",
+        title: "Duplicate-IP ARP and retest",
+        kind: "record",
+        caption:
+          "The failure record associates one IPv4 address with two hardware addresses. The post-change record shows one remaining owner.",
+        claimIds: ["packet-notes-01"],
+        privacyClass: "public-sanitized",
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
+        excerpt:
+          "Failure owners     : 2\nPost-change owners : 1",
+        download:
+          "/work-assets/evidence/packet-native-v11/cases/arp-duplicate-ip/validation.json",
+        sha256: "aaa81f93099abc32d5f8c0d7f11e3180c2f5e99fe0aaa96aee66847417fc3fe2"
+      },
+      {
+        id: "packet-mtu",
+        title: "Path MTU failure and retest",
+        kind: "record",
+        caption:
+          "The failure record contains ICMP type 3, code 4 with a next-hop MTU. The same test payload is delivered in the post-change capture.",
+        claimIds: ["packet-notes-01"],
+        privacyClass: "public-sanitized",
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
+        excerpt:
+          "Failure     : ICMP type 3, code 4, MTU 1200\nPost-change : same DF payload delivered",
+        download:
+          "/work-assets/evidence/packet-native-v11/cases/icmp-path-mtu/validation.json",
+        sha256: "358e2427b27cc6412462b1ad7f6851a9e2dc687b709d8372402008fe7679563f"
+      },
+      {
+        id: "packet-tools",
+        title: "Analyzer provenance",
+        kind: "record",
+        caption:
+          "This shared analyzer record covers the four cases on this page and one DHCP validation published separately. It lists tool versions, selected fields, sanitized arguments, exit status, and output digests.",
+        claimIds: [],
+        privacyClass: "public-sanitized",
+        role: "execution-proof",
+        origin: "derived",
+        proofValue: "execution",
+        excerpt:
+          "TShark / Capinfos : Wireshark 4.6.7\nArguments          : sanitized\nExit status        : 0",
+        download:
+          "/work-assets/evidence/packet-native-v11/tool-provenance.json",
+        sha256: "c9706b2884113a4d1c0e911e448a6f0bebbc7135a2cc8cbe4b6a8b434393c28a"
       }
     ],
     notes: [
@@ -781,9 +931,10 @@ export const projects: PortfolioProject[] = [
       },
       {
         title: "TCP reset",
-        symptom: "The client connected to the host but the application session closed immediately.",
-        evidence: "The server side returned a TCP reset instead of completing the handshake.",
-        result: "The post-change capture completed the handshake and carried the test payload.",
+        symptom: "The client reached the host, but the TCP connection was refused immediately.",
+        evidence: "The service address returned a TCP reset in response to the connection attempt.",
+        result:
+          "After the listener started, the separate post-change capture completed the handshake and carried the test payload.",
         limitation: "The capture proves transport behavior, not the application configuration change."
       },
       {
@@ -1373,9 +1524,9 @@ export const projects: PortfolioProject[] = [
     presentation: "inventory",
     discipline: "Networking · Nmap · Inventory comparison",
     summary:
-      "In an isolated Docker network, an Nmap comparison identifies one missing device, one new device, one address change, and one uncertain result.",
+      "In an isolated Docker network, an Nmap comparison identifies one missing device, one new device, one address change, and one uncertain observation.",
     employerValue:
-      "The result keeps observed changes separate from uncertain data and returns to zero findings after correction.",
+      "The report separates confirmed changes from one uncertain observation, then returns zero findings after correction.",
     ownership:
       "The comparison tool, expected inventory, scan scope, isolated container states, reviewed output, and public package.",
     environment: ["Docker internal network", "Nmap", "Python", "Graphviz"],
@@ -1452,6 +1603,7 @@ export const projects: PortfolioProject[] = [
         width: 900,
         height: 398,
         download: "/work-assets/evidence/network-inventory-v5/failure/drift.json",
+        sha256: "b40ef7754e57caf057be05468f251ee9b6e415adbfe3316e378862e27b0c93b8",
         alt: "Network inventory comparison showing four inserted difference types"
       },
       {
@@ -1469,6 +1621,7 @@ export const projects: PortfolioProject[] = [
         width: 900,
         height: 398,
         download: "/work-assets/evidence/network-inventory-v5/correction/drift.json",
+        sha256: "975c1811cfe39932b05061dc0a6e970108716fcffd833f799f62e462605010db",
         alt: "Corrected network inventory returned to the expected four-device state"
       },
       {
@@ -1482,6 +1635,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/network-inventory-v5/evaluation.json",
+        sha256: "eaf728d70cf23a44908841498f30498fdf20d1c835b1126bd08bd7aef177fe97",
         excerpt:
           "baseline      : 0 findings\nfailure       : 4 findings\n  changed_ip · missing_device · new_device · uncertain_observation\ncorrection     : 0 findings\nrollback       : 0 findings\nclean repeat   : 0 findings"
       },
@@ -1496,6 +1650,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/network-inventory-v5/SHA256SUMS.txt",
+        sha256: "ba8b1dc81e9bf8e190e7e8969e094d613e5e77f0f0aa71155689617b9c83f215",
         excerpt:
           "Public package\n• state JSON and topology files\n• sanitized Nmap XML\n• environment and dependency records\n• test output and SHA-256 checksums"
       }
@@ -1503,7 +1658,7 @@ export const projects: PortfolioProject[] = [
     visualization: {
       title: "Compare the declared and observed states.",
       description:
-        "The failure state changes only the nodes needed to produce the four reviewed finding types.",
+        "Only the four inserted differences change between the baseline and failure views.",
       depth: "layered",
       nodes: [
         { id: "router", label: "Edge router", detail: "Expected" },
@@ -1605,6 +1760,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/tls-service-trust/hostname-fault.txt",
+        sha256: "a603a0420c9139a91e26af885e589f1d7f8b204003470426aeda627e550e3041",
         excerpt:
           "curl: (60) SSL: no alternative certificate subject name matches target host name 'service.lab.test'"
       },
@@ -1619,6 +1775,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/tls-service-trust/untrusted-ca-fault.txt",
+        sha256: "a7cf2e0f1e2c02353e588d337e1b9378d18957894a889a9fe7d5828c8d85d18a",
         excerpt:
           "curl: (60) SSL certificate problem: unable to get local issuer certificate"
       },
@@ -1633,6 +1790,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/tls-service-trust/certificate-check.txt",
+        sha256: "bbfbb2b603aa1b31adc12b53734845cf04f1372bb8bcc9cba75c4035dbb017dc",
         excerpt:
           "subject=CN=service.lab.test\nissuer=CN=Portfolio Lab CA\nProtocol: TLSv1.3\nVerify return code: 0 (ok)"
       },
@@ -1647,6 +1805,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/tls-service-trust/separate-retest.txt",
+        sha256: "c3304fd69937317b597ab9235ebfb888621f8e7ab1f6b4983534b827f69af028",
         excerpt:
           "http_code=200\nremote_ip=127.0.0.1\nssl_verify_result=0"
       },
@@ -1661,6 +1820,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/tls-service-trust/SHA256SUMS.txt",
+        sha256: "a9fd8785c7594eb12bff12663b3cdb893572ce80980ad7ed5833b842e8a8f201",
         excerpt:
           "Public package\n• hostname failure\n• issuer-trust failure\n• certificate check\n• separate HTTPS retest\n• SHA-256 checksums"
       }
@@ -1770,6 +1930,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/smb-share-access/bad-credentials.txt",
+        sha256: "8162c3f687cf467b2adeb8e197c2a06b18e8ed106525950bf3199733104e351f",
         excerpt: "session setup failed: NT_STATUS_LOGON_FAILURE"
       },
       {
@@ -1783,6 +1944,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/smb-share-access/authorization-fault.txt",
+        sha256: "0fa72b5746bf5afab2ca51ce3da2ae641e1ccb6db49370c4c0d95a5af9d94e27",
         excerpt: "tree connect failed: NT_STATUS_ACCESS_DENIED"
       },
       {
@@ -1796,6 +1958,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/smb-share-access/corrected-boundary.txt",
+        sha256: "61c376268618e513e04997cc99508564699f119bc44f39197986155e2fb3d9bb",
         excerpt:
           "[support]\npath = /srv/support\nvalid users = labuser auditor\n\nauditor groups: auditor, labuser\nshare mode: 0750"
       },
@@ -1810,6 +1973,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/smb-share-access/correction.txt",
+        sha256: "749ed7e92df5e58d7db7baef1624432edfa3f6af2108541e84186c5288c59d57",
         excerpt:
           "readme.txt  25 bytes\ncontrolled support share\ngetting file \\readme.txt of size 25"
       },
@@ -1824,6 +1988,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/smb-share-access/separate-retest.txt",
+        sha256: "1b67c551c6ce2a9053d9696f617a0246fb8dbe5b052562c90a1aac999c0de3c0",
         excerpt:
           "controlled support share\ngetting file \\readme.txt of size 25"
       },
@@ -1838,6 +2003,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/smb-share-access/SHA256SUMS.txt",
+        sha256: "7411e73673e0b5efbdea8fa543e767ea28ce0e777fe8caa86f9206bfc3c6ff64",
         excerpt:
           "Public package\n• credential and authorization failures\n• corrected share configuration\n• correction and separate retest\n• SHA-256 checksums"
       },
@@ -1852,6 +2018,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/smb-share-access/negative-boundary.txt",
+        sha256: "8162c3f687cf467b2adeb8e197c2a06b18e8ed106525950bf3199733104e351f",
         excerpt: "session setup failed: NT_STATUS_LOGON_FAILURE"
       }
     ],
@@ -1960,6 +2127,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/reverse-proxy-path/direct-upstream-pass.txt",
+        sha256: "814653068113c091c36cabd14cede3c2cbd41e918261395c5c3f7e7ff2b9e449",
         excerpt: "service=inventory-api status=healthy"
       },
       {
@@ -1973,6 +2141,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/reverse-proxy-path/proxy-fault.txt",
+        sha256: "60982778d992ee94fdaa2f578deea3455abf42b3b959ad47a7265e23d9d513cb",
         excerpt: "HTTP/1.1 502 Bad Gateway"
       },
       {
@@ -1986,6 +2155,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/reverse-proxy-path/upstream-error.txt",
+        sha256: "20be6efaeef9094e40d2cb0f2523771d7be576a9539189232ba7cf46e66bae80",
         excerpt:
           "connect() failed (111: Connection refused)\nupstream: http://[isolated-lab-address]:9090/health"
       },
@@ -2000,6 +2170,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/reverse-proxy-path/corrected-config.txt",
+        sha256: "7aa484a362c4839ff030dbb095024d69b91d7175e0f6400b155ec3ee5d21c95f",
         excerpt:
           "before: proxy_pass http://backend:9090/health;\nafter : proxy_pass http://backend:8081/health;"
       },
@@ -2014,6 +2185,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/reverse-proxy-path/correction-response.txt",
+        sha256: "f46d28f58bf8d1a6b954eeb16c6fe0d62302cacb27473c75398d085b0252d46f",
         excerpt:
           "HTTP/1.1 200 OK\nservice=inventory-api status=healthy"
       },
@@ -2028,6 +2200,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/reverse-proxy-path/separate-retest-response.txt",
+        sha256: "f46d28f58bf8d1a6b954eeb16c6fe0d62302cacb27473c75398d085b0252d46f",
         excerpt:
           "HTTP/1.1 200 OK\nservice=inventory-api status=healthy"
       }
@@ -2145,6 +2318,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/ssh-access-permissions/service-reachable.txt",
+        sha256: "461626debdd783336e36bb40f72eabad11eed0266418998902cf99e04e8959ca",
         excerpt: "ssh-server:22 reachable"
       },
       {
@@ -2158,6 +2332,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/ssh-access-permissions/wrong-key.txt",
+        sha256: "afc2525fcd487d08c6669822a7661c833b31860daecff22c1c3c81dcb81926b2",
         excerpt: "labops@ssh-server: Permission denied (publickey)."
       },
       {
@@ -2171,6 +2346,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/ssh-access-permissions/unsafe-key-mode.txt",
+        sha256: "c81eb13aee0985e31d915d68d2ea5721696e548c4cd7e8184914873b89426cdb",
         excerpt:
           "WARNING: UNPROTECTED PRIVATE KEY FILE!\nPermissions 0644 for 'lab_key' are too open.\nThis private key will be ignored."
       },
@@ -2185,6 +2361,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/ssh-access-permissions/key-mode-correction.txt",
+        sha256: "a844e7206b80a1ed23f6c854f4be981caa4495fa5772631e29833856fb852701",
         excerpt: "before=0644\nafter=0600"
       },
       {
@@ -2198,6 +2375,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/ssh-access-permissions/correction.txt",
+        sha256: "a422d9c503b35ee648d49d6e8458faaa4febf853e48871179e884ea0746a22b7",
         excerpt:
           "user=labops\narch=aarch64\nsentinel=controlled remote support access"
       },
@@ -2212,6 +2390,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/ssh-access-permissions/separate-retest.txt",
+        sha256: "8cb15357f50b793be68e0b04a2623f1c10bc228624f14b2e5f699bbfd6482e49",
         excerpt:
           "retest-user=labops\nretest-sentinel=controlled remote support access"
       },
@@ -2226,6 +2405,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/ssh-access-permissions/negative-boundary.txt",
+        sha256: "a579fea989e97584b44da6bc9808219da6b03dee0c632f30a3658d5a8ebff82f",
         excerpt: "unknown@ssh-server: Permission denied (publickey)."
       },
       {
@@ -2239,6 +2419,7 @@ export const projects: PortfolioProject[] = [
         origin: "captured",
         proofValue: "execution",
         download: "/work-assets/evidence/ssh-access-permissions/SHA256SUMS.txt",
+        sha256: "8a5c1160ad4cab83e4100f97bec5bb6fc8b06d384c7b474a8a5013425323969d",
         excerpt:
           "Public package\n• service reachability\n• key and permission failures\n• correction and new-client retest\n• negative account boundary\n• SHA-256 checksums"
       }
@@ -2290,9 +2471,9 @@ export const projects: PortfolioProject[] = [
     presentation: "deployment",
     discipline: "IT support · Application deployment · POSIX shell",
     summary:
-      "A disposable endpoint accepts a release that passes package checks but fails its health test, returns to the previous version, and then installs a corrected release.",
+      "A deliberately faulty release passes its package checks, fails its health test, rolls back to the last working version, and is replaced by a corrected release.",
     employerValue:
-      "A successful package transfer is not a successful deployment. The active version, application health, rollback result, and user-state boundary all need separate checks.",
+      "A package can pass its file checks and still leave the application unusable. The lab verifies the active version, application health, rollback, and two named data files separately.",
     ownership:
       "Versioned releases, the deployment wrapper, an inserted failure, rollback, new-process retests, and the public evidence package.",
     environment: ["macOS ARM64", "POSIX shell", "Versioned tar packages", "Disposable endpoint root"],
@@ -2318,7 +2499,7 @@ export const projects: PortfolioProject[] = [
     evidenceHeading:
       "The failed activation, restored baseline, corrected release, and data boundary.",
     evidenceDescription:
-      "Captured output from the retained lab run. The editorial image explains the sequence and is not execution evidence.",
+      "Captured output from the retained lab run, including the failed activation, rollback retest, corrected release, separate-process retest, and data checks.",
     outcome:
       "Release 2.0.0 passed its package checks, failed health with a missing configuration key, and returned to healthy 1.0.0. Corrected 2.0.1 passed during deployment and in a separate process. A later rerun made no activation change. The two named data-file hashes did not change.",
     limitation:
@@ -2357,22 +2538,6 @@ export const projects: PortfolioProject[] = [
     ],
     evidence: [
       {
-        id: "deployment-editorial",
-        title: "Deployment sequence",
-        kind: "diagram",
-        caption:
-          "A visual explanation of baseline, failed activation, rollback, and corrected release. It was generated for this page and is not proof of execution.",
-        claimIds: [],
-        privacyClass: "public-sanitized",
-        role: "generated-illustration",
-        origin: "generated",
-        proofValue: "explanation",
-        src: "/work-assets/editorial/endpoint-deployment-rollback.webp",
-        width: 1600,
-        height: 901,
-        alt: "Editorial illustration of a software release moving through failure, rollback, and correction"
-      },
-      {
         id: "deployment-failure",
         title: "Controlled health failure",
         kind: "command",
@@ -2407,7 +2572,7 @@ export const projects: PortfolioProject[] = [
         title: "Corrected release",
         kind: "result",
         caption:
-          "Release 2.0.1 uses the endpoint’s existing configuration contract and passes its activation health check.",
+          "Release 2.0.1 reads the endpoint’s existing configuration and passes the activation health check.",
         claimIds: ["deployment-correction-01"],
         privacyClass: "public-sanitized",
         origin: "captured",
@@ -2449,7 +2614,7 @@ export const projects: PortfolioProject[] = [
       },
       {
         id: "deployment-data-boundary",
-        title: "Named data boundary",
+        title: "Configuration and user-state check",
         kind: "record",
         caption:
           "The configuration and synthetic user-state hashes match before and after the failed release, correction, and rerun.",
@@ -2481,12 +2646,12 @@ export const projects: PortfolioProject[] = [
     visualization: {
       title: "Follow the release before and after activation.",
       description:
-        "Package validation, application health, the active version, and preserved data are separate checks. Choose a state to see where the release stops.",
+        "Package validation, application health, the active version, and the two checked data files are separate checks. Choose a state to see where the release stops.",
       depth: "layered",
       nodes: [
         { id: "package", label: "Package", detail: "Hash and version" },
         { id: "activation", label: "Activation", detail: "Current release link" },
-        { id: "health", label: "Health check", detail: "Configuration contract" },
+        { id: "health", label: "Health check", detail: "Required configuration key" },
         { id: "active", label: "Active version", detail: "1.0.0 or 2.0.1" },
         { id: "data", label: "Named data", detail: "Config and user state" }
       ],

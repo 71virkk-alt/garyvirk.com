@@ -216,7 +216,7 @@ contactForm?.addEventListener("submit", async (event) => {
   if (!formIsReadyToSend()) {
     resetSubmitState();
     if (contactFormStatus) {
-      contactFormStatus.textContent = "The form changed before it was sent. Check the fields and try again.";
+      contactFormStatus.textContent = "Please check the form and try again.";
     }
     return;
   }

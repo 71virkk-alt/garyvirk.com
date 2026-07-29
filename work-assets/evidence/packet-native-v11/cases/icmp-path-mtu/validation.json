@@ -1,0 +1,37 @@
+{
+  "failure": {
+    "icmp_code": 4,
+    "icmp_type": 3,
+    "next_hop_mtu": 1200,
+    "selected_field_names": [
+      "frame.number",
+      "icmp.type",
+      "icmp.code",
+      "icmp.mtu"
+    ],
+    "selected_fields": [
+      [
+        "2",
+        "3",
+        "4",
+        "1200"
+      ]
+    ]
+  },
+  "failure_pcap_sha256": "56223d67348045497852d2e4cc4395cd9ce46903a0f2aaa602ed193683a92a20",
+  "post_change": {
+    "frag_needed_frames": 0,
+    "identical_df_payload_delivered": true,
+    "selected_field_names": [
+      "ip.flags.df",
+      "udp.length"
+    ],
+    "selected_fields": [
+      [
+        "True",
+        "1408"
+      ]
+    ]
+  },
+  "post_change_pcap_sha256": "22a8ca6e2570547c900d7320e254eca275e09cf08ef20032a22d6f0cd2cb8fcd"
+}

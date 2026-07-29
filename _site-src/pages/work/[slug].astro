@@ -149,7 +149,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
 
             <nav class="case-jump-links" aria-label="On this page">
               <span>On this page</span>
-              <a href="#question-heading">{isTechnicalNote ? "Scenario" : "Question"}</a>
+              <a href="#question-heading">Scope</a>
               {project.visualization && <a href={`#${project.slug}-visualization-title`}>Interactive view</a>}
               <a href="#process-heading">{isTechnicalNote ? "Decision path" : "Method"}</a>
               <a href="#evidence-heading">{isTechnicalNote ? "Sources and aids" : "Evidence"}</a>
@@ -158,9 +158,11 @@ const projectBodyClass = `work-page project-page project-page--${project.present
           </header>
 
           <section class="case-question" aria-labelledby="question-heading">
-            <p class="section-label">{isTechnicalNote ? "Support scenario" : "The support question"}</p>
+            <p class="section-label">{isTechnicalNote ? "Note scope" : "Project scope"}</p>
             <div>
-              <h2 id="question-heading">{project.question}</h2>
+              <h2 id="question-heading">
+                {isTechnicalNote ? "What this note covers." : "What was built and checked."}
+              </h2>
               <p class="ownership"><strong>Project record:</strong> {project.ownership}</p>
             </div>
           </section>
