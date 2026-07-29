@@ -17,15 +17,15 @@ export type ClaimRecord = {
 export const profile = {
   name: "Gary Virk",
   role: "IT Specialist",
-  focus: "Introduction",
+  focus: "Endpoint support and network troubleshooting.",
   location: "Mississauga, Ontario, Canada",
   shortLocation: "Mississauga, Ontario",
   email: "i@garyvirk.com",
   linkedin: "https://www.linkedin.com/in/gary-virk/",
   introduction:
-    "I’m an IT specialist based in Mississauga, Ontario. My work has covered Windows endpoints, Dell hardware, software support, imaging, device deployments, and device-level network issues. The case studies below show how I narrow down faults, document the work, and retest the fix.",
+    "I’m an IT specialist based in Mississauga, Ontario. My work has covered Windows endpoints, Dell hardware, software support, imaging and deployment, and endpoint connectivity. The case studies below show how I narrow down faults, document the work, and retest the fix.",
   summary:
-    "IT specialist in Mississauga with hands-on experience supporting Windows endpoints, imaging and deploying devices, diagnosing Dell hardware, supporting software, and troubleshooting device-level network issues. Ontario College Diploma in Computer Systems Technician - Networking from St. Clair College."
+    "IT specialist in Mississauga with hands-on experience in Windows endpoint support, device imaging and deployment, Dell hardware diagnosis, software support, and endpoint connectivity. Ontario College Diploma in Computer Systems Technician - Networking from St. Clair College."
 } as const;
 
 export const experience = [
@@ -38,7 +38,7 @@ export const experience = [
     summary:
       "Provided on-site end-user support for Windows endpoints, Dell hardware, software, device-level connectivity, imaging, deployment, and ServiceNow ticket records.",
     highlights: [
-      "Diagnosed Windows, Microsoft Office, software, wired and wireless endpoint, and Dell hardware faults.",
+      "Diagnosed Windows, Microsoft Office, software, wired and wireless connectivity, and Dell hardware issues.",
       "Imaged, configured, deployed, repaired, and replaced laptops, desktops, workstations, and peripherals.",
       "Managed support tickets in ServiceNow and documented diagnostic steps, actions, resolutions, and escalations."
     ]
@@ -66,7 +66,7 @@ export const capabilities = [
     number: "02",
     title: "Ticketing and documentation",
     description:
-      "ServiceNow records, incident notes, troubleshooting evidence, handoffs, and practical support documentation."
+      "ServiceNow tickets, incident notes, diagnostic steps, handoffs, and support documentation."
   },
   {
     number: "03",

@@ -7,7 +7,7 @@
     "nmap-raw.xml"
   ],
   "limitations": [
-    "Sanitization approval is technical only and does not approve publication.",
+    "This report covers sanitization only. The website release process controls publication separately.",
     "The private raw Nmap and Docker inspection files remain outside this export."
   ],
   "public_allowlist": {

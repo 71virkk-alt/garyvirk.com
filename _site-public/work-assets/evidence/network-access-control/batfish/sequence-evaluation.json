@@ -14,7 +14,6 @@
     }
   ],
   "policy_sha256": "7917fcba41584f5cd9bc1106febcb391659ef3d3a5f3a997992134fa9ee50b96",
-  "project_status": "Building",
   "run_identities": {
     "network_name": [
       "p2-native-authored-20260727-baseline",

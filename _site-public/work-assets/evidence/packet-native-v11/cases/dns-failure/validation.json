@@ -1,0 +1,39 @@
+{
+  "failure": {
+    "hostname": "missing.lab.example",
+    "rcode": 3,
+    "selected_field_names": [
+      "frame.number",
+      "dns.qry.name",
+      "dns.flags.rcode"
+    ],
+    "selected_fields": [
+      [
+        "2",
+        "missing.lab.example",
+        "3"
+      ]
+    ]
+  },
+  "failure_pcap_sha256": "dc7a4f9f6c3294df4a16728af2bf7d057422ca7fb09d241a14d71aa74512934e",
+  "post_change": {
+    "answer": "198.51.100.11",
+    "hostname": "missing.lab.example",
+    "rcode": 0,
+    "selected_field_names": [
+      "frame.number",
+      "dns.qry.name",
+      "dns.flags.rcode",
+      "dns.a"
+    ],
+    "selected_fields": [
+      [
+        "2",
+        "missing.lab.example",
+        "0",
+        "198.51.100.11"
+      ]
+    ]
+  },
+  "post_change_pcap_sha256": "9102aee5738b78a5f0236d537f02f7281fd041e6a9b2c36ab6cc327118124a25"
+}

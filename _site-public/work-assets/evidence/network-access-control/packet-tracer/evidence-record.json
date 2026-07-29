@@ -9,7 +9,7 @@
   "claim_boundary": {
     "batfish_topology": "four routed physical interfaces",
     "packet_tracer_topology": "one 802.1Q trunk with four router subinterfaces",
-    "statement": "Packet Tracer corroborates representative policy behavior; it is not byte-identical execution of the Batfish configuration."
+    "statement": "Packet Tracer corroborates representative policy behavior on an adapted topology; it is not an execution of the Batfish configuration."
   },
   "config_exports": {
     "router": {
@@ -36,8 +36,7 @@
     },
     "rollback": {
       "path": "lab/packet-tracer/four-zone-acl-rollback.pkt",
-      "sha256": "90b6a5354e2ffdf1147cf5d3c25d26ae849c615c5b12f13806840717a34f62b4",
-      "byte_identical_to_baseline": true
+      "sha256": "90b6a5354e2ffdf1147cf5d3c25d26ae849c615c5b12f13806840717a34f62b4"
     }
   },
   "checks": [
@@ -77,7 +76,7 @@
     {
       "state": "rollback",
       "policy_id": "ACL-REQ-001",
-      "action": "opened byte-identical rollback file after router boot",
+      "action": "opened the rollback file matching the untouched baseline after router boot",
       "expected": "HTTPS page returned",
       "observed": "HTTPS page returned",
       "result": "pass",

@@ -1,0 +1,49 @@
+{
+  "failure": {
+    "reset_frames": 1,
+    "selected_field_names": [
+      "frame.number",
+      "ip.src",
+      "ip.dst",
+      "tcp.srcport",
+      "tcp.dstport"
+    ],
+    "selected_fields": [
+      [
+        "2",
+        "198.51.100.12",
+        "198.51.100.40",
+        "9999",
+        "44429"
+      ]
+    ],
+    "target": "198.51.100.12:9999"
+  },
+  "failure_pcap_sha256": "b476b93f981157253ee33ab14731552132bb53d0f16cfa3007da6faff0fd9aa8",
+  "post_change": {
+    "echo_verified": true,
+    "payload_frames": 2,
+    "reset_frames": 0,
+    "selected_field_names": [
+      "frame.number",
+      "ip.src",
+      "ip.dst",
+      "tcp.len"
+    ],
+    "selected_fields": [
+      [
+        "4",
+        "198.51.100.40",
+        "198.51.100.12",
+        "10"
+      ],
+      [
+        "7",
+        "198.51.100.12",
+        "198.51.100.40",
+        "10"
+      ]
+    ]
+  },
+  "post_change_pcap_sha256": "0a539a3a8e0026b639870a0677950e980313aa92f0dae6dc85da46ff5e9898cc"
+}

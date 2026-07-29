@@ -32,13 +32,12 @@ const proofLabel = (project: PortfolioProject) =>
       <div class="work-intro-copy">
         <p>
           Each lab starts with a fault, shows the evidence used to isolate it, and ends
-          with a separate retest. Source-based guides are clearly labelled and do not
-          claim hands-on execution.
+          with a retest. Technical notes are based on cited vendor guidance and are not
+          presented as executed work.
         </p>
         <p class="work-disclosure">
-          Outputs and screenshots come from controlled labs unless they are clearly
-          marked as illustrations. Employer records and generated images are never
-          presented as proof.
+          Employer records are not published. Generated images are labelled and used
+          only for explanation.
         </p>
         <dl class="evidence-key" aria-label="Evidence labels used on this site">
           <div>
@@ -100,7 +99,7 @@ const proofLabel = (project: PortfolioProject) =>
           </div>
         </div>
         <figcaption>
-          <a href="/work/network-access-control.html">Sanitized lab evidence <i aria-hidden="true">↗</i></a>
+          <a href="/work/network-access-control.html">View the ACL case study <i aria-hidden="true">↗</i></a>
         </figcaption>
       </figure>
     </header>
@@ -125,7 +124,7 @@ const proofLabel = (project: PortfolioProject) =>
               </div>
               <div class="project-row-result">
                 <div>
-                  <span>Finding</span>
+                  <span>What it shows</span>
                   <p>{project.employerValue}</p>
                   <small>{proofLabel(project)}</small>
                 </div>
@@ -157,7 +156,7 @@ const proofLabel = (project: PortfolioProject) =>
               </div>
               <div class="project-row-result">
                 <div>
-                  <span>Finding</span>
+                  <span>What it shows</span>
                   <p>{project.employerValue}</p>
                   <small>{proofLabel(project)}</small>
                 </div>

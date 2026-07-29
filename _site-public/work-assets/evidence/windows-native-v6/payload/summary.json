@@ -1,7 +1,7 @@
 {
   "controlled_lab": true,
-  "private_artifacts_verified": 2544,
-  "project_status": "Technically validated; publication review pending",
+  "evidence_scope": "Selected sanitized transcripts and this summary are public; the full lab record remains private.",
+  "project_status": "Technically validated; selected sanitized evidence published",
   "scenario_results": {
     "dns-only": {
       "rollback_pre_init": {

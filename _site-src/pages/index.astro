@@ -255,6 +255,8 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
           <span>Required fields are marked.</span>
         </div>
 
+        <p class="contact-form-status" data-contact-form-status aria-live="polite"></p>
+
         <div class="contact-form-grid">
           <label class="contact-field">
             <span>First name <i>Required</i></span>
@@ -333,7 +335,6 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
           </button>
         </div>
 
-        <p class="contact-form-status" data-contact-form-status aria-live="polite"></p>
         <a
           class="contact-form-fallback"
           href={`mailto:${profile.email}`}

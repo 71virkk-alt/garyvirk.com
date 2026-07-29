@@ -20,15 +20,17 @@ const {
 const evidenceKind =
   artifact.role === "generated-illustration"
     ? "Illustration, not evidence"
-    : artifact.role === "derived-visual"
-      ? "Derived from lab evidence"
-      : artifact.role === "execution-proof"
-        ? "Captured lab output"
-        : artifact.role === "deterministic-illustration"
-          ? "Explanatory aid"
-          : artifact.proofValue === "execution"
-            ? "Captured lab output"
-            : "Explanatory aid";
+    : artifact.origin === "derived" && artifact.proofValue === "execution"
+      ? "Derived from captured lab output"
+      : artifact.role === "derived-visual"
+        ? "Derived from lab evidence"
+        : artifact.role === "execution-proof"
+          ? "Captured lab output"
+          : artifact.role === "deterministic-illustration"
+            ? "Explanatory aid"
+            : artifact.proofValue === "execution"
+              ? "Captured lab output"
+              : "Explanatory aid";
 ---
 
 <figure

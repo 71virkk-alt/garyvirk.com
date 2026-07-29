@@ -1,0 +1,82 @@
+{
+  "capture": {
+    "complete": true,
+    "packet_count": 4,
+    "pcap_packet_count": 9,
+    "response_wait_seconds": "5.461445000",
+    "timing_measurement": "capture_stop_minus_last_relevant_packet",
+    "truncated": false
+  },
+  "finding_types": [],
+  "findings": [],
+  "scenario": "baseline",
+  "transactions": [
+    {
+      "client_selection": {
+        "matched_offer": true,
+        "matched_offer_frame": 3,
+        "request_frame": 4,
+        "selected_address": "198.51.100.20",
+        "selected_server": "198.51.100.2",
+        "sequence_valid": true
+      },
+      "dora_state": {
+        "ack": true,
+        "discover": true,
+        "offer": true,
+        "request": true
+      },
+      "events": [
+        {
+          "client_mac": "02:00:5e:10:00:20",
+          "dns": [],
+          "frame": 2,
+          "lease_seconds": null,
+          "message_type": "DISCOVER",
+          "requested_ip": null,
+          "router": null,
+          "server_identifier": null,
+          "yiaddr": null
+        },
+        {
+          "client_mac": "02:00:5e:10:00:20",
+          "dns": [
+            "198.51.100.10"
+          ],
+          "frame": 3,
+          "lease_seconds": 900,
+          "message_type": "OFFER",
+          "requested_ip": null,
+          "router": "198.51.100.1",
+          "server_identifier": "198.51.100.2",
+          "yiaddr": "198.51.100.20"
+        },
+        {
+          "client_mac": "02:00:5e:10:00:20",
+          "dns": [],
+          "frame": 4,
+          "lease_seconds": null,
+          "message_type": "REQUEST",
+          "requested_ip": "198.51.100.20",
+          "router": null,
+          "server_identifier": "198.51.100.2",
+          "yiaddr": null
+        },
+        {
+          "client_mac": "02:00:5e:10:00:20",
+          "dns": [
+            "198.51.100.10"
+          ],
+          "frame": 5,
+          "lease_seconds": 900,
+          "message_type": "ACK",
+          "requested_ip": null,
+          "router": "198.51.100.1",
+          "server_identifier": "198.51.100.2",
+          "yiaddr": "198.51.100.20"
+        }
+      ],
+      "sequence_valid": true
+    }
+  ]
+}

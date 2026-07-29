@@ -1,0 +1,53 @@
+{
+  "capture": {
+    "complete": true,
+    "packet_count": 1,
+    "pcap_packet_count": 5,
+    "response_wait_seconds": "7.452310000",
+    "timing_measurement": "capture_stop_minus_last_relevant_packet",
+    "truncated": false
+  },
+  "finding_types": [
+    "no_offer"
+  ],
+  "findings": [
+    {
+      "details": {
+        "capture_closure": "capture_complete_after_timeout",
+        "input_sha256": "69c58ef72109ee68836e0495efe5307bef12adf1b2817ca88f307731fde9d3a8",
+        "response_wait_seconds": "7.452310000",
+        "source_id": "native-no-offer"
+      },
+      "frames": [
+        1
+      ],
+      "type": "no_offer"
+    }
+  ],
+  "scenario": "no-offer",
+  "transactions": [
+    {
+      "client_selection": null,
+      "dora_state": {
+        "ack": false,
+        "discover": true,
+        "offer": false,
+        "request": false
+      },
+      "events": [
+        {
+          "client_mac": "02:00:5e:10:00:20",
+          "dns": [],
+          "frame": 1,
+          "lease_seconds": null,
+          "message_type": "DISCOVER",
+          "requested_ip": null,
+          "router": null,
+          "server_identifier": null,
+          "yiaddr": null
+        }
+      ],
+      "sequence_valid": true
+    }
+  ]
+}
