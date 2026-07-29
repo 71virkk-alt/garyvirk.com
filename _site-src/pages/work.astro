@@ -1,8 +1,18 @@
 ---
 import WorkHeader from "../components/WorkHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { flagshipProjects, supportingProjects, technicalNotes } from "../data/projects";
+import {
+  flagshipProjects,
+  supportingProjects,
+  technicalNotes,
+  type PortfolioProject
+} from "../data/projects";
 import "../styles/work.css";
+
+const proofLabel = (project: PortfolioProject) =>
+  project.kind === "technical-note"
+    ? "Vendor sources and labelled aids"
+    : project.status.execution;
 ---
 
 <BaseLayout
@@ -49,16 +59,49 @@ import "../styles/work.css";
           </div>
         </dl>
       </div>
-      <figure class="work-editorial">
-        <img
-          src="/work-assets/editorial/controlled-it-lab.webp"
-          alt="Dark editorial illustration of a controlled desktop, network, and server lab"
-          width="1600"
-          height="901"
-          loading="eager"
-          decoding="async"
-        />
-        <figcaption>Generated editorial illustration. Not lab evidence.</figcaption>
+      <figure class="work-editorial work-editorial--evidence">
+        <div
+          class="work-evidence-mosaic"
+          role="group"
+          aria-label="Fault, decisive check, and retest evidence"
+        >
+          <div>
+            <img
+              src="/work-assets/evidence/network-access-control/packet-tracer/screenshots/broken-users-https-timeout.png"
+              alt="Packet Tracer browser showing the inserted HTTPS timeout"
+              width="700"
+              height="708"
+              loading="eager"
+              decoding="async"
+            />
+            <span>Fault</span>
+          </div>
+          <div>
+            <img
+              src="/work-assets/evidence/network-access-control/packet-tracer/screenshots/broken-router-deny-counter.png"
+              alt="Packet Tracer router output showing the inserted ACL deny and match counter"
+              width="700"
+              height="708"
+              loading="eager"
+              decoding="async"
+            />
+            <span>Decisive check</span>
+          </div>
+          <div>
+            <img
+              src="/work-assets/evidence/network-access-control/packet-tracer/screenshots/corrected-users-https-pass.png"
+              alt="Packet Tracer browser showing HTTPS restored after the ACL correction"
+              width="700"
+              height="708"
+              loading="eager"
+              decoding="async"
+            />
+            <span>Retest</span>
+          </div>
+        </div>
+        <figcaption>
+          <a href="/work/network-access-control.html">Sanitized lab evidence <i aria-hidden="true">↗</i></a>
+        </figcaption>
       </figure>
     </header>
 
@@ -81,8 +124,12 @@ import "../styles/work.css";
                 <span>{project.summary}</span>
               </div>
               <div class="project-row-result">
-                <p>{project.status.execution}</p>
-                <span aria-hidden="true">↗</span>
+                <div>
+                  <span>Finding</span>
+                  <p>{project.employerValue}</p>
+                  <small>{proofLabel(project)}</small>
+                </div>
+                <i aria-hidden="true">↗</i>
               </div>
             </a>
           ))
@@ -109,8 +156,12 @@ import "../styles/work.css";
                 <span>{project.summary}</span>
               </div>
               <div class="project-row-result">
-                <p>{project.status.execution}</p>
-                <span aria-hidden="true">↗</span>
+                <div>
+                  <span>Finding</span>
+                  <p>{project.employerValue}</p>
+                  <small>{proofLabel(project)}</small>
+                </div>
+                <i aria-hidden="true">↗</i>
               </div>
             </a>
           ))
@@ -137,8 +188,12 @@ import "../styles/work.css";
                 <span>{project.summary}</span>
               </div>
               <div class="project-row-result">
-                <p>Technical note<br />Not an executed lab</p>
-                <span aria-hidden="true">↗</span>
+                <div>
+                  <span>Decision</span>
+                  <p>{project.employerValue}</p>
+                  <small>{proofLabel(project)}</small>
+                </div>
+                <i aria-hidden="true">↗</i>
               </div>
             </a>
           ))

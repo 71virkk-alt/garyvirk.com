@@ -23,37 +23,24 @@ export const profile = {
   email: "i@garyvirk.com",
   linkedin: "https://www.linkedin.com/in/gary-virk/",
   introduction:
-    "I’m an IT specialist based in Mississauga, Ontario, with more than three years of hands-on experience supporting Windows endpoints, hardware, software deployments, and network issues. The case studies below show how I narrow down faults, document the work, and retest the fix.",
+    "I’m an IT specialist based in Mississauga, Ontario. My work has covered Windows endpoints, Dell hardware, software deployments, and device-level network issues. The case studies below show how I narrow down faults, document the work, and retest the fix.",
   summary:
-    "IT specialist in Mississauga with hands-on experience supporting Windows and Mac endpoints, deploying devices, diagnosing Dell hardware, and troubleshooting network and server-related issues. Trained in computer networking at St. Clair College and Cisco Networking Academy."
+    "IT specialist in Mississauga with hands-on experience supporting Windows endpoints, deploying devices, diagnosing Dell hardware, and troubleshooting device-level network issues. Ontario College Diploma in Computer Systems Technician - Networking from St. Clair College, with additional networking training through Cisco Networking Academy."
 } as const;
 
 export const experience = [
   {
-    company: "Experis / Manpower",
-    assignment: "Assigned to Cummins",
-    role: "User Support Technician",
+    company: "Experis / Manpower Services Canada Ltd.",
+    assignment: "Dell Canada assignment at Cummins",
+    role: "Field Service / End-User Support Technician",
     location: "Mississauga, Ontario",
     period: "May 2023 to December 2025",
     summary:
-      "Supported workplace technology on site, including Windows endpoints, imaging and rebuilds, account and device tasks, Dell client hardware, and ServiceNow ticket records.",
+      "Provided on-site end-user support for Windows endpoints, Dell hardware, software, device-level connectivity, imaging, deployment, and ServiceNow ticket records.",
     highlights: [
-      "Imaged, rebuilt, configured, and supported Windows endpoints used by employees on site.",
-      "Completed approved account and device tasks, diagnosed Dell client hardware, and set up peripherals.",
-      "Recorded troubleshooting steps in ServiceNow and handed off unresolved issues with the evidence already collected."
-    ]
-  },
-  {
-    company: "Bluum",
-    assignment: "",
-    role: "User Support Technician",
-    location: "Markham, Ontario",
-    period: "April 2023 to May 2023",
-    summary:
-      "Provided on-site hardware support, user assistance, peripheral setup, ticket documentation, and escalation handoffs.",
-    highlights: [
-      "Diagnosed client hardware, replaced approved components, configured peripherals, and assisted users on site.",
-      "Kept ticket records current and escalated unresolved issues with concise troubleshooting notes."
+      "Diagnosed Windows, Microsoft Office, software, wired and wireless endpoint, and Dell hardware faults.",
+      "Imaged, configured, deployed, repaired, and replaced laptops, desktops, workstations, and peripherals.",
+      "Managed support tickets in ServiceNow and documented diagnostic steps, actions, resolutions, and escalations."
     ]
   }
 ] as const;
@@ -62,15 +49,15 @@ export const education = [
   {
     school: "St. Clair College",
     location: "Windsor, Ontario",
-    program: "IT Systems & Network Administration",
+    program: "Computer Systems Technician - Networking",
     detail:
-      "Coursework included routing and switching, Windows administration, Linux, network services, virtualization, packet analysis, and support fundamentals."
+      "Ontario College Diploma. Coursework included networking, system configuration, programming, databases, web technologies, and technical communication."
   },
   {
     school: "Cisco Networking Academy",
     location: "Windsor, Ontario",
-    program: "Systems, Networking, and LAN/WAN Management",
-    detail: "Applied networking study covering addressing, routing, switching, and LAN/WAN operations."
+    program: "Networking training",
+    detail: "Additional networking study covering addressing, routing, switching, and LAN/WAN operations."
   }
 ] as const;
 
@@ -79,11 +66,11 @@ export const capabilities = [
     number: "01",
     title: "Endpoint and user support",
     description:
-      "Windows imaging and rebuilds, hardware diagnosis, peripherals, account and device tasks, remote support, and escalation."
+      "Windows imaging and deployment, Dell hardware diagnosis, software support, peripherals, device-level connectivity, and escalation."
   },
   {
     number: "02",
-    title: "Ticket and knowledge work",
+    title: "Ticketing and documentation",
     description:
       "ServiceNow records, incident notes, troubleshooting evidence, handoffs, and practical support documentation."
   },
@@ -132,28 +119,21 @@ export const claimRegister: ClaimRecord[] = [
   {
     id: "experience-cummins-01",
     exactClaim:
-      "Gary worked as a User Support Technician through Experis / Manpower on a Cummins assignment from May 2023 to December 2025.",
+      "Gary worked for Manpower Services Canada Ltd., operating as Experis, as a Field Service / End-User Support Technician from May 15, 2023 to December 17, 2025, assigned to Dell Canada and working on site at Cummins.",
     publicWording:
-      "User Support Technician, Experis / Manpower, assigned to Cummins, May 2023 to December 2025.",
-    evidenceSource: "Supplied professional profile and résumé export.",
-    limitation: "The client assignment and employer of record are shown separately.",
-    verification: "verified"
-  },
-  {
-    id: "experience-bluum-01",
-    exactClaim:
-      "Gary worked as a User Support Technician at Bluum from April 2023 to May 2023.",
-    publicWording: "User Support Technician, Bluum, April 2023 to May 2023.",
-    evidenceSource: "Supplied professional profile and résumé export.",
-    limitation: "No unsupported volume, SLA, or outcome metric is attached.",
+      "Field Service / End-User Support Technician, Experis / Manpower Services Canada Ltd., Dell Canada assignment at Cummins, May 2023 to December 2025.",
+    evidenceSource: "Employment reference letter issued April 15, 2026.",
+    limitation: "The public month range omits exact days; employer, assignment, and client site are shown separately.",
     verification: "verified"
   },
   {
     id: "education-01",
-    exactClaim: "Gary studied IT Systems & Network Administration at St. Clair College.",
-    publicWording: "IT Systems & Network Administration, St. Clair College.",
-    evidenceSource: "Supplied professional profile and résumé export.",
-    limitation: "The website does not restate an unverified credential type.",
+    exactClaim:
+      "Gary earned an Ontario College Diploma in Computer Systems Technician - Networking from St. Clair College.",
+    publicWording:
+      "Ontario College Diploma, Computer Systems Technician - Networking, St. Clair College.",
+    evidenceSource: "St. Clair College diploma and official transcript.",
+    limitation: "The public website omits student identifiers and transcript details.",
     verification: "verified"
   },
   {
@@ -162,25 +142,17 @@ export const claimRegister: ClaimRecord[] = [
     publicWording: "CCNA, CompTIA A+, Network+, and CIOS.",
     evidenceSource: "Supplied professional profile and résumé export.",
     limitation: "The website does not claim a current expiry or renewal state.",
-    verification: "verified"
-  },
-  {
-    id: "profile-experience-duration-01",
-    exactClaim: "Gary has more than three years of hands-on IT support experience.",
-    publicWording: "More than three years of hands-on experience.",
-    evidenceSource: "Portfolio owner wording supplied for this revision.",
-    limitation: "The website does not infer employer dates, workload volume, platform scale, or business outcomes from this duration.",
     verification: "owner-attested"
   },
   {
     id: "profile-scope-01",
     exactClaim:
-      "Gary has worked with Mac systems, endpoint setup and deployments, server-related issues, and L3 support cases.",
+      "Gary has supported Windows endpoints, Dell hardware, software, device-level network connectivity, imaging, deployments, and ServiceNow ticket records.",
     publicWording:
-      "Mac systems, endpoint setup and deployments, server-related issues, and L3 support cases.",
-    evidenceSource: "Portfolio owner attestation supplied for this revision.",
+      "Windows endpoints, Dell hardware, software, device-level connectivity, imaging, deployments, and ServiceNow ticket records.",
+    evidenceSource: "Employment reference letter issued April 15, 2026.",
     limitation:
-      "The website does not infer a platform, formal job title, scale, employer, or business outcome beyond the owner's wording.",
-    verification: "owner-attested"
+      "The website does not add unsupported scale, SLA, volume, L3 ownership, server administration, or business-outcome claims.",
+    verification: "verified"
   }
 ];

@@ -1,6 +1,7 @@
 ---
 import WorkHeader from "../../components/WorkHeader.astro";
 import ProjectVisualization from "../../components/ProjectVisualization.astro";
+import EvidenceArtifactCard from "../../components/EvidenceArtifactCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
   publicProjects,
@@ -24,6 +25,41 @@ const nextProject =
 const isArchived = project.tier === "archived";
 const isTechnicalNote = project.kind === "technical-note";
 const sourceTitlesById = new Map((project.sources ?? []).map((source) => [source.id, source.title]));
+const artifactLabelsById = new Map(
+  project.evidence.map((artifact, index) => [
+    artifact.id,
+    `E${String(index + 1).padStart(2, "0")}`
+  ])
+);
+const sourceLabelsById = new Map(
+  (project.sources ?? []).map((source, index) => [
+    source.id,
+    `S${String(index + 1).padStart(2, "0")}`
+  ])
+);
+const claimLabelsById = new Map(
+  project.claims.map((claim, index) => [
+    claim.id,
+    `C${String(index + 1).padStart(2, "0")}`
+  ])
+);
+const leadClaim = project.claims[0];
+const leadArtifactId = leadClaim?.evidenceRefs[0];
+const leadSourceId = leadClaim?.sourceRefs?.[0];
+const leadReferenceHref = isTechnicalNote
+  ? leadSourceId
+    ? `#source-${leadSourceId}`
+    : "#sources-heading"
+  : leadArtifactId
+    ? `#evidence-${leadArtifactId}`
+    : "#evidence-heading";
+const leadReferenceLabel = isTechnicalNote
+  ? sourceLabelsById.get(leadSourceId ?? "") ?? "Primary source"
+  : artifactLabelsById.get(leadArtifactId ?? "") ?? "Evidence";
+const heroBoundary =
+  project.limitation.match(/^[^.!?]+[.!?]/)?.[0] ?? project.limitation;
+const decisiveEvidence = project.evidence.slice(0, 3);
+const archivedEvidence = project.evidence.slice(3);
 const projectBodyClass = `work-page project-page project-page--${project.presentation} project-page--${project.kind}`;
 ---
 
@@ -62,10 +98,32 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             <h1>{project.title}</h1>
             <p class="case-deck">{project.summary}</p>
 
-            <div class="case-value">
-              <span>{isTechnicalNote ? "Decision" : "What this shows"}</span>
-              <strong>{project.employerValue}</strong>
-            </div>
+            <dl class="case-verdict" aria-label="Case summary">
+              <div>
+                <dt>Issue</dt>
+                <dd>{project.question}</dd>
+              </div>
+              <div>
+                <dt>{isTechnicalNote ? "Basis" : "Decisive evidence"}</dt>
+                <dd>
+                  {leadClaim?.publicWording ?? project.employerValue}
+                  <a href={leadReferenceHref}>
+                    {leadReferenceLabel} <span aria-hidden="true">↓</span>
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Result</dt>
+                <dd>{project.employerValue}</dd>
+              </div>
+              <div>
+                <dt>Boundary</dt>
+                <dd>
+                  {heroBoundary}
+                  <a href="#outcome-heading">Full limit <span aria-hidden="true">↓</span></a>
+                </dd>
+              </div>
+            </dl>
 
             <dl class="case-status">
               {isTechnicalNote ? (
@@ -103,7 +161,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             <p class="section-label">{isTechnicalNote ? "Support scenario" : "The support question"}</p>
             <div>
               <h2 id="question-heading">{project.question}</h2>
-              <p class="ownership"><strong>My role:</strong> {project.ownership}</p>
+              <p class="ownership"><strong>Project record:</strong> {project.ownership}</p>
             </div>
           </section>
 
@@ -263,63 +321,47 @@ const projectBodyClass = `work-page project-page project-page--${project.present
             </div>
 
             <div class="evidence-grid">
-              {project.evidence.map((artifact) => (
-                <figure
-                  class:list={["evidence-card", `evidence-card--${artifact.role ?? "execution-proof"}`, { "evidence-card--image": artifact.kind === "diagram" }]}
-                  data-artifact-id={artifact.id}
-                >
-                  {artifact.src ? (
-                    <div class="evidence-image">
-                      <img
-                        src={artifact.src}
-                        alt={artifact.alt ?? ""}
-                        width={artifact.width}
-                        height={artifact.height}
-                        loading="lazy"
-                      />
-                    </div>
-                  ) : isTechnicalNote && artifact.kind !== "command" && artifact.items ? (
-                    <div class="evidence-record">
-                      <dl>
-                        {artifact.items.map((item) => (
-                          <div><dt>{item.label}</dt><dd>{item.value}</dd></div>
-                        ))}
-                      </dl>
-                    </div>
-                  ) : (
-                    <pre><code>{artifact.excerpt}</code></pre>
-                  )}
-                  <figcaption>
-                    {(artifact.role || artifact.origin) && (
-                      <small>
-                        {artifact.role === "generated-illustration"
-                          ? "Illustration, not evidence"
-                          : artifact.role === "derived-visual"
-                            ? "Derived from lab evidence"
-                            : artifact.role === "execution-proof"
-                              ? "Captured lab output"
-                              : artifact.role === "deterministic-illustration"
-                                ? "Explanatory aid"
-                                : artifact.proofValue === "execution"
-                                  ? "Captured lab output"
-                                  : "Explanatory aid"}
-                      </small>
-                    )}
-                    <strong>{artifact.title}</strong>
-                    <span>{artifact.caption}</span>
-                    {artifact.download && (
-                    <a
-                      class="evidence-download"
-                      href={artifact.download}
-                      aria-label={`Open ${artifact.title} artifact`}
-                    >
-                        View artifact <span aria-hidden="true">↗</span>
-                      </a>
-                    )}
-                  </figcaption>
-                </figure>
-              ))}
+              {
+                decisiveEvidence.map((artifact) => {
+                  const claimId = artifact.claimIds[0];
+                  return (
+                    <EvidenceArtifactCard
+                      artifact={artifact}
+                      label={artifactLabelsById.get(artifact.id) ?? artifact.id}
+                      isTechnicalNote={isTechnicalNote}
+                      claimHref={claimId ? `#claim-${claimId}` : undefined}
+                      claimLabel={claimId ? claimLabelsById.get(claimId) : undefined}
+                    />
+                  );
+                })
+              }
             </div>
+
+            {
+              archivedEvidence.length > 0 && (
+                <details class="evidence-archive">
+                  <summary>
+                    <span>Full evidence archive</span>
+                    <small>{archivedEvidence.length} additional {archivedEvidence.length === 1 ? "artifact" : "artifacts"}</small>
+                    <i aria-hidden="true">+</i>
+                  </summary>
+                  <div class="evidence-grid evidence-grid--archive">
+                    {archivedEvidence.map((artifact) => {
+                      const claimId = artifact.claimIds[0];
+                      return (
+                        <EvidenceArtifactCard
+                          artifact={artifact}
+                          label={artifactLabelsById.get(artifact.id) ?? artifact.id}
+                          isTechnicalNote={isTechnicalNote}
+                          claimHref={claimId ? `#claim-${claimId}` : undefined}
+                          claimLabel={claimId ? claimLabelsById.get(claimId) : undefined}
+                        />
+                      );
+                    })}
+                  </div>
+                </details>
+              )
+            }
           </section>
 
           {project.sources && project.sources.length > 0 && (
@@ -329,7 +371,7 @@ const projectBodyClass = `work-page project-page project-page--${project.present
                 <h2 id="sources-heading">Guidance used for this note.</h2>
                 <div class="source-list">
                   {project.sources.map((source) => (
-                    <a href={source.url} rel="noopener">
+                    <a id={`source-${source.id}`} href={source.url} rel="noopener">
                       <span>{source.publisher}</span>
                       <strong>{source.title}</strong>
                       <p>{source.supports}</p>
@@ -364,13 +406,24 @@ const projectBodyClass = `work-page project-page project-page--${project.present
               <h2 id="claims-heading">{isTechnicalNote ? "Each conclusion points back to a cited source." : "What the evidence supports."}</h2>
               <div>
                 {project.claims.map((claim) => (
-                  <article>
+                  <article id={`claim-${claim.id}`}>
                     <strong>{claim.publicWording}</strong>
                     <p>{claim.limitation}</p>
-                    <span>
-                      {isTechnicalNote
-                        ? `Sources: ${(claim.sourceRefs ?? []).map((sourceId) => sourceTitlesById.get(sourceId) ?? sourceId).join("; ")}`
-                        : `Evidence: ${claim.evidenceRefs.join(", ")}`}
+                    <span class="claim-reference-list">
+                      {isTechnicalNote ? "Sources" : "Evidence"}
+                      {
+                        isTechnicalNote
+                          ? (claim.sourceRefs ?? []).map((sourceId) => (
+                              <a href={`#source-${sourceId}`} title={sourceTitlesById.get(sourceId)}>
+                                {sourceLabelsById.get(sourceId) ?? sourceId}
+                              </a>
+                            ))
+                          : claim.evidenceRefs.map((artifactId) => (
+                              <a href={`#evidence-${artifactId}`}>
+                                {artifactLabelsById.get(artifactId) ?? artifactId}
+                              </a>
+                            ))
+                      }
                     </span>
                   </article>
                 ))}

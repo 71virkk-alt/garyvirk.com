@@ -955,7 +955,7 @@ body.profile-page {
   max-width: 56ch;
   margin: 0;
   color: var(--profile-soft);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   line-height: 1.55;
 }
 
@@ -1666,6 +1666,7 @@ body.profile-page {
   .profile-header {
     min-height: 88px;
     padding: 0 16px;
+    background: var(--profile-bg);
   }
 
   .profile-nav {
