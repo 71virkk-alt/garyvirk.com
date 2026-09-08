@@ -73,3 +73,46 @@ if (revealItems.length && "IntersectionObserver" in window && !reduceMotion) {
 document.querySelector<HTMLElement>("[data-print]")?.addEventListener("click", () => {
   window.print();
 });
+
+// Keep the original image and artifact link available without scripting.
+const evidenceImages = document.querySelectorAll<HTMLImageElement>(".evidence-image img");
+if (evidenceImages.length && typeof HTMLDialogElement !== "undefined") {
+  const viewer = document.createElement("dialog");
+  viewer.className = "evidence-viewer";
+  viewer.setAttribute("aria-labelledby", "evidence-viewer-title");
+  const toolbar = document.createElement("div");
+  toolbar.className = "evidence-viewer-header";
+  const title = document.createElement("p");
+  title.id = "evidence-viewer-title";
+  const close = document.createElement("button");
+  close.className = "evidence-viewer-close";
+  close.textContent = "Close";
+  close.type = "button";
+  const enlarged = document.createElement("img");
+  toolbar.append(title, close);
+  viewer.append(toolbar, enlarged);
+  document.body.append(viewer);
+  close.addEventListener("click", () => viewer.close());
+  viewer.addEventListener("click", (event) => {
+    if (event.target === viewer) {
+      const box = viewer.getBoundingClientRect();
+      if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) viewer.close();
+    }
+  });
+  evidenceImages.forEach((image) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "evidence-enlarge";
+    button.textContent = "Enlarge ↗";
+    const caption = image.closest("figure")?.querySelector("figcaption strong")?.textContent || image.alt;
+    button.setAttribute("aria-label", `Enlarge ${caption}`);
+    button.addEventListener("click", () => {
+      title.textContent = caption;
+      enlarged.src = image.currentSrc || image.src;
+      enlarged.alt = image.alt;
+      viewer.showModal();
+      close.focus();
+    });
+    image.parentElement?.append(button);
+  });
+}
