@@ -100,6 +100,14 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
         {
           flagshipProjects.map((project) => (
             <article class="project-card">
+              <div class="project-preview">
+                <span class="project-preview-label">{project.evidence[0]?.src ? "Lab topology" : "Selected lab output"}</span>
+                {project.evidence[0]?.src ? (
+                  <img src={project.evidence[0].src} alt={project.evidence[0].alt ?? project.evidence[0].title} loading="lazy" width="800" height="400" />
+                ) : (
+                  <pre><code>{project.evidence[0]?.excerpt}</code></pre>
+                )}
+              </div>
               <div class="project-card-meta">
                 <span>{project.number}</span>
                 <p>{project.status.execution}</p>
@@ -138,7 +146,7 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
       <div class="section-heading">
         <p class="section-index">Experience</p>
         <div>
-          <h2 id="experience-title">On-site support experience.</h2>
+          <h2 id="experience-title">On-site IT support.</h2>
           <p>
             My on-site work has included Windows endpoints, Dell hardware, software,
             deployments, ServiceNow records, and device-level connectivity problems.
@@ -181,7 +189,7 @@ const homepageSupportingProjects = homepageSupportingSlugs.flatMap((slug) => {
       <div class="section-heading">
         <p class="section-index">Skills</p>
         <div>
-          <h2 id="skills-title">Tools and systems I have worked with.</h2>
+          <h2 id="skills-title">Tools and systems.</h2>
           <p>
             This list combines hands-on support work, formal training, and skills
             demonstrated in the labs on this site.

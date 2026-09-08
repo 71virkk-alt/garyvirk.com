@@ -15,6 +15,7 @@ const { maximumAttachmentBytes, validateAttachmentMetadata } = await import(
 );
 const deployScript = readFileSync(join(repoRoot, "deploy.sh"), "utf8");
 const contactScript = readFileSync(join(repoRoot, "_site-src/scripts/portrait-home.ts"), "utf8");
+const siteScript = readFileSync(join(repoRoot, "_site-src/scripts/site.ts"), "utf8");
 
 function assert(condition, message) {
   if (!condition) errors.push(message);
@@ -38,6 +39,8 @@ function isDownloadableExecutionArtifact(artifact) {
 }
 
 assert(existsSync(distRoot), "Build directory .site-dist does not exist.");
+assert(read("index.html").includes("project-preview"), "Featured projects must retain their evidence previews.");
+assert(siteScript.includes("viewer.showModal()") && siteScript.includes('aria-labelledby'), "Evidence enlargement must use a labelled modal dialog.");
 assert(existsSync(join(distRoot, ".nojekyll")), "Build output must include .nojekyll.");
 assert(validateAttachmentMetadata(null).valid, "An empty attachment must remain optional.");
 assert(
